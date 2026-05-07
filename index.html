@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
-        // Pre-load theme to prevent flash
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
@@ -18,13 +17,12 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: { darkbg: '#030712' },
+                    colors: { darkbg: '#050814', panelbg: '#0f1423' },
                     animation: {
                         'fade-in': 'fadeIn 0.3s ease-out',
                         'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'pop-in': 'popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'bounce-slight': 'bounce 2s infinite',
                     },
                     keyframes: {
                         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
@@ -41,15 +39,15 @@
         body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         
-        /* Dynamic Glass Morphism */
-        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
-        .dark .glass-panel { background: rgba(17, 24, 39, 0.75); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
+        /* Refined Glass Morphism */
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); }
+        .dark .glass-panel { background: rgba(15, 20, 35, 0.85); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
 
         .bg-ambient-glow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; transition: opacity 0.5s ease;}
-        .bg-ambient-glow::before { content: ''; position: absolute; top: -20%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 60%); filter: blur(80px); }
-        .bg-ambient-glow::after { content: ''; position: absolute; bottom: -20%; right: -10%; width: 70vw; height: 70vw; background: radial-gradient(circle, rgba(225, 29, 72, 0.1) 0%, transparent 60%); filter: blur(80px); }
+        .bg-ambient-glow::before { content: ''; position: absolute; top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 60%); filter: blur(80px); }
+        .bg-ambient-glow::after { content: ''; position: absolute; bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 60%); filter: blur(80px); }
         .dark .bg-ambient-glow::before { background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 60%); }
-        .dark .bg-ambient-glow::after { background: radial-gradient(circle, rgba(225, 29, 72, 0.06) 0%, transparent 60%); }
+        .dark .bg-ambient-glow::after { background: radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, transparent 60%); }
 
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -77,9 +75,9 @@
     <div class="bg-ambient-glow"></div>
 
     <!-- Login Modal -->
-    <div id="loginModal" class="fixed inset-0 bg-white/95 dark:bg-[#030712]/95 backdrop-blur-xl z-50 hidden flex items-center justify-center p-4">
+    <div id="loginModal" class="fixed inset-0 bg-white/95 dark:bg-[#050814]/95 backdrop-blur-xl z-50 hidden flex items-center justify-center p-4">
         <div class="glass-panel p-6 sm:p-8 rounded-[2rem] w-full max-w-sm text-center animate-pop-in relative overflow-hidden" id="loginContainer">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500"></div>
             
             <div id="loginStep1">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-5 shadow-lg shadow-indigo-500/30 rotate-3">
@@ -100,7 +98,7 @@
                 </div>
                 
                 <div class="relative w-full mb-5">
-                    <input type="password" id="loginPasswordInput" class="w-full bg-white dark:bg-[#030712]/80 text-center text-xl sm:text-2xl font-mono tracking-[0.4em] text-slate-900 dark:text-white p-4 pr-12 rounded-xl border border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none shadow-inner transition-all placeholder:tracking-normal placeholder:text-slate-400 dark:placeholder:text-slate-600 placeholder:text-sm placeholder:font-sans" placeholder="Enter PIN" maxlength="30">
+                    <input type="password" id="loginPasswordInput" class="w-full bg-white dark:bg-darkbg text-center text-xl sm:text-2xl font-mono tracking-[0.4em] text-slate-900 dark:text-white p-4 pr-12 rounded-xl border border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none shadow-inner transition-all placeholder:tracking-normal placeholder:text-slate-400 dark:placeholder:text-slate-600 placeholder:text-sm placeholder:font-sans" placeholder="Enter PIN" maxlength="30">
                     <button onclick="togglePass('loginPasswordInput', 'loginEyeIcon')" class="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
                         <i id="loginEyeIcon" data-lucide="eye" class="w-5 h-5"></i>
                     </button>
@@ -131,7 +129,7 @@
                         <i data-lucide="crown" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Admin</span>
                     </button>
 
-                    <div class="text-right hidden md:block bg-slate-100 dark:bg-[#030712]/50 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700/50">
+                    <div class="text-right hidden md:block bg-slate-100 dark:bg-slate-800/50 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700/50">
                         <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Gaddar Index</p>
                         <p id="headerGaddar" class="text-lg font-black leading-none text-slate-800 dark:text-slate-200">0%</p>
                     </div>
@@ -152,24 +150,6 @@
         <main class="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6">
             <div class="max-w-6xl mx-auto space-y-6 pb-20">
 
-                <!-- AIRDROP BANNER -->
-                <div id="airdropBanner" class="hidden animate-slide-up bg-gradient-to-r from-amber-400 to-orange-500 rounded-2xl p-0.5 shadow-lg shadow-amber-500/20">
-                    <div class="bg-white dark:bg-[#030712] rounded-[14px] p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-                        <div class="flex items-center gap-3">
-                            <div class="p-3 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 animate-bounce-slight">
-                                <i data-lucide="gift" class="w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-base font-black text-slate-900 dark:text-white tracking-tight uppercase">Daily Supply Drop Available</h3>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Claim your random intel/trap...</p>
-                            </div>
-                        </div>
-                        <button onclick="claimAirdrop()" class="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-orange-500 text-white font-black px-6 py-3 rounded-xl shadow-md transform active:scale-95 transition-all text-xs uppercase tracking-widest whitespace-nowrap">
-                            Claim Drop
-                        </button>
-                    </div>
-                </div>
-
                 <!-- Arsenal Section -->
                 <section class="animate-slide-up" style="animation-delay: 0.1s;">
                     <div class="flex items-center justify-between mb-4">
@@ -177,7 +157,6 @@
                             <div class="h-6 w-1.5 bg-indigo-500 rounded-full"></div>
                             <h2 class="text-xl font-black tracking-tight text-slate-900 dark:text-white">Arsenal Status</h2>
                         </div>
-                        <button onclick="simulateWeekPass()" class="bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 border border-indigo-200 dark:border-indigo-500/30 px-3 py-1.5 rounded-lg text-[10px] font-bold text-indigo-600 dark:text-indigo-300 transition-all flex items-center gap-1.5"><i data-lucide="fast-forward" class="w-3 h-3"></i> Skip Wk</button>
                     </div>
                     
                     <div id="gaddarLockoutNotice" class="hidden bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-500/40 p-4 rounded-xl mb-5 shadow-sm relative overflow-hidden">
@@ -197,7 +176,7 @@
                             <div class="relative z-10">
                                 <div class="w-10 h-10 bg-white dark:bg-emerald-500/10 rounded-xl flex items-center justify-center mb-3 border border-emerald-100 shadow-sm"><i data-lucide="leaf" class="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i></div>
                                 <h3 class="text-xl font-black text-emerald-700 dark:text-emerald-400 mb-0.5">Satvik</h3>
-                                <p class="text-xs font-medium text-slate-500 mb-5 h-8">Standard protocol. Restocks weekly.</p>
+                                <p class="text-xs font-medium text-slate-500 mb-5 h-8">Standard protocol. Requires 3 squad approvals to execute.</p>
                                 <div class="flex justify-between items-end border-t border-emerald-100 dark:border-emerald-500/10 pt-3">
                                     <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-slate-800 dark:text-white leading-none" id="countSatvik">0</span><span class="text-slate-400 font-bold text-[10px] uppercase">in stock</span></div>
                                 </div>
@@ -208,7 +187,7 @@
                             <div class="relative z-10">
                                 <div class="w-10 h-10 bg-white dark:bg-amber-500/10 rounded-xl flex items-center justify-center mb-3 border border-amber-100 shadow-sm"><i data-lucide="flame" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i></div>
                                 <h3 class="text-xl font-black text-amber-700 dark:text-amber-400 mb-0.5">Lahsun Pyaaj</h3>
-                                <p class="text-xs font-medium text-slate-500 mb-5 h-8">Earned after 4 weeks of peace.</p>
+                                <p class="text-xs font-medium text-slate-500 mb-5 h-8">Requires 3 squad approvals to execute.</p>
                                 <div class="flex justify-between items-end border-t border-amber-100 dark:border-amber-500/10 pt-3">
                                     <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-slate-800 dark:text-white leading-none" id="countLahsun">0</span><span class="text-slate-400 font-bold text-[10px] uppercase">in stock</span></div>
                                 </div>
@@ -231,10 +210,10 @@
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 animate-slide-up" style="animation-delay: 0.2s;">
                     
                     <!-- Left Column: Tribunal & Gaddar Vote -->
-                    <div class="lg:col-span-5 space-y-6">
+                    <div class="lg:col-span-5 space-y-6 flex flex-col">
                         
                         <!-- Daily Gaddari Vote -->
-                        <section class="glass-panel p-5 sm:p-6 rounded-2xl relative overflow-hidden border-rose-200 dark:border-rose-500/20">
+                        <section class="glass-panel p-5 sm:p-6 rounded-2xl relative overflow-hidden border-rose-200 dark:border-rose-500/20 shrink-0">
                             <div class="absolute top-0 right-0 w-48 h-48 bg-rose-500/5 dark:bg-rose-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
                             
                             <div class="flex items-center gap-2 mb-5 relative z-10">
@@ -255,43 +234,46 @@
                                     <div class="space-y-3">
                                         <div class="relative">
                                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"><i data-lucide="target" class="w-4 h-4 text-slate-400"></i></div>
-                                            <select id="gaddarTarget" class="w-full bg-white dark:bg-[#030712]/80 text-slate-800 dark:text-slate-200 pl-9 pr-8 py-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none text-sm shadow-sm cursor-pointer">
+                                            <select id="gaddarTarget" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 pl-9 pr-8 py-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none text-sm shadow-sm cursor-pointer">
                                                 <option value="none">🕊️ No One (Maintain Peace)</option>
                                             </select>
                                         </div>
                                         <div id="gaddarReasonDiv" class="hidden transition-all duration-300">
-                                            <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-[#030712]/80 text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="Required: Provide detailed evidence..."></textarea>
+                                            <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="Required: Provide detailed evidence..."></textarea>
                                         </div>
                                         <button onclick="submitGaddariVote()" id="castJudgmentBtn" class="w-full bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest">Maintain Peace (0%)</button>
                                     </div>
                                 </div>
 
-                                <div id="gaddariVotedMessage" class="hidden text-center py-6 bg-emerald-50 dark:bg-[#030712]/50 rounded-xl border border-emerald-200 dark:border-emerald-500/20">
-                                    <div class="inline-flex items-center justify-center w-12 h-12 bg-white dark:bg-emerald-500/10 rounded-full mb-2 border border-emerald-100 text-emerald-500 shadow-sm"><i data-lucide="check-check" class="w-6 h-6"></i></div>
+                                <div id="gaddariVotedMessage" class="hidden text-center py-6 bg-emerald-50 dark:bg-emerald-950/20 rounded-xl border border-emerald-200 dark:border-emerald-500/20">
+                                    <div class="inline-flex items-center justify-center w-12 h-12 bg-white dark:bg-emerald-500/10 rounded-full mb-2 border border-emerald-100 dark:border-emerald-500/30 text-emerald-500 shadow-sm"><i data-lucide="check-check" class="w-6 h-6"></i></div>
                                     <h3 class="text-sm font-bold text-slate-800 dark:text-white tracking-wide">Judgment Recorded</h3>
                                     <p class="text-slate-500 text-[10px] mt-1">Awaiting next cycle reset.</p>
                                 </div>
                             </div>
                         </section>
 
-                        <!-- Tribunal: Pending Uses & Appeals -->
-                        <section class="glass-panel p-5 sm:p-6 rounded-2xl border-indigo-200 dark:border-indigo-500/20 relative">
-                            <div class="flex items-center gap-2 mb-4">
-                                <div class="p-2 bg-indigo-100 dark:bg-indigo-500/10 rounded-lg text-indigo-600 dark:text-indigo-400"><i data-lucide="gavel" class="w-5 h-5"></i></div>
-                                <div>
-                                    <h2 class="text-lg font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">Tribunal <span id="tribunalBadgeCount" class="hidden bg-rose-500 text-white text-[9px] px-1.5 py-0.5 rounded-full animate-pulse">!</span></h2>
+                        <!-- Tribunal: Unified Authorization Center -->
+                        <section class="glass-panel p-5 sm:p-6 rounded-2xl border-indigo-200 dark:border-indigo-500/20 relative flex-1 flex flex-col">
+                            <div class="flex items-center justify-between mb-4 shrink-0">
+                                <div class="flex items-center gap-2">
+                                    <div class="p-2 bg-indigo-100 dark:bg-indigo-500/10 rounded-lg text-indigo-600 dark:text-indigo-400"><i data-lucide="gavel" class="w-5 h-5"></i></div>
+                                    <div>
+                                        <h2 class="text-lg font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">The Tribunal <span id="tribunalBadgeCount" class="hidden bg-rose-500 text-white text-[9px] px-1.5 py-0.5 rounded-full animate-pulse shadow-md">!</span></h2>
+                                        <p class="text-[10px] font-medium text-slate-500 uppercase">Awaiting Squad Consensus</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="space-y-5">
+                            <div class="space-y-5 flex-1 overflow-y-auto pr-2 hide-scrollbar">
                                 <div id="pendingAppealsSection" class="hidden">
-                                    <h3 class="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-2 border-b border-amber-200 pb-1">Appeals to Review</h3>
+                                    <h3 class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest mb-2 border-b border-amber-200 dark:border-amber-500/30 pb-1">Appeals to Review</h3>
                                     <div id="appealsContainer" class="space-y-2"></div>
                                 </div>
 
-                                <div>
-                                    <h3 class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-2 border-b border-indigo-200 pb-1">Authorization Requests</h3>
-                                    <div id="pendingVotesContainer" class="space-y-2"></div>
+                                <div class="flex-1 flex flex-col">
+                                    <h3 class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-2 border-b border-indigo-200 dark:border-indigo-500/30 pb-1">Pending Authorizations</h3>
+                                    <div id="pendingVotesContainer" class="space-y-2.5 flex-1"></div>
                                 </div>
                             </div>
                         </section>
@@ -302,7 +284,7 @@
                     <div class="lg:col-span-7 h-full flex flex-col gap-6">
 
                         <!-- SQUAD SOCIAL FEED -->
-                        <section class="glass-panel p-4 sm:p-5 rounded-2xl border-blue-200 dark:border-blue-500/30 bg-blue-50/50 dark:bg-blue-900/10 flex flex-col h-80">
+                        <section class="glass-panel p-4 sm:p-5 rounded-2xl border-blue-200 dark:border-blue-500/30 bg-blue-50/50 dark:bg-blue-900/10 flex flex-col h-80 shrink-0">
                             <div class="flex items-center justify-between mb-3 border-b border-blue-200 dark:border-blue-500/20 pb-2 shrink-0">
                                 <div class="flex items-center gap-2">
                                     <i data-lucide="message-square" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
@@ -317,53 +299,39 @@
 
                             <!-- Post Input -->
                             <div class="mt-3 flex gap-2 relative shrink-0">
-                                <input type="text" id="feedInput" placeholder="What's on your mind?..." class="flex-1 bg-white dark:bg-[#030712] text-slate-800 dark:text-slate-200 text-xs px-3 py-3 rounded-xl border border-blue-200 focus:border-blue-500 outline-none shadow-sm" maxlength="200">
+                                <input type="text" id="feedInput" placeholder="What's on your mind?..." class="flex-1 bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 text-xs px-3 py-3 rounded-xl border border-blue-200 dark:border-blue-500/30 focus:border-blue-500 outline-none shadow-sm" maxlength="200">
                                 <button onclick="postToFeed()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wide transition-all shadow-md active:scale-95"><i data-lucide="send" class="w-4 h-4"></i></button>
                             </div>
                         </section>
 
-                        <!-- Scorecards (Top 3 Medals Restored) -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="topScorecards">
-                            <div class="glass-panel p-3 sm:p-4 rounded-xl border-t-2 border-rose-500 bg-rose-50 dark:bg-gradient-to-b dark:from-rose-950/20 dark:to-transparent flex flex-col">
+                        <!-- Scorecards -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 shrink-0" id="topScorecards">
+                            <div class="glass-panel p-3 sm:p-4 rounded-xl border-t-2 border-rose-500 bg-rose-50 dark:bg-gradient-to-b dark:from-rose-950/20 dark:to-transparent flex flex-col shadow-sm">
                                 <div class="text-center mb-2">
                                     <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-500 mx-auto mb-1 opacity-80"></i>
-                                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Chief Gaddars</p>
+                                    <p class="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Chief Gaddars</p>
                                 </div>
                                 <div id="leaderboardGaddar" class="space-y-1 text-xs font-bold text-rose-700 dark:text-rose-400 mt-auto"></div>
                             </div>
-                            <div class="glass-panel p-3 sm:p-4 rounded-xl border-t-2 border-emerald-500 bg-emerald-50 dark:bg-gradient-to-b dark:from-emerald-950/20 dark:to-transparent flex flex-col">
+                            <div class="glass-panel p-3 sm:p-4 rounded-xl border-t-2 border-emerald-500 bg-emerald-50 dark:bg-gradient-to-b dark:from-emerald-950/20 dark:to-transparent flex flex-col shadow-sm">
                                 <div class="text-center mb-2">
                                     <i data-lucide="dove" class="w-4 h-4 text-emerald-500 mx-auto mb-1 opacity-80"></i>
-                                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Peacekeepers</p>
+                                    <p class="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Peacekeepers</p>
                                 </div>
                                 <div id="leaderboardPeace" class="space-y-1 text-xs font-bold text-emerald-700 dark:text-emerald-400 mt-auto"></div>
                             </div>
-                            <div class="glass-panel p-3 sm:p-4 rounded-xl border-t-2 border-amber-500 bg-amber-50 dark:bg-gradient-to-b dark:from-amber-950/20 dark:to-transparent flex flex-col">
+                            <div class="glass-panel p-3 sm:p-4 rounded-xl border-t-2 border-amber-500 bg-amber-50 dark:bg-gradient-to-b dark:from-amber-950/20 dark:to-transparent flex flex-col shadow-sm">
                                 <div class="text-center mb-2">
                                     <i data-lucide="swords" class="w-4 h-4 text-amber-500 mx-auto mb-1 opacity-80"></i>
-                                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Most Armed</p>
+                                    <p class="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Most Armed</p>
                                 </div>
                                 <div id="leaderboardArmed" class="space-y-1 text-xs font-bold text-amber-700 dark:text-amber-400 mt-auto"></div>
                             </div>
                         </div>
 
-                        <!-- GLOBAL INTEL / DAILY NEWS SECTION -->
-                        <section class="glass-panel p-4 sm:p-5 rounded-2xl border-purple-200 dark:border-purple-500/30 bg-purple-50/50 dark:bg-purple-900/10 flex flex-col max-h-[360px]">
-                            <div class="flex items-center justify-between mb-3 border-b border-purple-200 dark:border-purple-500/20 pb-2 shrink-0">
-                                <div class="flex items-center gap-2">
-                                    <i data-lucide="radio" class="w-4 h-4 text-purple-600 dark:text-purple-400 animate-pulse-slow"></i>
-                                    <h2 class="text-sm font-black tracking-tight text-purple-800 dark:text-purple-300 uppercase">Global Intel (India Youth)</h2>
-                                </div>
-                                <span class="text-[9px] font-bold text-purple-600 dark:text-purple-300 uppercase px-2 py-0.5 bg-purple-200 dark:bg-purple-800/50 rounded-full flex items-center gap-1 shadow-sm"><span class="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse"></span> Live API</span>
-                            </div>
-                            <div id="newsFeedContainer" class="flex-1 overflow-y-auto space-y-2.5 pr-2 hide-scrollbar">
-                                <div class="flex justify-center py-6"><div class="w-6 h-6 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div></div>
-                            </div>
-                        </section>
-
                         <!-- Roster -->
-                        <section class="glass-panel p-5 sm:p-6 rounded-2xl flex-1">
-                            <div class="flex items-center gap-2 mb-4">
+                        <section class="glass-panel p-5 sm:p-6 rounded-2xl flex-1 flex flex-col">
+                            <div class="flex items-center gap-2 mb-4 shrink-0">
                                 <div class="p-2 bg-slate-100 dark:bg-slate-800/80 rounded-lg text-slate-600 dark:text-slate-300"><i data-lucide="users" class="w-5 h-5"></i></div>
                                 <div>
                                     <h2 class="text-lg font-black text-slate-900 dark:text-white tracking-tight">Squad Roster</h2>
@@ -371,15 +339,14 @@
                                 </div>
                             </div>
 
-                            <div class="bg-white dark:bg-[#030712]/60 rounded-xl border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-sm dark:shadow-inner">
-                                <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-900/60 text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                            <div class="bg-white dark:bg-panelbg rounded-xl border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-sm flex-1 flex flex-col">
+                                <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800/80 bg-slate-50 dark:bg-slate-900/60 text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest shrink-0">
                                     <span>Operative</span>
                                     <div class="flex items-center gap-4 sm:gap-6">
-                                        <span class="hidden sm:block text-center w-14">Status</span>
                                         <span class="w-12 text-right">Gaddar</span>
                                     </div>
                                 </div>
-                                <div id="squadList" class="divide-y divide-slate-100 dark:divide-slate-800/40"></div>
+                                <div id="squadList" class="divide-y divide-slate-100 dark:divide-slate-800/40 overflow-y-auto flex-1"></div>
                             </div>
                         </section>
                     </div>
@@ -391,7 +358,7 @@
 
     <!-- Admin Panel Modal -->
     <div id="adminModal" class="fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl z-[70] hidden flex flex-col p-2 sm:p-6">
-        <div class="w-full max-w-5xl mx-auto flex-1 flex flex-col bg-white dark:bg-[#050505] rounded-2xl border border-amber-200 dark:border-amber-500/30 overflow-hidden shadow-2xl relative">
+        <div class="w-full max-w-5xl mx-auto flex-1 flex flex-col bg-white dark:bg-darkbg rounded-2xl border border-amber-200 dark:border-amber-500/30 overflow-hidden shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-500"></div>
             <header class="p-4 sm:p-5 border-b border-amber-100 dark:border-amber-500/20 flex justify-between items-center bg-amber-50 dark:bg-amber-950/20">
                 <div class="flex items-center gap-3">
@@ -410,39 +377,35 @@
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <h3 class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sliders" class="w-3.5 h-3.5 text-blue-500"></i> Operative Override</h3>
                         
-                        <select id="adminTarget" class="w-full bg-white dark:bg-[#000] text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs mb-3" onchange="loadAdminTargetStats()"></select>
+                        <select id="adminTarget" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs mb-3" onchange="loadAdminTargetStats()"></select>
                         
                         <div class="grid grid-cols-3 gap-2 mb-2">
                             <div>
                                 <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Satvik</label>
-                                <input type="number" id="adminValSatvik" class="w-full bg-white dark:bg-[#000] text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                                <input type="number" id="adminValSatvik" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                             <div>
                                 <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Lahsun</label>
-                                <input type="number" id="adminValLahsun" class="w-full bg-white dark:bg-[#000] text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                                <input type="number" id="adminValLahsun" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                             <div>
                                 <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Non-Veg</label>
-                                <input type="number" id="adminValNonveg" class="w-full bg-white dark:bg-[#000] text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                                <input type="number" id="adminValNonveg" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                         </div>
-                        <div class="grid grid-cols-3 gap-2 mb-3">
+                        <div class="grid grid-cols-2 gap-2 mb-3">
                             <div>
                                 <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Gaddari %</label>
-                                <input type="number" id="adminValGaddari" class="w-full bg-white dark:bg-[#000] text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                                <input type="number" id="adminValGaddari" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                             <div>
                                 <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">App Opens</label>
-                                <input type="number" id="adminValOpens" class="w-full bg-white dark:bg-[#000] text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
-                            </div>
-                            <div>
-                                <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Wks Inact</label>
-                                <input type="number" id="adminValInactive" class="w-full bg-white dark:bg-[#000] text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                                <input type="number" id="adminValOpens" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                         </div>
                         <div class="mb-4">
                             <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Force Update PIN</label>
-                            <input type="text" id="adminValPassword" placeholder="Leave blank to keep current" class="w-full bg-white dark:bg-[#000] text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                            <input type="text" id="adminValPassword" placeholder="Leave blank to keep current" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                         </div>
 
                         <div class="flex gap-2 mb-4">
@@ -458,7 +421,7 @@
                     </div>
                 </div>
 
-                <!-- Omniscience Logs (With Super Editing Powers) -->
+                <!-- Omniscience Logs -->
                 <div class="lg:col-span-7 flex flex-col h-[60vh] lg:h-[70vh]">
                     <div class="bg-slate-50 dark:bg-slate-900/40 rounded-xl border border-slate-200 dark:border-slate-800 flex-1 flex flex-col overflow-hidden">
                         <div class="p-3 border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/80 flex justify-between items-center">
@@ -482,35 +445,34 @@
                     <h2 id="amModalTitle" class="text-xl font-black tracking-tight leading-none">Card</h2>
                 </div>
             </div>
-            <textarea id="amReasonInput" rows="3" class="w-full bg-white dark:bg-[#030712]/80 text-slate-800 dark:text-slate-100 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none transition-all resize-none shadow-sm mb-5 text-sm" placeholder="State justification..."></textarea>
+            <textarea id="amReasonInput" rows="3" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-100 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none transition-all resize-none shadow-sm mb-5 text-sm" placeholder="State justification..."></textarea>
             <div class="flex gap-3">
                 <button onclick="closeAmModal()" class="flex-1 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl text-sm transition-all">Cancel</button>
-                <button id="amSubmitBtn" class="flex-[2] bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-black py-3 rounded-xl shadow-md transform active:scale-95 text-sm">Submit</button>
+                <button id="amSubmitBtn" class="flex-[2] bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-black py-3 rounded-xl shadow-md transform active:scale-95 text-sm">Submit to Tribunal</button>
             </div>
         </div>
     </div>
 
     <!-- Public Profile Modal -->
     <div id="profileModal" class="fixed inset-0 bg-white/95 dark:bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-2 sm:p-4">
-        <div class="glass-panel w-full max-w-2xl animate-pop-in flex flex-col h-[90vh] sm:h-[80vh] rounded-2xl relative overflow-hidden bg-white dark:bg-[#0a0f1c]/90">
-            <button onclick="closeProfileModal()" class="absolute top-4 right-4 p-2 bg-slate-100 dark:bg-slate-800/80 rounded-full text-slate-500 hover:text-rose-500 z-20"><i data-lucide="x" class="w-4 h-4"></i></button>
+        <div class="glass-panel w-full max-w-2xl animate-pop-in flex flex-col h-[90vh] sm:h-[80vh] rounded-2xl relative overflow-hidden bg-white dark:bg-panelbg">
+            <button onclick="closeProfileModal()" class="absolute top-4 right-4 p-2 bg-slate-100 dark:bg-slate-800/80 rounded-full text-slate-500 hover:text-rose-500 z-20 transition-colors"><i data-lucide="x" class="w-4 h-4"></i></button>
             
             <!-- Standard View -->
             <div id="profileNormalView" class="flex flex-col h-full">
                 <div class="p-5 sm:p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 relative" id="profileHeaderBg">
                     <div class="absolute top-0 right-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" id="profileGlow"></div>
                     
-                    <button id="btnEditProfile" onclick="toggleEditProfile()" class="hidden absolute top-4 right-14 p-2 bg-indigo-100 dark:bg-indigo-500/20 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 z-20 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1"><i data-lucide="pencil" class="w-3 h-3"></i> Edit</button>
+                    <button id="btnEditProfile" onclick="toggleEditProfile()" class="hidden absolute top-4 right-14 p-2 bg-indigo-100 dark:bg-indigo-500/20 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-200 z-20 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 transition-colors"><i data-lucide="pencil" class="w-3 h-3"></i> Edit</button>
 
                     <div class="flex items-center gap-4 relative z-10">
-                        <div class="w-16 h-16 rounded-full flex items-center justify-center shadow-md overflow-hidden bg-slate-200 dark:bg-slate-800" id="profileAvatarContainer">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center shadow-md overflow-hidden bg-slate-200 dark:bg-slate-800 shrink-0" id="profileAvatarContainer">
                             <i data-lucide="user" class="w-8 h-8 text-slate-500" id="profileAvatarIcon"></i>
                         </div>
                         <div>
                             <h2 id="profileModalName" class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-1.5 flex items-center gap-2">Name</h2>
                             <div class="flex flex-wrap gap-1.5 text-[9px] font-bold uppercase tracking-widest mb-1.5">
                                 <span id="profileModalGaddar" class="px-2 py-1 rounded border">0% Gaddar</span>
-                                <span id="profileModalInactive" class="text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-800/80 px-2 py-1 rounded border border-slate-300 dark:border-slate-700"><i data-lucide="clock" class="inline w-2.5 h-2.5 mr-1"></i>0 Wks Inactive</span>
                                 <span id="profileModalAdminBadge" class="hidden text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-500/10 px-2 py-1 rounded border border-amber-300 dark:border-amber-500/30"><i data-lucide="crown" class="inline w-2.5 h-2.5 mr-1"></i>Overlord</span>
                             </div>
                             <div class="flex items-center gap-3 text-[10px] text-slate-500 dark:text-slate-400 font-medium">
@@ -546,12 +508,12 @@
                 </div>
 
                 <!-- Tabs -->
-                <div class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/20 px-4 pt-1.5">
-                    <button onclick="switchProfileTab('gaddari')" id="tabBtnGaddari" class="px-4 py-2.5 font-bold text-xs tracking-wide border-b-2 transition-all tab-active flex items-center gap-1.5"><i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> Gaddari</button>
-                    <button onclick="switchProfileTab('arsenal')" id="tabBtnArsenal" class="px-4 py-2.5 font-bold text-xs tracking-wide border-b-2 transition-all tab-inactive flex items-center gap-1.5"><i data-lucide="history" class="w-3.5 h-3.5"></i> Arsenal</button>
+                <div class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/20 px-4 pt-1.5 shrink-0">
+                    <button onclick="switchProfileTab('gaddari')" id="tabBtnGaddari" class="px-4 py-2.5 font-bold text-xs tracking-wide border-b-2 transition-all tab-active flex items-center gap-1.5"><i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> Gaddari Profile</button>
+                    <button onclick="switchProfileTab('arsenal')" id="tabBtnArsenal" class="px-4 py-2.5 font-bold text-xs tracking-wide border-b-2 transition-all tab-inactive flex items-center gap-1.5"><i data-lucide="history" class="w-3.5 h-3.5"></i> Arsenal Record</button>
                 </div>
                 
-                <div class="flex-1 overflow-y-auto p-4 sm:p-6">
+                <div class="flex-1 overflow-y-auto p-4 sm:p-6 hide-scrollbar">
                     <div id="tabContentGaddari" class="space-y-4">
                         <div class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/30 p-3 rounded-lg mb-4 hidden" id="appealHintBox">
                             <p class="text-[10px] text-indigo-700 dark:text-indigo-300 font-medium"><i data-lucide="info" class="w-3 h-3 inline"></i> <b>Hint:</b> Tap "Appeal Charge" below. If your accuser accepts, your Gaddari Index will be completely restored (-15%).</p>
@@ -563,9 +525,9 @@
                         <div id="profileReportSection" class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/30 p-4 rounded-xl relative overflow-hidden">
                             <h3 class="text-xs font-bold text-indigo-700 dark:text-indigo-300 mb-2 flex items-center gap-1.5"><i data-lucide="megaphone" class="w-3.5 h-3.5"></i> Accuse Unauthorized Usage</h3>
                             <div class="space-y-2.5 mt-3">
-                                <select id="reportCardType" class="w-full bg-white dark:bg-[#030712]/80 text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm"></select>
-                                <input type="text" id="reportReason" class="w-full bg-white dark:bg-[#030712]/80 text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm" placeholder="Evidence...">
-                                <button id="reportSubmitBtn" class="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-lg shadow-md text-xs tracking-wide mt-1">Submit Accusation</button>
+                                <select id="reportCardType" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm"></select>
+                                <input type="text" id="reportReason" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm" placeholder="Evidence...">
+                                <button id="reportSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 transition-colors text-white font-bold py-2.5 rounded-lg shadow-md text-xs tracking-wide mt-1">Submit to Tribunal</button>
                             </div>
                         </div>
                         <div id="profileHistoryList" class="space-y-2.5"></div>
@@ -574,10 +536,10 @@
             </div>
 
             <!-- Edit View (WITH CHANGE PASSWORD) -->
-            <div id="profileEditView" class="hidden flex-col h-full overflow-y-auto">
+            <div id="profileEditView" class="hidden flex-col h-full overflow-y-auto hide-scrollbar">
                 <div class="p-6">
                     <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-4 mb-6">
-                        <button onclick="toggleEditProfile()" class="p-1.5 bg-slate-100 dark:bg-slate-800 rounded text-slate-500"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
+                        <button onclick="toggleEditProfile()" class="p-1.5 bg-slate-100 dark:bg-slate-800 rounded text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
                         <h2 class="text-xl font-black text-slate-900 dark:text-white">Edit Profile Intelligence</h2>
                     </div>
 
@@ -595,7 +557,7 @@
 
                         <div>
                             <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Current Location Base</label>
-                            <input type="text" id="editLocationInput" class="w-full bg-white dark:bg-[#030712] text-slate-800 dark:text-slate-200 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none shadow-sm text-sm" placeholder="e.g., Jaipur HQ" maxlength="30">
+                            <input type="text" id="editLocationInput" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none shadow-sm text-sm" placeholder="e.g., Jaipur HQ" maxlength="30">
                         </div>
 
                         <button onclick="saveProfileEdits()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-3 rounded-xl shadow-md transition-all text-sm uppercase tracking-widest mt-2">Save Base Changes</button>
@@ -605,12 +567,12 @@
                             
                             <div class="space-y-3">
                                 <div class="relative">
-                                    <input type="password" id="editOldPass" placeholder="Current PIN" class="w-full bg-white dark:bg-[#030712] text-slate-800 dark:text-slate-200 p-3 pr-10 rounded-xl border border-slate-300 dark:border-slate-700 outline-none shadow-sm text-sm tracking-widest font-mono">
-                                    <button onclick="togglePass('editOldPass', 'eyeOld')" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400"><i id="eyeOld" data-lucide="eye" class="w-4 h-4"></i></button>
+                                    <input type="password" id="editOldPass" placeholder="Current PIN" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 pr-10 rounded-xl border border-slate-300 dark:border-slate-700 outline-none shadow-sm text-sm tracking-widest font-mono">
+                                    <button onclick="togglePass('editOldPass', 'eyeOld')" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-300 transition-colors"><i id="eyeOld" data-lucide="eye" class="w-4 h-4"></i></button>
                                 </div>
                                 <div class="relative">
-                                    <input type="password" id="editNewPass" placeholder="New PIN" class="w-full bg-white dark:bg-[#030712] text-slate-800 dark:text-slate-200 p-3 pr-10 rounded-xl border border-slate-300 dark:border-slate-700 outline-none shadow-sm text-sm tracking-widest font-mono">
-                                    <button onclick="togglePass('editNewPass', 'eyeNew')" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400"><i id="eyeNew" data-lucide="eye" class="w-4 h-4"></i></button>
+                                    <input type="password" id="editNewPass" placeholder="New PIN" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 pr-10 rounded-xl border border-slate-300 dark:border-slate-700 outline-none shadow-sm text-sm tracking-widest font-mono">
+                                    <button onclick="togglePass('editNewPass', 'eyeNew')" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-300 transition-colors"><i id="eyeNew" data-lucide="eye" class="w-4 h-4"></i></button>
                                 </div>
                                 <button onclick="changePassword()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-widest shadow-sm transition-all mt-1">Change PIN</button>
                             </div>
@@ -619,19 +581,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    <!-- Airdrop Result Modal -->
-    <div id="airdropResultModal" class="fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl z-[80] hidden flex items-center justify-center p-4">
-        <div class="glass-panel p-8 rounded-3xl w-full max-w-sm text-center animate-pop-in relative overflow-hidden" id="airdropContent">
-            <div id="airdropGlow" class="absolute top-0 right-0 w-64 h-64 bg-amber-500/20 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
-            <div id="airdropIconBg" class="mx-auto w-20 h-20 bg-amber-100 dark:bg-amber-900/40 rounded-full flex items-center justify-center mb-4 text-amber-500 animate-bounce-slight relative z-10 shadow-lg">
-                <i id="airdropIcon" data-lucide="gift" class="w-10 h-10"></i>
-            </div>
-            <h2 id="airdropTitle" class="text-3xl font-black tracking-tight text-slate-900 dark:text-white mb-2 relative z-10">SUPPLY DROP</h2>
-            <p id="airdropDesc" class="text-slate-500 dark:text-slate-400 font-medium mb-8 text-sm relative z-10">Analyzing drop contents...</p>
-            <button onclick="document.getElementById('airdropResultModal').classList.add('hidden')" class="w-full bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md active:scale-95 text-sm uppercase tracking-widest relative z-10">Acknowledge</button>
         </div>
     </div>
 
@@ -754,9 +703,8 @@
                 DEFAULT_MEMBERS.forEach(m => {
                     const docRef = doc(db, basePath, 'members', m.id);
                     batch.set(docRef, { 
-                        ...m, satvikCount: 2, lahsunCount: 0, nonvegCount: 0, weeksWithoutUsage: 0, 
-                        gaddariIndex: 0, isBlocked: false, isInactivePenalty: false, lastActiveTime: 0, 
-                        lastAirdropDate: '', location: 'Base HQ', avatarBase64: '', appOpens: 0,
+                        ...m, satvikCount: 2, lahsunCount: 0, nonvegCount: 0, 
+                        gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0,
                         allianceWith: null, allianceEndTime: 0
                     });
                 });
@@ -780,7 +728,7 @@
                         if (target) {
                             let updates = {};
                             if (dbMember.name !== target.name) updates.name = target.name;
-                            if (dbMember.password === undefined) updates.password = target.password; // Only set if missing
+                            if (dbMember.password === undefined) updates.password = target.password;
                             if (dbMember.isAdmin !== target.isAdmin) updates.isAdmin = target.isAdmin;
                             if (dbMember.location === undefined) updates.location = 'Base HQ';
                             if (dbMember.avatarBase64 === undefined) updates.avatarBase64 = '';
@@ -788,12 +736,11 @@
                             if (dbMember.allianceWith === undefined) updates.allianceWith = null;
                             if (dbMember.allianceEndTime === undefined) updates.allianceEndTime = 0;
                             
-                            // Prevent carrying over legacy coin/streak data safely
-                            if (dbMember.coins !== undefined) updates.coins = deleteField();
-                            if (dbMember.streak !== undefined) updates.streak = deleteField();
-                            if (dbMember.lastClaimDate !== undefined) updates.lastClaimDate = deleteField();
-                            if (dbMember.protectedToday !== undefined) updates.protectedToday = deleteField();
-                            if (dbMember.votesCancelled !== undefined) updates.votesCancelled = deleteField();
+                            // Cleanup old fields
+                            if (dbMember.isInactivePenalty !== undefined) updates.isInactivePenalty = deleteField();
+                            if (dbMember.lastAirdropDate !== undefined) updates.lastAirdropDate = deleteField();
+                            if (dbMember.nextDropSabotaged !== undefined) updates.nextDropSabotaged = deleteField();
+                            if (dbMember.weeksWithoutUsage !== undefined) updates.weeksWithoutUsage = deleteField();
                             
                             if (Object.keys(updates).length > 0) { 
                                 batch.update(doc(db, basePath, 'members', dbMember.id), updates); 
@@ -804,7 +751,6 @@
                     if (needsUpdate) await batch.commit();
                 }
 
-                // CRITICAL FIX: Only check login persistence AFTER members array is populated
                 if (!isMembersLoaded) {
                     isMembersLoaded = true;
                     await checkSavedLogin();
@@ -851,79 +797,6 @@
                 const s = Math.floor((diff % (1000 * 60)) / 1000);
                 display.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
             }, 1000);
-        }
-
-        // --- GLOBAL NEWS FEED LOGIC (DIRECT API) ---
-        async function loadNewsData() {
-            const cacheKey = `squad_news_cache_${getLocalDateStr()}`;
-            const localData = localStorage.getItem(cacheKey);
-            
-            // 1. Try Local Storage First to save API hits if they reload
-            if (localData) {
-                renderNewsFeed(JSON.parse(localData));
-                return;
-            }
-
-            // 2. Fetch directly from GNews API
-            try {
-                const apiKey = '7bec34fb9e60d2181aa2471c92985cd3';
-                const query = encodeURIComponent('technology OR startups OR gaming');
-                const url = `https://gnews.io/api/v4/search?q=${query}&lang=en&country=in&max=10&apikey=${apiKey}`;
-                
-                const res = await fetch(url);
-                const data = await res.json();
-                
-                if (data && data.articles && data.articles.length > 0) {
-                    const articles = data.articles.slice(0, 10);
-                    localStorage.setItem(cacheKey, JSON.stringify(articles));
-                    renderNewsFeed(articles);
-                } else if (data.errors) {
-                    console.error("GNews API Error:", data.errors);
-                    document.getElementById('newsFeedContainer').innerHTML = `<p class="text-[10px] text-rose-500/80 font-bold text-center mt-6">API Error: ${data.errors[0]}</p>`;
-                } else {
-                    document.getElementById('newsFeedContainer').innerHTML = `<p class="text-xs text-purple-500/50 italic text-center mt-6">Signal lost. Cannot retrieve global intel today.</p>`;
-                }
-            } catch (e) {
-                console.error("News fetch error:", e);
-                document.getElementById('newsFeedContainer').innerHTML = `<p class="text-xs text-purple-500/50 italic text-center mt-6">Signal offline. Check connection or CORS.</p>`;
-            }
-        }
-
-        function renderNewsFeed(articles) {
-            const container = document.getElementById('newsFeedContainer');
-            container.innerHTML = '';
-            
-            if(!articles || articles.length === 0) {
-                container.innerHTML = `<p class="text-xs text-purple-500/50 italic text-center mt-6">No intel found.</p>`;
-                return;
-            }
-
-            articles.forEach(article => {
-                const timeAgo = new Date(article.publishedAt).toLocaleDateString();
-                
-                // Safe Image rendering to avoid broken link icons
-                const imgHtml = article.image 
-                    ? `<img src="${article.image}" class="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-lg shrink-0 border border-purple-100 dark:border-purple-800" onerror="this.outerHTML='<div class=\\'w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center shrink-0 border border-purple-200 dark:border-purple-800\\'><i data-lucide=\\'newspaper\\' class=\\'w-5 h-5 text-purple-400\\'></i></div>'">` 
-                    : `<div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center shrink-0 border border-purple-200 dark:border-purple-800"><i data-lucide="newspaper" class="w-5 h-5 text-purple-400"></i></div>`;
-                
-                // Enforce max character limit of ~90 for the title to maintain clean UI
-                let safeTitle = article.title || "";
-                if(safeTitle.length > 85) safeTitle = safeTitle.substring(0, 82) + '...';
-
-                container.innerHTML += `
-                    <a href="${article.url}" target="_blank" class="flex gap-3 p-2.5 bg-white/60 dark:bg-[#030712]/60 hover:bg-white dark:hover:bg-[#030712] rounded-xl border border-transparent hover:border-purple-200 dark:hover:border-purple-700 transition-all cursor-pointer group shadow-sm">
-                        ${imgHtml}
-                        <div class="flex-1 min-w-0 flex flex-col justify-center">
-                            <h4 class="text-[11px] font-bold text-slate-800 dark:text-slate-200 leading-snug group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors line-clamp-2">${safeTitle}</h4>
-                            <div class="flex items-center gap-2 mt-1.5">
-                                <span class="text-[8px] font-bold uppercase text-purple-600 dark:text-purple-300 bg-purple-100 dark:bg-purple-900/40 px-1.5 py-0.5 rounded">${article.source.name || 'News'}</span>
-                                <span class="text-[8px] text-slate-400 font-medium">${timeAgo}</span>
-                            </div>
-                        </div>
-                    </a>
-                `;
-            });
-            lucide.createIcons();
         }
 
         async function checkSavedLogin() {
@@ -974,7 +847,7 @@
                 }
 
                 const btn = document.createElement('button');
-                btn.className = `w-full flex items-center justify-between px-5 py-3.5 rounded-xl border ${isAdmin ? 'border-amber-300 bg-amber-50 hover:bg-amber-100 dark:border-amber-500/50 dark:bg-amber-950/20 dark:hover:bg-amber-900/40' : 'border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700/50 dark:bg-[#0a0f1c]/80 dark:hover:bg-slate-800'} text-slate-800 dark:text-white font-bold transition-all group shadow-sm`;
+                btn.className = `w-full flex items-center justify-between px-5 py-3.5 rounded-xl border ${isAdmin ? 'border-amber-300 bg-amber-50 hover:bg-amber-100 dark:border-amber-500/50 dark:bg-amber-950/20 dark:hover:bg-amber-900/40' : 'border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700/50 dark:bg-[#0f1423]/80 dark:hover:bg-slate-800'} text-slate-800 dark:text-white font-bold transition-all group shadow-sm`;
                 btn.innerHTML = `
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 shrink-0">${avatarHtml}</div>
@@ -1037,7 +910,6 @@
             appContent.classList.add('flex'); 
             updateDashboardUI(); 
             renderFeed(); 
-            loadNewsData(); // Load the global news when app opens
         }
 
         // --- ALLIANCE FEATURES ---
@@ -1103,24 +975,6 @@
             } catch(e) { showToast("Failed transfer.", "error"); }
         }
 
-        window.sabotageDrop = async () => {
-            if(!activeProfileId) return;
-            const me = localMembers.find(m => m.id === currentUserId);
-            const target = localMembers.find(m => m.id === activeProfileId);
-            
-            if(me.lahsunCount < 1) { showToast("Requires 1 Lahsun Pyaaj to sabotage.", "error"); return; }
-            if(!confirm(`Sabotage ${target.name}'s next Daily Dose? Cost: 1 Lahsun.`)) return;
-
-            try {
-                const batch = writeBatch(db);
-                batch.update(doc(db, basePath, 'members', me.id), { lahsunCount: me.lahsunCount - 1 });
-                batch.update(doc(db, basePath, 'members', target.id), { nextDropSabotaged: true });
-                await batch.commit();
-                showToast(`Sabotage planted!`, "success");
-                updateProfileModalData();
-            } catch(e) { showToast("Failed sabotage.", "error"); }
-        }
-
         // --- UI UPDATES ---
         function updateScorecards() {
             if(localMembers.length === 0) return;
@@ -1150,11 +1004,11 @@
             if(e.target.value === 'none') {
                 div.classList.add('hidden');
                 btn.innerText = "Maintain Peace (0%)";
-                btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest";
+                btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-sm";
             } else {
                 div.classList.remove('hidden');
-                btn.innerText = "Record Verdict (+15%)";
-                btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 text-white font-black py-3 rounded-lg transition-all shadow-md transform active:scale-95 text-xs uppercase tracking-widest mt-1";
+                btn.innerText = "Accuse (Requires 3 Approvals)";
+                btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white font-black py-3 rounded-lg transition-all shadow-md transform active:scale-95 text-xs uppercase tracking-widest mt-1";
             }
         });
 
@@ -1164,7 +1018,7 @@
             feed.innerHTML = '';
             
             if (localFeed.length === 0) {
-                feed.innerHTML = `<p class="text-xs text-blue-500/50 italic text-center mt-6">Feed is silent. Be the first to drop some info...</p>`;
+                feed.innerHTML = `<div class="h-full flex items-center justify-center"><p class="text-xs text-blue-500/50 italic text-center">Feed is silent. Be the first to drop some info...</p></div>`;
                 return;
             }
 
@@ -1280,120 +1134,24 @@
             } catch(e) { showToast("Delete failed", "error"); }
         }
 
-
-        // --- DAILY AIRDROP (Gacha) ---
-        window.claimAirdrop = async () => {
-            const me = localMembers.find(m => m.id === currentUserId);
-            if (!me) return;
-            const todayStr = getLocalDateStr();
-            
-            if (me.lastAirdropDate === todayStr) {
-                showToast("Drop already claimed today.", "warning");
-                return;
-            }
-
-            // Gacha Logic
-            const rand = Math.random() * 100;
-            let resultType = '';
-            let title = '';
-            let desc = '';
-            let icon = '';
-            let color = '';
-            let dbUpdates = { lastAirdropDate: todayStr };
-
-            if (me.nextDropSabotaged) {
-                resultType = 'trap';
-                dbUpdates.gaddariIndex = Math.min(100, (me.gaddariIndex || 0) + 15);
-                dbUpdates.nextDropSabotaged = false; // clear the trap
-                title = "SABOTAGED!";
-                desc = "Someone planted a trap in your drop! +15% Gaddari Index.";
-                icon = "bomb"; color = "rose";
-            } else if (rand < 50) { 
-                resultType = 'satvik';
-                dbUpdates.satvikCount = (me.satvikCount || 0) + 1;
-                title = "SATVIK SECURED";
-                desc = "You scavenged 1 extra Satvik card. Use it wisely.";
-                icon = "leaf"; color = "emerald";
-            } else if (rand < 70) { 
-                resultType = 'pardon';
-                dbUpdates.gaddariIndex = Math.max(0, (me.gaddariIndex || 0) - 5);
-                title = "PARTIAL PARDON";
-                desc = "The squad favors you today. Your Gaddari Index dropped by 5%.";
-                icon = "scale"; color = "blue";
-            } else if (rand < 80) { 
-                resultType = 'lahsun';
-                dbUpdates.lahsunCount = (me.lahsunCount || 0) + 1;
-                title = "RARE DROP!";
-                desc = "Lucky! You found a highly combustible Lahsun Pyaaj card.";
-                icon = "flame"; color = "amber";
-            } else { 
-                resultType = 'trap';
-                dbUpdates.gaddariIndex = Math.min(100, (me.gaddariIndex || 0) + 10);
-                title = "AMBUSHED!";
-                desc = "It was a natural trap! You got caught lacking. +10% Gaddari Index.";
-                icon = "skull"; color = "rose";
-            }
-
-            try {
-                await updateDoc(doc(db, basePath, 'members', me.id), dbUpdates);
-                
-                // Show Result Modal
-                const modal = document.getElementById('airdropResultModal');
-                const content = document.getElementById('airdropContent');
-                const titleEl = document.getElementById('airdropTitle');
-                const descEl = document.getElementById('airdropDesc');
-                const iconEl = document.getElementById('airdropIcon');
-                const glow = document.getElementById('airdropGlow');
-                const iconBg = document.getElementById('airdropIconBg');
-
-                content.className = `glass-panel p-8 rounded-3xl w-full max-w-sm text-center animate-pop-in relative overflow-hidden border-${color}-500/30`;
-                glow.className = `absolute top-0 right-0 w-64 h-64 bg-${color}-500/20 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none`;
-                iconBg.className = `mx-auto w-20 h-20 bg-${color}-100 dark:bg-${color}-900/40 rounded-full flex items-center justify-center mb-4 text-${color}-500 animate-bounce-slight relative z-10 shadow-lg`;
-                
-                iconEl.setAttribute('data-lucide', icon);
-                titleEl.className = `text-2xl font-black tracking-tight text-${color}-600 dark:text-${color}-400 mb-2 relative z-10`;
-                titleEl.innerText = title;
-                descEl.innerText = desc;
-
-                lucide.createIcons();
-                modal.classList.remove('hidden');
-                document.getElementById('airdropBanner').classList.add('hidden');
-
-            } catch(e) { showToast("Failed to claim drop", "error"); }
-        }
-
         function updateDashboardUI() {
             if (!currentUserId) return;
             const me = localMembers.find(m => m.id === currentUserId);
             if (!me) return;
 
             const now = Date.now();
-            const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
             let dbUpdates = {};
             
             if (me.allianceWith && me.allianceEndTime < now) {
                 dbUpdates.allianceWith = null; dbUpdates.allianceEndTime = 0;
             }
 
-            if (me.lastActiveTime) {
-                if ((now - me.lastActiveTime > threeDaysMs) && !me.isInactivePenalty && !me.isAdmin) {
-                    dbUpdates.isInactivePenalty = true;
-                    dbUpdates.satvikCount = 0; 
-                    dbUpdates.lastActiveTime = now;
-                    showToast("AWOL Penalty: Missed 3 days. Satvik set to 0. Voting disabled.", "error");
-                }
-            }
             if (!me.lastActiveTime || (now - me.lastActiveTime > 3600000 && !dbUpdates.lastActiveTime)) {
                 dbUpdates.lastActiveTime = now;
             }
             if (Object.keys(dbUpdates).length > 0) {
                 updateDoc(doc(db, basePath, 'members', me.id), dbUpdates);
             }
-
-            const todayStr = getLocalDateStr();
-            const airdropBanner = document.getElementById('airdropBanner');
-            if (me.lastAirdropDate !== todayStr) airdropBanner.classList.remove('hidden');
-            else airdropBanner.classList.add('hidden');
 
             updateScorecards();
 
@@ -1406,21 +1164,13 @@
             if (me.gaddariIndex > 70) headerGaddar.classList.add('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow'); 
             else headerGaddar.classList.remove('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow');
 
-            const isBlocked = (me.gaddariIndex > 70 || me.isInactivePenalty) && !me.isAdmin; 
+            const isBlocked = (me.gaddariIndex > 70) && !me.isAdmin; 
             const lockoutNotice = document.getElementById('gaddarLockoutNotice');
             const cardsContainer = document.getElementById('cardsContainer');
             
             if (isBlocked) {
                 lockoutNotice.classList.remove('hidden'); 
                 cardsContainer.classList.add('disabled-card'); 
-                
-                if (me.isInactivePenalty) {
-                    document.getElementById('lockoutTitle').innerText = "AWOL PENALTY ACTIVE";
-                    document.getElementById('lockoutDesc').innerText = "Missed 3 days of duty. Arsenal & Voting locked for the week.";
-                } else {
-                    document.getElementById('lockoutTitle').innerText = "ARSENAL LOCKED";
-                    document.getElementById('lockoutDesc').innerText = "Gaddar Index exceeds 70%. Privileges revoked.";
-                }
             } else {
                 lockoutNotice.classList.add('hidden'); 
                 cardsContainer.classList.remove('disabled-card'); 
@@ -1432,6 +1182,7 @@
 
             const usersWithPendingEvents = new Set();
             localEvents.filter(e => e.status === 'pending').forEach(e => usersWithPendingEvents.add(e.userId));
+            localGaddariVotes.filter(v => v.status === 'pending' && v.targetId !== 'none').forEach(v => usersWithPendingEvents.add(v.targetId));
 
             const squadList = document.getElementById('squadList');
             squadList.innerHTML = '';
@@ -1441,16 +1192,8 @@
                 const isAdmin = m.isAdmin;
                 const inTribunal = usersWithPendingEvents.has(m.id);
                 
-                let inactiveColor = 'text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800';
-                let inactiveText = `${m.weeksWithoutUsage} wks`;
-                if (m.weeksWithoutUsage >= 4 || m.isInactivePenalty) { 
-                    inactiveColor = 'text-amber-600 dark:text-amber-400 border-amber-300 dark:border-amber-500/50 bg-amber-100 dark:bg-amber-500/10 shadow-sm'; 
-                    inactiveText = 'AWOL'; 
-                }
-                else if (m.weeksWithoutUsage >= 2) inactiveColor = 'text-indigo-600 dark:text-indigo-300 border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-500/10';
-
                 let rowBgHover = 'hover:bg-slate-50 dark:hover:bg-slate-800/40';
-                let avatarBorder = 'bg-slate-50 dark:bg-[#030712] border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400';
+                let avatarBorder = 'bg-slate-50 dark:bg-darkbg border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400';
                 let nameColor = 'text-slate-800 dark:text-slate-200';
                 
                 let avatarHtml = m.avatarBase64 ? 
@@ -1476,7 +1219,7 @@
 
                 div.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border shrink-0 transition-transform group-hover:scale-105 overflow-hidden ${avatarBorder}">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border shrink-0 transition-transform group-hover:scale-105 overflow-hidden shadow-sm ${avatarBorder}">
                             ${avatarHtml}
                         </div>
                         <div>
@@ -1497,11 +1240,6 @@
                     </div>
                     
                     <div class="flex items-center gap-4 sm:gap-6">
-                        <div class="hidden sm:flex items-center justify-center w-14">
-                            <span class="flex items-center gap-1 px-2 py-0.5 rounded-md border text-[9px] font-bold ${inactiveColor}">
-                                ${m.weeksWithoutUsage > 0 || m.isInactivePenalty ? '<i data-lucide="clock" class="w-2.5 h-2.5"></i>' : ''} ${inactiveText}
-                            </span>
-                        </div>
                         <div class="w-12 text-right">
                             <span class="text-base sm:text-lg font-black ${isDanger ? 'text-rose-600 dark:text-rose-500' : 'text-slate-700 dark:text-slate-300'}">${m.gaddariIndex}%</span>
                         </div>
@@ -1524,6 +1262,7 @@
             targetSelect.value = currentSelection || 'none';
             targetSelect.dispatchEvent(new Event('change'));
 
+            const todayStr = getLocalDateStr();
             const hasVotedToday = localGaddariVotes.some(v => v.voterId === currentUserId && v.date === todayStr);
             const gaddarContainer = document.getElementById('gaddariFormContainer');
             const votedMessage = document.getElementById('gaddariVotedMessage');
@@ -1570,7 +1309,6 @@
                 document.getElementById('adminValNonveg').value = target.nonvegCount || 0;
                 document.getElementById('adminValGaddari').value = target.gaddariIndex || 0;
                 document.getElementById('adminValOpens').value = target.appOpens || 0;
-                document.getElementById('adminValInactive').value = target.weeksWithoutUsage || 0;
                 document.getElementById('adminValPassword').value = '';
             }
         }
@@ -1587,9 +1325,7 @@
                     lahsunCount: parseInt(document.getElementById('adminValLahsun').value) || 0,
                     nonvegCount: parseInt(document.getElementById('adminValNonveg').value) || 0,
                     gaddariIndex: parseInt(document.getElementById('adminValGaddari').value) || 0,
-                    appOpens: parseInt(document.getElementById('adminValOpens').value) || 0,
-                    weeksWithoutUsage: parseInt(document.getElementById('adminValInactive').value) || 0,
-                    isInactivePenalty: false 
+                    appOpens: parseInt(document.getElementById('adminValOpens').value) || 0
                 };
 
                 const newPass = document.getElementById('adminValPassword').value.trim();
@@ -1624,10 +1360,10 @@
         };
 
         window.adminReverseVote = async (id) => {
-            if(!confirm("Overlord: Reverse this vote and restore 15% to target?")) return;
+            if(!confirm("Overlord: Reverse this confirmed vote and restore 15% to target?")) return;
             try {
                 const vote = localGaddariVotes.find(v => v.uid === id);
-                if(vote && vote.status === 'active') {
+                if(vote && vote.status === 'confirmed') {
                     const target = localMembers.find(m => m.id === vote.targetId);
                     if(target) {
                         const rec = Math.max(0, target.gaddariIndex - 15);
@@ -1669,14 +1405,14 @@
                         logContainer.innerHTML += `
                             <div class="p-3 bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm group">
                                 <div class="flex justify-between items-center mb-1">
-                                    <span class="text-[9px] font-bold text-rose-600 dark:text-rose-500 uppercase flex items-center gap-1"><i data-lucide="crosshair" class="w-3 h-3"></i> Gaddari Vote</span>
+                                    <span class="text-[9px] font-bold text-rose-600 dark:text-rose-500 uppercase flex items-center gap-1"><i data-lucide="crosshair" class="w-3 h-3"></i> Gaddari Activity</span>
                                     <span class="text-[9px] text-slate-400">${v.date} | ${v.status}</span>
                                 </div>
                                 <p class="text-[11px] text-slate-700 dark:text-slate-300"><span class="font-bold text-indigo-600 dark:text-indigo-400">${getName(v.voterId)}</span> voted vs <span class="font-bold text-rose-600 dark:text-rose-400">${v.targetId === 'none'?'Peace':getName(v.targetId)}</span></p>
                                 <p class="text-[10px] text-slate-600 dark:text-slate-400 italic mt-1 bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded">"${v.reason}"</p>
                                 <div class="flex gap-2 mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <button onclick="adminDeleteVote('${v.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors"><i data-lucide="trash-2" class="w-3 h-3 inline"></i> Delete</button>
-                                    ${v.status === 'active' ? `<button onclick="adminReverseVote('${v.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"><i data-lucide="rotate-ccw" class="w-3 h-3 inline"></i> Reverse (-15%)</button>` : ''}
+                                    ${v.status === 'confirmed' ? `<button onclick="adminReverseVote('${v.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"><i data-lucide="rotate-ccw" class="w-3 h-3 inline"></i> Reverse (-15%)</button>` : ''}
                                 </div>
                             </div>`;
                     } else if (log.type === 'card') {
@@ -1718,7 +1454,7 @@
                 const batch = writeBatch(db);
                 localMembers.forEach(m => {
                     const ref = doc(db, basePath, 'members', m.id);
-                    batch.update(ref, { satvikCount: 2, lahsunCount: 0, nonvegCount: 0, weeksWithoutUsage: 0, gaddariIndex: 0, isInactivePenalty: false, lastAirdropDate: '', location: 'Base HQ', avatarBase64: '', appOpens: 0, allianceWith: null, allianceEndTime: 0 });
+                    batch.update(ref, { satvikCount: 2, lahsunCount: 0, nonvegCount: 0, gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0, allianceWith: null, allianceEndTime: 0 });
                 });
                 localEvents.forEach(e => batch.delete(doc(db, basePath, 'am_events', e.uid)));
                 localGaddariVotes.forEach(v => batch.delete(doc(db, basePath, 'gaddari_votes', v.uid)));
@@ -1881,16 +1617,16 @@
                 bribeSection.classList.remove('hidden');
                 let actionsHtml = '';
                 if(me.allianceWith === member.id) {
-                    actionsHtml += `<button onclick="transferItem('satvik')" class="flex-1 bg-emerald-100 text-emerald-700 py-2 rounded-lg text-[9px] font-bold uppercase border border-emerald-200">Send 1 Satvik</button>`;
-                    actionsHtml += `<button onclick="transferItem('lahsun')" class="flex-1 bg-amber-100 text-amber-700 py-2 rounded-lg text-[9px] font-bold uppercase border border-amber-200">Send 1 Lahsun</button>`;
-                    actionsHtml += `<button onclick="breakAlliance()" class="flex-1 bg-rose-100 text-rose-700 py-2 rounded-lg text-[9px] font-bold uppercase border border-rose-200">Break Alliance (Cost 1 Non-Veg)</button>`;
+                    actionsHtml += `<button onclick="transferItem('satvik')" class="flex-1 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 transition-colors py-2 rounded-lg text-[9px] font-bold uppercase border border-emerald-200">Send 1 Satvik</button>`;
+                    actionsHtml += `<button onclick="transferItem('lahsun')" class="flex-1 bg-amber-100 text-amber-700 hover:bg-amber-200 transition-colors py-2 rounded-lg text-[9px] font-bold uppercase border border-amber-200">Send 1 Lahsun</button>`;
+                    actionsHtml += `<button onclick="breakAlliance()" class="flex-1 bg-rose-100 text-rose-700 hover:bg-rose-200 transition-colors py-2 rounded-lg text-[9px] font-bold uppercase border border-rose-200">Break Alliance (Cost 1 Non-Veg)</button>`;
                 } else {
                     if(!me.allianceWith && !member.allianceWith) {
-                        actionsHtml += `<button onclick="proposeAlliance('${member.id}')" class="flex-1 bg-indigo-100 text-indigo-700 py-2 rounded-lg text-[9px] font-bold uppercase border border-indigo-200"><i data-lucide="link" class="w-3 h-3 inline"></i> Propose Alliance</button>`;
+                        actionsHtml += `<button onclick="proposeAlliance('${member.id}')" class="flex-1 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors py-2 rounded-lg text-[9px] font-bold uppercase border border-indigo-200 shadow-sm"><i data-lucide="link" class="w-3 h-3 inline"></i> Propose Alliance</button>`;
                     }
-                    actionsHtml += `<button onclick="sabotageDrop()" class="flex-1 bg-amber-100 text-amber-700 py-2 rounded-lg text-[9px] font-bold uppercase border border-amber-200"><i data-lucide="bomb" class="w-3 h-3 inline"></i> Sabotage Drop (Cost: 1 Lahsun)</button>`;
                 }
                 bribeButtons.innerHTML = actionsHtml;
+                if(actionsHtml === '') bribeSection.classList.add('hidden');
             }
 
             avatarContainer.className = "w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center shadow-md z-10 relative overflow-hidden ";
@@ -1921,14 +1657,6 @@
                 glow.className = "absolute top-0 right-0 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none";
                 adminBadge.classList.add('hidden');
                 gaddarEl.className = "text-slate-600 dark:text-slate-300 bg-slate-200 dark:bg-slate-800/80 px-2 py-1 rounded border border-slate-300 dark:border-slate-700";
-            }
-
-            let inactText = `${member.weeksWithoutUsage} Wks Inactive`;
-            if (member.isInactivePenalty) inactText = 'AWOL PENALTY';
-            document.getElementById('profileModalInactive').innerHTML = `<i data-lucide="clock" class="inline w-2.5 h-2.5 mr-1"></i>${inactText}`;
-            if (member.isInactivePenalty) {
-                document.getElementById('profileModalInactive').classList.replace('text-slate-500', 'text-rose-600');
-                document.getElementById('profileModalInactive').classList.replace('dark:text-slate-400', 'dark:text-rose-400');
             }
 
             document.getElementById('profSatvik').innerText = member.satvikCount;
@@ -1994,33 +1722,35 @@
                 let hasActiveCharge = false;
                 myCharges.forEach(charge => {
                     let dateStr = charge.date;
-                    const status = charge.status || 'active'; 
+                    const status = charge.status || 'pending'; 
                     let statusHtml = '';
                     let actionHtml = '';
 
-                    if (status === 'active') {
+                    if (status === 'pending') {
+                        statusHtml = `<span class="bg-indigo-100 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest animate-pulse">In Tribunal</span>`;
+                    } else if (status === 'confirmed') {
                         hasActiveCharge = true;
-                        statusHtml = `<span class="bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest">+15% Active</span>`;
-                        if (isMe) actionHtml = `<button onclick="appealCharge('${charge.uid}')" class="mt-2 w-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold py-2 rounded-lg border border-indigo-200 dark:border-indigo-500/50 shadow-sm transition-colors flex items-center justify-center gap-1.5"><i data-lucide="scale" class="w-3 h-3"></i> Appeal to Accuser</button>`;
+                        statusHtml = `<span class="bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest">+15% Penalty</span>`;
+                        if (isMe) actionHtml = `<button onclick="appealCharge('${charge.uid}')" class="mt-2 w-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold py-2 rounded-lg border border-indigo-200 dark:border-indigo-500/50 shadow-sm transition-colors flex items-center justify-center gap-1.5"><i data-lucide="scale" class="w-3 h-3"></i> Appeal Charge</button>`;
                     } else if (status === 'appealed') {
                         statusHtml = `<span class="bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest animate-pulse">Appeal Pending</span>`;
                     } else if (status === 'reversed') {
                         statusHtml = `<span class="bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest">Reversed (Forgiven)</span>`;
                     } else if (status === 'rejected') {
-                        statusHtml = `<span class="bg-rose-200 dark:bg-rose-950/50 text-rose-700 dark:text-rose-500 border border-rose-300 dark:border-rose-900 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest">Appeal Rejected</span>`;
+                        statusHtml = `<span class="bg-rose-200 dark:bg-rose-950/50 text-rose-700 dark:text-rose-500 border border-rose-300 dark:border-rose-900 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest">Charge Rejected</span>`;
                     }
 
                     gaddariList.innerHTML += `
-                        <div class="bg-white dark:bg-slate-900/50 p-3.5 rounded-xl border ${status === 'active' ? 'border-rose-200 dark:border-rose-500/30' : 'border-slate-200 dark:border-slate-800'} relative overflow-hidden shadow-sm">
-                            ${status === 'active' ? '<div class="absolute top-0 left-0 w-1 h-full bg-rose-500"></div>' : ''}
-                            <div class="flex justify-between items-start mb-2 ${status === 'active' ? 'pl-2' : ''}">
+                        <div class="bg-white dark:bg-slate-900/50 p-3.5 rounded-xl border ${status === 'confirmed' ? 'border-rose-200 dark:border-rose-500/30' : 'border-slate-200 dark:border-slate-800'} relative overflow-hidden shadow-sm">
+                            ${status === 'confirmed' ? '<div class="absolute top-0 left-0 w-1 h-full bg-rose-500"></div>' : ''}
+                            <div class="flex justify-between items-start mb-2 ${status === 'confirmed' ? 'pl-2' : ''}">
                                 <div>
                                     <p class="text-[9px] text-slate-500 font-bold uppercase mb-0.5">Accused by <span class="text-indigo-600 dark:text-indigo-300">${getName(charge.voterId)}</span></p>
                                     <span class="text-[10px] text-slate-400">${dateStr}</span>
                                 </div>
                                 ${statusHtml}
                             </div>
-                            <div class="bg-slate-50 dark:bg-[#030712]/80 rounded-lg p-2 border border-slate-100 dark:border-slate-800 relative ${status === 'active' ? 'ml-2' : ''}">
+                            <div class="bg-slate-50 dark:bg-[#030712]/80 rounded-lg p-2 border border-slate-100 dark:border-slate-800 relative ${status === 'confirmed' ? 'ml-2' : ''}">
                                 <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-0.5">Evidence:</p>
                                 <p class="text-xs text-slate-700 dark:text-slate-300 italic">"${charge.reason}"</p>
                             </div>
@@ -2043,13 +1773,13 @@
                     status: 'pending', timestamp: serverTimestamp(), votes: { [currentUserId]: true }
                 });
                 closeProfileModal();
-                showToast("Accusation filed.", 'success');
+                showToast("Accusation filed to Tribunal.", 'success');
             } catch (err) { showToast("Failed to file.", 'error'); }
         };
 
         window.openAmModal = (type) => {
             const me = localMembers.find(m => m.id === currentUserId);
-            if ((me.gaddariIndex > 70 || me.isInactivePenalty) && !me.isAdmin) return; 
+            if ((me.gaddariIndex > 70) && !me.isAdmin) return; 
             
             const counts = { satvik: me.satvikCount, lahsun: me.lahsunCount, nonveg: me.nonvegCount };
             if (counts[type] <= 0) { showToast(`Inventory Depleted`, 'warning'); return; }
@@ -2081,46 +1811,58 @@
                     initialStatus = 'confirmed';
                     const countKey = `${currentAmType}Count`;
                     if (me[countKey] > 0) await updateDoc(doc(db, basePath, 'members', me.id), { [countKey]: me[countKey] - 1 });
-                    showToast("Overlord Override.", 'success');
+                    showToast("Overlord Override executed.", 'success');
                 } else showToast("Submitted to Tribunal.", 'success');
 
                 await addDoc(collection(db, basePath, 'am_events'), {
                     userId: currentUserId, reportedBy: currentUserId, type: currentAmType,
-                    reason: reason, status: initialStatus, timestamp: serverTimestamp(), votes: {}
+                    reason: reason, status: initialStatus, timestamp: serverTimestamp(), votes: { [currentUserId]: true }
                 });
                 closeAmModal();
             } catch (err) { showToast("Failed.", 'error'); }
         });
 
-        // --- TRIBUNAL & APPEALS ---
+        // --- TRIBUNAL & APPEALS (UNIFIED) ---
         function renderPendingVotes(isBlocked) {
             const container = document.getElementById('pendingVotesContainer');
             container.innerHTML = '';
-            const pending = localEvents.filter(e => e.status === 'pending');
             
-            const badgeCount = pending.length;
+            const pendingEvents = localEvents.filter(e => e.status === 'pending').map(e => ({...e, category: 'card'}));
+            const pendingGaddari = localGaddariVotes.filter(v => v.status === 'pending' && v.targetId !== 'none').map(v => ({...v, category: 'gaddari'}));
+            const combinedPending = [...pendingEvents, ...pendingGaddari].sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+            
+            const badgeCount = combinedPending.length;
             const badge = document.getElementById('tribunalBadgeCount');
             if (badgeCount > 0) { badge.classList.remove('hidden'); badge.innerText = badgeCount; } 
             else badge.classList.add('hidden');
             
-            if (pending.length === 0) {
-                container.innerHTML = `<div class="bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/50 rounded-xl p-4 text-center"><i data-lucide="check-circle" class="w-5 h-5 text-slate-400 mx-auto mb-1"></i><p class="text-[10px] font-medium text-slate-500">All requests resolved.</p></div>`;
+            if (combinedPending.length === 0) {
+                container.innerHTML = `<div class="bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/50 rounded-xl p-6 text-center"><i data-lucide="check-circle" class="w-6 h-6 text-slate-400 mx-auto mb-2 opacity-50"></i><p class="text-xs font-medium text-slate-500">All squad requests resolved.</p></div>`;
                 return;
             }
 
-            pending.forEach(event => {
-                const targetUser = localMembers.find(m => m.id === event.userId) || { name: 'Unknown', avatarBase64: '' };
-                const isAccusation = event.reportedBy && event.reportedBy !== event.userId;
-                const reporterName = isAccusation ? getName(event.reportedBy) : targetUser.name;
-                const configs = { satvik: { name: 'Satvik', color: 'emerald', icon: 'leaf' }, lahsun: { name: 'Lahsun Pyaaj', color: 'amber', icon: 'flame' }, nonveg: { name: 'Non-Veg', color: 'rose', icon: 'skull' } };
-                const conf = configs[event.type];
-                const hasVoted = event.votes && event.votes[currentUserId] !== undefined;
+            combinedPending.forEach(event => {
+                const isGaddari = event.category === 'gaddari';
+                const targetId = isGaddari ? event.targetId : event.userId;
+                const reporterId = isGaddari ? event.voterId : event.reportedBy;
                 
+                const targetUser = localMembers.find(m => m.id === targetId) || { name: 'Unknown', avatarBase64: '' };
+                const isAccusation = reporterId && reporterId !== targetId;
+                const reporterName = isAccusation ? getName(reporterId) : targetUser.name;
+                
+                let conf = { name: 'Gaddari Accusation', color: 'rose', icon: 'crosshair' };
+                if (!isGaddari) {
+                    const configs = { satvik: { name: 'Satvik Request', color: 'emerald', icon: 'leaf' }, lahsun: { name: 'Lahsun Pyaaj', color: 'amber', icon: 'flame' }, nonveg: { name: 'Non-Veg Strike', color: 'rose', icon: 'skull' } };
+                    conf = configs[event.type];
+                }
+
+                const hasVoted = event.votes && event.votes[currentUserId] !== undefined;
                 let approves = 0, rejects = 0;
                 if (event.votes) { Object.values(event.votes).forEach(isApprove => { if(isApprove) approves++; else rejects++; }); }
 
                 const div = document.createElement('div');
-                div.className = 'bg-white dark:bg-[#030712]/80 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm';
+                div.className = 'bg-white dark:bg-[#080b18] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden';
+                if (isGaddari) div.innerHTML += '<div class="absolute top-0 left-0 w-1 h-full bg-rose-500 opacity-50"></div>';
                 
                 const me = localMembers.find(m => m.id === currentUserId);
                 let actionsHtml = '';
@@ -2128,28 +1870,29 @@
                 if (me && me.isAdmin) {
                     actionsHtml = `
                         <div class="flex gap-2 mt-3">
-                            <button onclick="castAmVote('${event.uid}', true, true)" class="flex-1 bg-amber-50 dark:bg-amber-500/20 hover:bg-amber-100 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/40 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5"><i data-lucide="crown" class="w-3 h-3"></i> O. Approve</button>
-                            <button onclick="castAmVote('${event.uid}', false, true)" class="flex-1 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 text-rose-600 dark:text-rose-500 border border-rose-200 dark:border-rose-900/50 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5"><i data-lucide="x" class="w-3 h-3"></i> O. Reject</button>
+                            <button onclick="castTribunalVote('${event.category}', '${event.uid}', true, true)" class="flex-1 bg-amber-50 dark:bg-amber-500/20 hover:bg-amber-100 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/40 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="crown" class="w-3 h-3"></i> Force Approve</button>
+                            <button onclick="castTribunalVote('${event.category}', '${event.uid}', false, true)" class="flex-1 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 text-rose-600 dark:text-rose-500 border border-rose-200 dark:border-rose-900/50 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="x" class="w-3 h-3"></i> Force Reject</button>
                         </div>`;
                 } else if (isBlocked) {
                     actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-rose-50 dark:bg-rose-950/20 text-center border border-rose-200 dark:border-rose-900/50"><p class="text-[9px] text-rose-600 dark:text-rose-500 font-bold uppercase">Voting Disabled</p></div>`;
                 } else if (hasVoted) {
                     const voteText = event.votes[currentUserId] ? '<span class="text-emerald-500 dark:text-emerald-400">Approved</span>' : '<span class="text-rose-500 dark:text-rose-400">Rejected</span>';
-                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-center border border-slate-200 dark:border-slate-800"><p class="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase">Verdict: ${voteText}</p></div>`;
-                } else if (event.userId === currentUserId && !isAccusation) {
-                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-center border border-indigo-200 dark:border-indigo-500/20"><p class="text-[9px] text-indigo-600 dark:text-indigo-400 font-bold uppercase animate-pulse">Awaiting Squad</p></div>`;
+                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-center border border-slate-200 dark:border-slate-800"><p class="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase">Your Verdict: ${voteText}</p></div>`;
+                } else if (targetId === currentUserId && !isAccusation) {
+                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-center border border-indigo-200 dark:border-indigo-500/20"><p class="text-[9px] text-indigo-600 dark:text-indigo-400 font-bold uppercase animate-pulse">Awaiting Squad Approvals</p></div>`;
                 } else {
                     actionsHtml = `
                         <div class="flex gap-2 mt-3">
-                            <button onclick="castAmVote('${event.uid}', true)" class="flex-1 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5"><i data-lucide="thumbs-up" class="w-3 h-3"></i> Approve</button>
-                            <button onclick="castAmVote('${event.uid}', false)" class="flex-1 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5"><i data-lucide="thumbs-down" class="w-3 h-3"></i> Reject</button>
+                            <button onclick="castTribunalVote('${event.category}', '${event.uid}', true)" class="flex-1 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-up" class="w-3 h-3"></i> Approve</button>
+                            <button onclick="castTribunalVote('${event.category}', '${event.uid}', false)" class="flex-1 bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-down" class="w-3 h-3"></i> Reject</button>
                         </div>`;
                 }
                 
                 let avatarHtml = targetUser.avatarBase64 ? `<img src="${targetUser.avatarBase64}" class="w-full h-full object-cover">` : `<i data-lucide="${isAccusation ? 'megaphone' : 'user'}" class="w-3.5 h-3.5"></i>`;
+                let padClass = isGaddari ? "pl-2" : "";
 
                 div.innerHTML = `
-                    <div class="flex justify-between items-start mb-2">
+                    <div class="flex justify-between items-start mb-2 ${padClass}">
                         <div class="flex items-center gap-2">
                             <div class="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden border ${isAccusation ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-500/50 text-rose-600 dark:text-rose-400' : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400'}">
                                 ${avatarHtml}
@@ -2162,12 +1905,12 @@
                             <span class="text-[8px] font-black text-${conf.color}-600 dark:text-${conf.color}-400 uppercase tracking-widest">${conf.name}</span>
                         </div>
                     </div>
-                    <div class="bg-slate-50 dark:bg-slate-900/60 rounded-lg p-2 border border-slate-100 dark:border-slate-800 mb-2">
+                    <div class="bg-slate-50 dark:bg-slate-900/60 rounded-lg p-2 border border-slate-100 dark:border-slate-800 mb-2 ${padClass}">
                         <p class="text-[10px] text-slate-700 dark:text-slate-300 italic font-medium">"${event.reason}"</p>
                     </div>
-                    <div class="text-[9px] bg-slate-100 dark:bg-[#030712] p-1.5 rounded-lg flex justify-between items-center text-slate-500 font-bold">
-                        <span>Tribunal: <span class="text-emerald-500 dark:text-emerald-400">${approves}A</span> / <span class="text-rose-500 dark:text-rose-400">${rejects}R</span></span>
-                        <span class="text-indigo-500 dark:text-indigo-400">3 Req</span>
+                    <div class="text-[9px] bg-slate-100 dark:bg-slate-900/80 p-1.5 rounded-lg flex justify-between items-center text-slate-500 font-bold ${padClass}">
+                        <span>Approvals: <span class="text-emerald-500 dark:text-emerald-400">${approves}</span> / <span class="text-rose-500 dark:text-rose-400">${rejects} Rejects</span></span>
+                        <span class="text-indigo-500 dark:text-indigo-400">3 Required</span>
                     </div>
                     ${actionsHtml}
                 `;
@@ -2175,14 +1918,16 @@
             });
         }
 
-        window.castAmVote = async (eventId, isApprove, isOverlordOverride = false) => {
+        window.castTribunalVote = async (category, eventId, isApprove, isOverlordOverride = false) => {
             try {
-                const eventRef = doc(db, basePath, 'am_events', eventId);
-                const event = localEvents.find(e => e.uid === eventId);
+                const collectionName = category === 'card' ? 'am_events' : 'gaddari_votes';
+                const eventRef = doc(db, basePath, collectionName, eventId);
+                const list = category === 'card' ? localEvents : localGaddariVotes;
+                const event = list.find(e => e.uid === eventId);
                 if (!event) return;
 
                 let newStatus = 'pending';
-                let updatedVotes = { ...event.votes, [currentUserId]: isApprove };
+                let updatedVotes = { ...(event.votes || {}), [currentUserId]: isApprove };
 
                 if (isOverlordOverride) newStatus = isApprove ? 'confirmed' : 'rejected';
                 else {
@@ -2193,16 +1938,24 @@
                 }
 
                 if (newStatus === 'confirmed') {
-                    const targetMember = localMembers.find(m => m.id === event.userId);
-                    const countKey = `${event.type}Count`;
-                    if (targetMember && targetMember[countKey] > 0) {
-                        await updateDoc(doc(db, basePath, 'members', targetMember.id), { [countKey]: targetMember[countKey] - 1 });
+                    if (category === 'card') {
+                        const targetMember = localMembers.find(m => m.id === event.userId);
+                        const countKey = `${event.type}Count`;
+                        if (targetMember && targetMember[countKey] > 0) {
+                            await updateDoc(doc(db, basePath, 'members', targetMember.id), { [countKey]: targetMember[countKey] - 1 });
+                        }
+                    } else if (category === 'gaddari') {
+                        const targetMember = localMembers.find(m => m.id === event.targetId);
+                        if (targetMember) {
+                            const newGaddari = Math.min(100, (targetMember.gaddariIndex || 0) + 15);
+                            await updateDoc(doc(db, basePath, 'members', targetMember.id), { gaddariIndex: newGaddari });
+                        }
                     }
                 }
 
                 await updateDoc(eventRef, { votes: updatedVotes, status: newStatus });
-                showToast("Verdict recorded.", 'success');
-            } catch (err) { showToast("Failed.", 'error'); }
+                showToast("Verdict recorded in Tribunal.", 'success');
+            } catch (err) { showToast("Failed to vote.", 'error'); }
         };
 
         window.submitGaddariVote = async () => {
@@ -2210,23 +1963,25 @@
             const reason = document.getElementById('gaddarReason').value.trim();
             const todayStr = getLocalDateStr();
 
-            if (targetId !== 'none' && !reason) { showToast("Evidence mandatory.", 'warning'); return; }
+            if (targetId !== 'none' && !reason) { showToast("Evidence mandatory for accusation.", 'warning'); return; }
 
             try {
-                await addDoc(collection(db, basePath, 'gaddari_votes'), {
-                    date: todayStr, voterId: currentUserId, targetId: targetId,
-                    reason: targetId === 'none' ? 'Maintained Peace' : reason, 
-                    timestamp: serverTimestamp(), status: targetId === 'none' ? 'peace' : 'active'
-                });
-
-                if (targetId !== 'none') {
-                    const target = localMembers.find(m => m.id === targetId);
-                    if (target) {
-                        const newIndex = Math.min(100, (target.gaddariIndex || 0) + 15); 
-                        await updateDoc(doc(db, basePath, 'members', targetId), { gaddariIndex: newIndex });
-                    }
+                if (targetId === 'none') {
+                    // Just maintain peace silently
+                    await addDoc(collection(db, basePath, 'gaddari_votes'), {
+                        date: todayStr, voterId: currentUserId, targetId: 'none',
+                        reason: 'Maintained Peace', timestamp: serverTimestamp(), status: 'peace'
+                    });
+                    showToast("Peace Maintained for the day.", 'success');
+                } else {
+                    // Send to tribunal
+                    await addDoc(collection(db, basePath, 'gaddari_votes'), {
+                        date: todayStr, voterId: currentUserId, targetId: targetId,
+                        reason: reason, timestamp: serverTimestamp(), status: 'pending',
+                        votes: { [currentUserId]: true }
+                    });
+                    showToast("Accusation filed to Tribunal.", 'success');
                 }
-                showToast("Judgment Casted!", 'success');
             } catch(err) { showToast("Failed.", 'error'); }
         };
 
@@ -2290,22 +2045,6 @@
                     await updateDoc(doc(db, basePath, 'gaddari_votes', voteId), { status: 'rejected' });
                     showToast("Appeal Rejected.", 'info');
                 }
-            } catch (err) { showToast("Failed.", 'error'); }
-        };
-
-        window.simulateWeekPass = async () => {
-            if(!confirm("Simulate 1 week passing?")) return;
-            try {
-                const batch = writeBatch(db);
-                localMembers.forEach(m => {
-                    const ref = doc(db, basePath, 'members', m.id);
-                    let newSatvik = 2, newWeeks = (m.weeksWithoutUsage || 0) + 1, newLahsun = m.lahsunCount;
-                    if (newWeeks >= 4) { newLahsun += 1; newWeeks = 0; if(m.id === currentUserId) setTimeout(()=>showToast("Rewarded: 1 Lahsun Pyaaj Card!", 'success'), 500); }
-                    let newGaddari = Math.max(0, (m.gaddariIndex || 0) - 5);
-                    batch.update(ref, { satvikCount: newSatvik, weeksWithoutUsage: newWeeks, lahsunCount: newLahsun, gaddariIndex: newGaddari, isInactivePenalty: false });
-                });
-                await batch.commit();
-                showToast("Time warp complete.", 'info');
             } catch (err) { showToast("Failed.", 'error'); }
         };
 
