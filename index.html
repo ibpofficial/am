@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Andi Mandi Squad | Advanced Gaddar Index</title>
+    <title>AM | Advanced Gaddar Index</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -122,7 +122,7 @@
                         <i data-lucide="swords" class="w-4 h-4 sm:w-5 sm:h-5 text-white"></i>
                     </div>
                     <div>
-                        <h1 class="text-lg sm:text-xl font-black tracking-tight leading-none text-slate-900 dark:text-white">ANDI MANDI <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">SQUAD</span></h1>
+                        <h1 class="text-lg sm:text-xl font-black tracking-tight leading-none text-slate-900 dark:text-white">A>>>M>>>><span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">SQUAD</span></h1>
                         <p id="headerWelcome" class="text-[10px] sm:text-xs font-medium text-slate-500 mt-0.5">Terminal Active</p>
                     </div>
                 </div>
@@ -417,6 +417,7 @@
                         <li>Every member can vote daily to accuse someone of being a "Gaddar" (Traitor) or choose to "Maintain Peace".</li>
                         <li>An accusation requires exactly <strong>4 Squad Approvals</strong> to be confirmed.</li>
                         <li>Once confirmed, the target suffers a <strong>+10% penalty</strong> to their Gaddar Index.</li>
+                        <li><strong>Note:</strong> If you cast a vote to approve/reject someone else's active Gaddari request in the Tribunal, it immediately consumes your ability to start a *new* daily accusation for that day.</li>
                         <li>If a member's Gaddari Index exceeds <strong>70%</strong>, their voting and weapon privileges are immediately revoked until they appeal and clear their name.</li>
                     </ul>
                 </div>
@@ -452,8 +453,8 @@
                     <h3 class="font-black text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2"><i data-lucide="crown" class="w-4 h-4 text-amber-500"></i> Overlords (Admins) & Auto-Resolution</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-slate-500">
                         <li><strong>Auto-Resolution:</strong> Any case left pending in the Tribunal for 48 hours is automatically resolved based on the current majority of votes.</li>
-                        <li><strong>Supreme Power:</strong> Overlords have the power to instantly force-approve or force-reject any case in the Tribunal.</li>
-                        <li>Overlords can also edit any operative's inventory, completely wipe their stats to 0, or execute a global server wipe if necessary.</li>
+                        <li><strong>Supreme Power:</strong> Overlords' votes count strictly as exactly 1 normal vote inside the Tribunal. However, Overlords hold Supreme abilities inside the Admin Terminal.</li>
+                        <li>Overlords can edit any operative's inventory, instantly wipe their stats to 0, or execute a global server wipe if necessary.</li>
                     </ul>
                 </div>
             </div>
@@ -735,6 +736,19 @@
         let selectedLoginMember = null;
         let activeProfileId = null;
 
+        // SAFE TIMESTAMP PARSER: Prevents the modal from crashing when serverTimestamp is locally pending
+        const getMillis = (ts) => {
+            try {
+                if (!ts) return 0;
+                if (typeof ts === 'number') return ts;
+                if (typeof ts === 'string') return new Date(ts).getTime();
+                if (typeof ts.toMillis === 'function') return ts.toMillis();
+                if (typeof ts.toDate === 'function') return ts.toDate().getTime();
+                if (ts.seconds) return ts.seconds * 1000;
+            } catch(e) { return 0; }
+            return 0;
+        };
+
         window.toggleTheme = () => {
             const html = document.documentElement;
             if (html.classList.contains('dark')) { html.classList.remove('dark'); localStorage.theme = 'light'; } 
@@ -875,21 +889,21 @@
             onSnapshot(collection(db, basePath, 'am_events'), (snap) => {
                 localEvents = [];
                 snap.forEach(d => localEvents.push({ uid: d.id, ...d.data() }));
-                localEvents.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                localEvents.sort((a,b) => getMillis(b.timestamp) - getMillis(a.timestamp));
                 if (currentUserId) { updateDashboardUI(); if(activeProfileId) updateProfileModalData(); updateAdminUI(); }
             });
 
             onSnapshot(collection(db, basePath, 'gaddari_votes'), (snap) => {
                 localGaddariVotes = [];
                 snap.forEach(d => localGaddariVotes.push({ uid: d.id, ...d.data() }));
-                localGaddariVotes.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                localGaddariVotes.sort((a,b) => getMillis(b.timestamp) - getMillis(a.timestamp));
                 if (currentUserId) { updateDashboardUI(); if(activeProfileId) updateProfileModalData(); updateAdminUI(); }
             });
 
             onSnapshot(collection(db, basePath, 'squad_feed'), (snap) => {
                 localFeed = [];
                 snap.forEach(d => localFeed.push({ uid: d.id, ...d.data() }));
-                localFeed.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                localFeed.sort((a,b) => getMillis(b.timestamp) - getMillis(a.timestamp));
                 if (currentUserId) { renderFeed(); updateAdminUI(); }
             });
             
@@ -933,7 +947,7 @@
                              ...localGaddariVotes.filter(v => v.status === 'pending').map(v => ({...v, category: 'gaddari'}))];
             
             for(const ev of pending) {
-                const evTime = ev.timestamp?.toMillis() || now;
+                const evTime = getMillis(ev.timestamp) || now;
                 if (now - evTime > FORTY_EIGHT_HOURS) {
                     // Time limit exceeded. Process if we are the reporter (avoids multiple writes)
                     const isReporter = (ev.category === 'card' && ev.reportedBy === currentUserId) || (ev.category === 'gaddari' && ev.voterId === currentUserId);
@@ -1249,7 +1263,7 @@
             localFeed.forEach(post => {
                 let timeAgo = '';
                 if(post.timestamp) {
-                    const diffMs = Date.now() - post.timestamp.toMillis();
+                    const diffMs = Date.now() - getMillis(post.timestamp);
                     const mins = Math.floor(diffMs / 60000);
                     if (mins < 60) timeAgo = `${mins}m`;
                     else if (mins < 1440) timeAgo = `${Math.floor(mins/60)}h`;
@@ -1494,7 +1508,7 @@
             targetSelect.dispatchEvent(new Event('change'));
 
             const todayStr = getLocalDateStr();
-            const hasVotedToday = localGaddariVotes.some(v => v.voterId === currentUserId && v.date === todayStr);
+            const hasVotedToday = me.lastVoteDate === todayStr;
             const gaddarContainer = document.getElementById('gaddariFormContainer');
             const votedMessage = document.getElementById('gaddariVotedMessage');
             
@@ -1641,9 +1655,9 @@
             logContainer.innerHTML = '';
             
             const allLogs = [];
-            localGaddariVotes.forEach(v => allLogs.push({type: 'gaddari', data: v, ts: v.timestamp?.toMillis() || 0}));
-            localEvents.forEach(e => allLogs.push({type: 'card', data: e, ts: e.timestamp?.toMillis() || 0}));
-            localFeed.forEach(w => allLogs.push({type: 'feed', data: w, ts: w.timestamp?.toMillis() || 0})); 
+            localGaddariVotes.forEach(v => allLogs.push({type: 'gaddari', data: v, ts: getMillis(v.timestamp)}));
+            localEvents.forEach(e => allLogs.push({type: 'card', data: e, ts: getMillis(e.timestamp)}));
+            localFeed.forEach(w => allLogs.push({type: 'feed', data: w, ts: getMillis(w.timestamp)})); 
             allLogs.sort((a,b) => b.ts - a.ts);
 
             if(allLogs.length === 0) {
@@ -1947,9 +1961,12 @@
                     const configs = { satvik: { name: 'Satvik', color: 'emerald', icon: 'leaf' }, lahsun: { name: 'Lahsun Pyaaj', color: 'amber', icon: 'flame' }, nonveg: { name: 'Non-Veg', color: 'rose', icon: 'skull' } };
                     const conf = configs[event.type];
                     let dateStr = "Unknown Date";
-                    if(event.timestamp && event.timestamp.toDate) {
-                        const date = event.timestamp.toDate();
-                        dateStr = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()}`;
+                    if(event.timestamp) {
+                        const ms = getMillis(event.timestamp);
+                        if (ms) {
+                            const date = new Date(ms);
+                            dateStr = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })}, ${date.getFullYear()}`;
+                        }
                     }
                     historyList.innerHTML += `
                         <div class="bg-white dark:bg-slate-900/50 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
@@ -2082,7 +2099,7 @@
             
             const pendingEvents = localEvents.filter(e => e.status === 'pending').map(e => ({...e, category: 'card'}));
             const pendingGaddari = localGaddariVotes.filter(v => v.status === 'pending' && v.targetId !== 'none').map(v => ({...v, category: 'gaddari'}));
-            const combinedPending = [...pendingEvents, ...pendingGaddari].sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+            const combinedPending = [...pendingEvents, ...pendingGaddari].sort((a,b) => getMillis(b.timestamp) - getMillis(a.timestamp));
             
             const badgeCount = combinedPending.length;
             const badge = document.getElementById('tribunalBadgeCount');
@@ -2124,19 +2141,9 @@
                 div.className = 'bg-white dark:bg-[#080b18] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden';
                 if (isGaddari) div.innerHTML += '<div class="absolute top-0 left-0 w-1 h-full bg-rose-500 opacity-50"></div>';
                 
-                const me = localMembers.find(m => m.id === currentUserId);
                 let actionsHtml = '';
 
-                if (me && me.isAdmin) {
-                    actionsHtml = `
-                        <div class="mt-2">
-                            <input type="text" id="voteReason_${event.uid}" placeholder="Explain your Overlord decree..." class="w-full text-[10px] bg-white dark:bg-[#0f1423] border border-slate-200 dark:border-slate-700 p-2 rounded mb-2 outline-none">
-                            <div class="flex gap-2">
-                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', true, true)" class="flex-1 bg-amber-50 dark:bg-amber-500/20 hover:bg-amber-100 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/40 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="crown" class="w-3 h-3"></i> Force Approve</button>
-                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', false, true)" class="flex-1 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 text-rose-600 dark:text-rose-500 border border-rose-200 dark:border-rose-900/50 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="x" class="w-3 h-3"></i> Force Reject</button>
-                            </div>
-                        </div>`;
-                } else if (isBlocked) {
+                if (isBlocked) {
                     actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-rose-50 dark:bg-rose-950/20 text-center border border-rose-200 dark:border-rose-900/50"><p class="text-[9px] text-rose-600 dark:text-rose-500 font-bold uppercase">Voting Disabled</p></div>`;
                 } else if (hasVoted) {
                     const myVoteObj = event.votes[currentUserId];
@@ -2194,7 +2201,7 @@
             });
         }
 
-        window.castTribunalVote = async (category, eventId, isApprove, isOverlordOverride = false) => {
+        window.castTribunalVote = async (category, eventId, isApprove) => {
             try {
                 const collectionName = category === 'card' ? 'am_events' : 'gaddari_votes';
                 const eventRef = doc(db, basePath, collectionName, eventId);
@@ -2208,17 +2215,34 @@
                 let newStatus = 'pending';
                 let updatedVotes = { ...(event.votes || {}), [currentUserId]: { decision: isApprove, reason: voteReason } };
 
-                if (isOverlordOverride) newStatus = isApprove ? 'confirmed' : 'rejected';
-                else {
-                    let approves = 0, rejects = 0;
-                    Object.values(updatedVotes).forEach(v => { 
-                        const decision = typeof v === 'object' ? v.decision : v;
-                        if(decision) approves++; else rejects++; 
-                    });
-                    
-                    const reqApprovals = category === 'card' ? 3 : 4;
-                    if (approves >= reqApprovals) newStatus = 'confirmed';
-                    else if (rejects >= reqApprovals) newStatus = 'rejected';
+                let approves = 0, rejects = 0;
+                Object.values(updatedVotes).forEach(v => { 
+                    const decision = typeof v === 'object' ? v.decision : v;
+                    if(decision) approves++; else rejects++; 
+                });
+                
+                const reqApprovals = category === 'card' ? 3 : 4;
+                if (approves >= reqApprovals) newStatus = 'confirmed';
+                else if (rejects >= reqApprovals) newStatus = 'rejected';
+
+                let memberUpdates = {};
+                if (category === 'gaddari') {
+                    const todayStr = getLocalDateStr();
+                    const me = localMembers.find(m => m.id === currentUserId);
+                    if (me.lastVoteDate !== todayStr) {
+                        const yesterdayDate = new Date();
+                        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+                        const yesterdayStr = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth()+1).padStart(2,'0')}-${String(yesterdayDate.getDate()).padStart(2,'0')}`;
+
+                        let newStreak = me.voteStreak || 0;
+                        if (me.lastVoteDate === yesterdayStr) newStreak += 1;
+                        else newStreak = 1;
+
+                        memberUpdates = { lastVoteDate: todayStr, voteStreak: newStreak };
+                        if (newStreak >= 7 && me.gaddariIndex === 0) {
+                            memberUpdates['achievements.trusted'] = true;
+                        }
+                    }
                 }
 
                 if (newStatus === 'confirmed') {
@@ -2242,9 +2266,13 @@
                     }
                 }
 
+                if (Object.keys(memberUpdates).length > 0) {
+                    await updateDoc(doc(db, basePath, 'members', currentUserId), memberUpdates);
+                }
+
                 await updateDoc(eventRef, { votes: updatedVotes, status: newStatus });
                 showToast("Verdict recorded in Tribunal.", 'success');
-            } catch (err) { showToast("Failed to vote.", 'error'); }
+            } catch (err) { console.error(err); showToast("Failed to vote.", 'error'); }
         };
 
         window.submitGaddariVote = async () => {
@@ -2359,10 +2387,15 @@
 
         // --- CASE ARCHIVE & ANALYTICS ---
         window.openAnalyticsModal = () => {
-            renderAnalytics();
-            analyticsModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            lucide.createIcons();
+            try {
+                renderAnalytics();
+                analyticsModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                lucide.createIcons();
+            } catch (err) {
+                console.error(err);
+                showToast("Failed to open archive.", "error");
+            }
         };
 
         window.closeAnalyticsModal = () => {
@@ -2374,7 +2407,7 @@
             const resolvedCards = localEvents.filter(e => e.status === 'confirmed' || e.status === 'rejected');
             const resolvedGaddari = localGaddariVotes.filter(v => (v.status === 'confirmed' || v.status === 'rejected' || v.status === 'reversed') && v.targetId !== 'none');
             const allResolved = [...resolvedCards.map(e => ({...e, category: 'card'})), ...resolvedGaddari.map(v => ({...v, category: 'gaddari'}))]
-                .sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                .sort((a,b) => getMillis(b.timestamp) - getMillis(a.timestamp));
 
             // Stats
             document.getElementById('statTotalCases').innerText = allResolved.length;
@@ -2403,8 +2436,9 @@
             
             const allActivity = [...localEvents, ...localGaddariVotes.filter(v=>v.targetId !== 'none')];
             allActivity.forEach(a => {
-                if(a.timestamp) {
-                    const tsDate = a.timestamp.toDate();
+                const ms = getMillis(a.timestamp);
+                if(ms > 0) {
+                    const tsDate = new Date(ms);
                     const tsStr = `${tsDate.getFullYear()}-${String(tsDate.getMonth()+1).padStart(2,'0')}-${String(tsDate.getDate()).padStart(2,'0')}`;
                     const dayObj = daysData.find(d => d.str === tsStr);
                     if(dayObj) dayObj.count++;
@@ -2443,7 +2477,8 @@
                         else outcomeClass = 'text-amber-500 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50'; // Reversed
                     }
 
-                    const dateStr = ev.timestamp ? ev.timestamp.toDate().toLocaleDateString() : 'Unknown Date';
+                    const ms = getMillis(ev.timestamp);
+                    const dateStr = ms > 0 ? new Date(ms).toLocaleDateString() : 'Just Now';
 
                     // Parse vote explanations
                     let votesHtml = '';
