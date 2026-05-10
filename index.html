@@ -68,6 +68,9 @@
         .tab-inactive { border-bottom-color: transparent; color: #64748b; }
         .tab-inactive:hover { color: #334155; background: rgba(0,0,0,0.02); }
         .dark .tab-inactive:hover { color: #cbd5e1; background: rgba(255,255,255,0.02); }
+
+        .achievement-locked { filter: grayscale(100%); opacity: 0.5; }
+        .achievement-unlocked { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 dark:bg-darkbg text-slate-900 dark:text-slate-100 transition-colors duration-300 selection:bg-indigo-500/30 selection:text-indigo-900 dark:selection:text-indigo-200">
@@ -125,6 +128,17 @@
                 </div>
                 <div class="flex items-center gap-2 sm:gap-4">
 
+                    <!-- Tokens and Shields Header Stats -->
+                    <div class="hidden sm:flex items-center gap-3 mr-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/80 rounded-lg border border-slate-200 dark:border-slate-700/50">
+                        <div class="flex items-center gap-1.5 text-xs font-bold text-amber-600 dark:text-amber-400">
+                            <i data-lucide="coins" class="w-4 h-4"></i> <span id="headerTokens">0</span>
+                        </div>
+                        <div class="w-px h-4 bg-slate-300 dark:bg-slate-600"></div>
+                        <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                            <i data-lucide="shield" class="w-4 h-4"></i> <span id="headerShields">0</span>
+                        </div>
+                    </div>
+
                     <button id="btnAdminPortal" onclick="openAdminPanel()" class="hidden items-center gap-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest shadow-md transition-all">
                         <i data-lucide="crown" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Admin</span>
                     </button>
@@ -155,7 +169,11 @@
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2">
                             <div class="h-6 w-1.5 bg-indigo-500 rounded-full"></div>
-                            <h2 class="text-xl font-black tracking-tight text-slate-900 dark:text-white">Arsenal Status</h2>
+                            <h2 class="text-xl font-black tracking-tight text-slate-900 dark:text-white">Arsenal & Armory</h2>
+                        </div>
+                        <div class="flex items-center gap-2 sm:hidden text-xs font-bold text-slate-600 dark:text-slate-300">
+                            <span class="flex items-center gap-1 text-amber-500"><i data-lucide="coins" class="w-3.5 h-3.5"></i> <span id="mobileTokens">0</span></span>
+                            <span class="flex items-center gap-1 text-emerald-500"><i data-lucide="shield" class="w-3.5 h-3.5"></i> <span id="mobileShields">0</span></span>
                         </div>
                     </div>
                     
@@ -170,13 +188,25 @@
                         </div>
                     </div>
 
-                    <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <!-- Black Market / Armory -->
+                        <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group border-indigo-200 dark:border-indigo-500/30 bg-gradient-to-br from-indigo-50 to-transparent dark:from-indigo-950/40 shadow-sm flex flex-col">
+                            <div class="absolute -right-6 -top-6 text-indigo-500/10 group-hover:scale-110 transition-all duration-500"><i data-lucide="shield" class="w-32 h-32"></i></div>
+                            <div class="relative z-10 flex-1 flex flex-col">
+                                <div class="w-10 h-10 bg-white dark:bg-indigo-500/10 rounded-xl flex items-center justify-center mb-3 border border-indigo-100 shadow-sm"><i data-lucide="shield" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i></div>
+                                <h3 class="text-xl font-black text-indigo-700 dark:text-indigo-400 mb-0.5">Defense Shield</h3>
+                                <p class="text-xs font-medium text-slate-500 mb-4 flex-1">Blocks 1 confirmed Gaddari Penalty automatically.</p>
+                                <button onclick="buyDefenseShield()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-[10px] uppercase tracking-widest shadow-md transition-colors flex items-center justify-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy (1 Token)</button>
+                            </div>
+                        </div>
+
+                        <!-- Cards -->
                         <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group cursor-pointer border-emerald-200 dark:border-emerald-500/20 bg-gradient-to-br from-emerald-50 to-transparent dark:from-emerald-950/30 hover:-translate-y-1 transition-all duration-300" onclick="openAmModal('satvik')">
                             <div class="absolute -right-6 -top-6 text-emerald-500/10 group-hover:scale-110 transition-all duration-500"><i data-lucide="leaf" class="w-32 h-32"></i></div>
                             <div class="relative z-10">
                                 <div class="w-10 h-10 bg-white dark:bg-emerald-500/10 rounded-xl flex items-center justify-center mb-3 border border-emerald-100 shadow-sm"><i data-lucide="leaf" class="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i></div>
                                 <h3 class="text-xl font-black text-emerald-700 dark:text-emerald-400 mb-0.5">Satvik</h3>
-                                <p class="text-xs font-medium text-slate-500 mb-5 h-8">Standard protocol. Requires 3 squad approvals to execute.</p>
+                                <p class="text-[11px] font-medium text-slate-500 mb-5 h-8">Standard protocol. Requires 4 squad approvals.</p>
                                 <div class="flex justify-between items-end border-t border-emerald-100 dark:border-emerald-500/10 pt-3">
                                     <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-slate-800 dark:text-white leading-none" id="countSatvik">0</span><span class="text-slate-400 font-bold text-[10px] uppercase">in stock</span></div>
                                 </div>
@@ -187,7 +217,7 @@
                             <div class="relative z-10">
                                 <div class="w-10 h-10 bg-white dark:bg-amber-500/10 rounded-xl flex items-center justify-center mb-3 border border-amber-100 shadow-sm"><i data-lucide="flame" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i></div>
                                 <h3 class="text-xl font-black text-amber-700 dark:text-amber-400 mb-0.5">Lahsun Pyaaj</h3>
-                                <p class="text-xs font-medium text-slate-500 mb-5 h-8">Requires 3 squad approvals to execute.</p>
+                                <p class="text-[11px] font-medium text-slate-500 mb-5 h-8">Requires 4 squad approvals.</p>
                                 <div class="flex justify-between items-end border-t border-amber-100 dark:border-amber-500/10 pt-3">
                                     <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-slate-800 dark:text-white leading-none" id="countLahsun">0</span><span class="text-slate-400 font-bold text-[10px] uppercase">in stock</span></div>
                                 </div>
@@ -198,7 +228,7 @@
                             <div class="relative z-10">
                                 <div class="w-10 h-10 bg-white dark:bg-rose-500/10 rounded-xl flex items-center justify-center mb-3 border border-rose-100 shadow-sm"><i data-lucide="skull" class="w-5 h-5 text-rose-600 dark:text-rose-400"></i></div>
                                 <h3 class="text-xl font-black text-rose-700 dark:text-rose-400 mb-0.5">Non-Veg</h3>
-                                <p class="text-xs font-medium text-slate-500 mb-5 h-8">Ultimate destructive power. Very rare.</p>
+                                <p class="text-[11px] font-medium text-slate-500 mb-5 h-8">Ultimate destructive power. Very rare.</p>
                                 <div class="flex justify-between items-end border-t border-rose-100 dark:border-rose-500/10 pt-3">
                                     <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-slate-800 dark:text-white leading-none" id="countNonveg">0</span><span class="text-slate-400 font-bold text-[10px] uppercase">in stock</span></div>
                                 </div>
@@ -216,11 +246,17 @@
                         <section class="glass-panel p-5 sm:p-6 rounded-2xl relative overflow-hidden border-rose-200 dark:border-rose-500/20 shrink-0">
                             <div class="absolute top-0 right-0 w-48 h-48 bg-rose-500/5 dark:bg-rose-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none"></div>
                             
-                            <div class="flex items-center gap-2 mb-5 relative z-10">
-                                <div class="p-2 bg-rose-100 dark:bg-rose-500/10 rounded-lg text-rose-600 dark:text-rose-400"><i data-lucide="crosshair" class="w-5 h-5"></i></div>
-                                <div>
-                                    <h2 class="text-lg font-black text-slate-900 dark:text-white tracking-tight">Daily Judgment</h2>
-                                    <p class="text-[10px] font-medium text-slate-500 uppercase">Cast your Gaddari vote</p>
+                            <div class="flex items-center justify-between mb-5 relative z-10">
+                                <div class="flex items-center gap-2">
+                                    <div class="p-2 bg-rose-100 dark:bg-rose-500/10 rounded-lg text-rose-600 dark:text-rose-400"><i data-lucide="crosshair" class="w-5 h-5"></i></div>
+                                    <div>
+                                        <h2 class="text-lg font-black text-slate-900 dark:text-white tracking-tight">Daily Judgment</h2>
+                                        <p class="text-[10px] font-medium text-slate-500 uppercase">Penalty: +10% (Req: 3 Votes)</p>
+                                    </div>
+                                </div>
+                                <div class="text-right" id="streakContainer">
+                                    <div class="flex items-center gap-1 justify-end text-amber-500"><i data-lucide="flame" class="w-4 h-4"></i> <span id="currentStreak" class="font-black text-lg leading-none">0</span></div>
+                                    <p class="text-[8px] font-bold text-slate-500 uppercase">Day Streak</p>
                                 </div>
                             </div>
 
@@ -241,7 +277,7 @@
                                         <div id="gaddarReasonDiv" class="hidden transition-all duration-300">
                                             <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="Required: Provide detailed evidence..."></textarea>
                                         </div>
-                                        <button onclick="submitGaddariVote()" id="castJudgmentBtn" class="w-full bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest">Maintain Peace (0%)</button>
+                                        <button onclick="submitGaddariVote()" id="castJudgmentBtn" class="w-full bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md">Maintain Peace (+1 Token)</button>
                                     </div>
                                 </div>
 
@@ -263,6 +299,7 @@
                                         <p class="text-[10px] font-medium text-slate-500 uppercase">Awaiting Squad Consensus</p>
                                     </div>
                                 </div>
+                                <button onclick="openAnalyticsModal()" class="text-[10px] bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 px-2.5 py-1.5 rounded-lg font-bold uppercase transition-colors flex items-center gap-1"><i data-lucide="library" class="w-3 h-3"></i> Archive</button>
                             </div>
 
                             <div class="space-y-5 flex-1 overflow-y-auto pr-2 hide-scrollbar">
@@ -272,7 +309,9 @@
                                 </div>
 
                                 <div class="flex-1 flex flex-col">
-                                    <h3 class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-2 border-b border-indigo-200 dark:border-indigo-500/30 pb-1">Pending Authorizations</h3>
+                                    <div class="flex justify-between items-center border-b border-indigo-200 dark:border-indigo-500/30 pb-1 mb-2">
+                                        <h3 class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Pending Cases</h3>
+                                    </div>
                                     <div id="pendingVotesContainer" class="space-y-2.5 flex-1"></div>
                                 </div>
                             </div>
@@ -335,7 +374,7 @@
                                 <div class="p-2 bg-slate-100 dark:bg-slate-800/80 rounded-lg text-slate-600 dark:text-slate-300"><i data-lucide="users" class="w-5 h-5"></i></div>
                                 <div>
                                     <h2 class="text-lg font-black text-slate-900 dark:text-white tracking-tight">Squad Roster</h2>
-                                    <p class="text-[9px] text-slate-500 uppercase font-semibold tracking-wider">Select member to view intel</p>
+                                    <p class="text-[9px] text-slate-500 uppercase font-semibold tracking-wider">Select member to view intel & achievements</p>
                                 </div>
                             </div>
 
@@ -354,6 +393,63 @@
 
             </div>
         </main>
+    </div>
+
+    <!-- Analytics & Case History Modal -->
+    <div id="analyticsModal" class="fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl z-[60] hidden flex flex-col p-2 sm:p-6">
+        <div class="w-full max-w-4xl mx-auto flex-1 flex flex-col bg-white dark:bg-darkbg rounded-2xl border border-indigo-200 dark:border-indigo-500/30 overflow-hidden shadow-2xl relative">
+            <header class="p-4 sm:p-5 border-b border-indigo-100 dark:border-indigo-500/20 flex justify-between items-center bg-indigo-50 dark:bg-indigo-950/20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white dark:bg-indigo-500/20 rounded-lg flex items-center justify-center border border-indigo-200 dark:border-indigo-500/40 text-indigo-500"><i data-lucide="library" class="w-5 h-5"></i></div>
+                    <div>
+                        <h2 class="text-xl font-black text-indigo-600 dark:text-indigo-400 tracking-tight">Case Archive & Precedents</h2>
+                        <p class="text-[10px] text-indigo-500 uppercase font-bold tracking-widest">Squad History</p>
+                    </div>
+                </div>
+                <button onclick="closeAnalyticsModal()" class="p-2 bg-slate-100 dark:bg-slate-900 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+                <!-- Stat Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-center">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Total Cases</p>
+                        <p class="text-2xl font-black text-slate-800 dark:text-white" id="statTotalCases">0</p>
+                    </div>
+                    <div class="bg-emerald-50 dark:bg-emerald-950/30 p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/50 text-center">
+                        <p class="text-[9px] font-bold text-emerald-600 uppercase tracking-widest mb-1">Satvik Approval Rate</p>
+                        <p class="text-2xl font-black text-emerald-700 dark:text-emerald-400" id="statSatvikRate">0%</p>
+                    </div>
+                    <div class="bg-rose-50 dark:bg-rose-950/30 p-4 rounded-xl border border-rose-200 dark:border-rose-900/50 text-center">
+                        <p class="text-[9px] font-bold text-rose-600 uppercase tracking-widest mb-1">Gaddari Convictions</p>
+                        <p class="text-2xl font-black text-rose-700 dark:text-rose-400" id="statGaddariRate">0%</p>
+                    </div>
+                    <div class="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-xl border border-amber-200 dark:border-amber-900/50 text-center">
+                        <p class="text-[9px] font-bold text-amber-600 uppercase tracking-widest mb-1">Time-Locked Auto-Resolved</p>
+                        <p class="text-2xl font-black text-amber-700 dark:text-amber-400" id="statAutoResolved">0</p>
+                    </div>
+                </div>
+
+                <!-- Simple Heatmap Activity Chart -->
+                <div class="bg-white dark:bg-slate-900/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                    <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-4 flex items-center gap-2"><i data-lucide="bar-chart-2" class="w-4 h-4 text-indigo-500"></i> Squad Activity (Last 7 Days)</h3>
+                    <div class="flex items-end gap-2 h-32" id="activityChart">
+                        <!-- Chart bars populated via JS -->
+                    </div>
+                    <div class="flex items-center gap-2 mt-2" id="activityChartLabels">
+                        <!-- Labels -->
+                    </div>
+                </div>
+
+                <!-- Case Archive List -->
+                <div>
+                    <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4 text-indigo-500"></i> Resolved Cases Log</h3>
+                    <div class="space-y-3" id="archiveListContainer">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Admin Panel Modal -->
@@ -399,8 +495,8 @@
                                 <input type="number" id="adminValGaddari" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                             <div>
-                                <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">App Opens</label>
-                                <input type="number" id="adminValOpens" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                                <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Tokens</label>
+                                <input type="number" id="adminValTokens" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                         </div>
                         <div class="mb-4">
@@ -474,27 +570,28 @@
                             <div class="flex flex-wrap gap-1.5 text-[9px] font-bold uppercase tracking-widest mb-1.5">
                                 <span id="profileModalGaddar" class="px-2 py-1 rounded border">0% Gaddar</span>
                                 <span id="profileModalAdminBadge" class="hidden text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-500/10 px-2 py-1 rounded border border-amber-300 dark:border-amber-500/30"><i data-lucide="crown" class="inline w-2.5 h-2.5 mr-1"></i>Overlord</span>
+                                <span class="px-2 py-1 rounded border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"><i data-lucide="flame" class="inline w-2.5 h-2.5 mr-1"></i><span id="profileModalStreak">0</span> Day Streak</span>
                             </div>
                             <div class="flex items-center gap-3 text-[10px] text-slate-500 dark:text-slate-400 font-medium">
                                 <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> <span id="profileLocation">Unknown</span></span>
-                                <span class="flex items-center gap-1"><i data-lucide="smartphone" class="w-3 h-3"></i> <span id="profileAppOpens">0</span> App Opens</span>
                                 <span class="flex items-center gap-1"><i data-lucide="link" class="w-3 h-3 text-indigo-500"></i> <span id="profileAlliance">No Alliance</span></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-2 sm:gap-3 mt-5 relative z-10">
-                        <div class="bg-white dark:bg-slate-900/80 p-2.5 rounded-xl border border-emerald-200 dark:border-emerald-500/20 text-center shadow-sm">
-                            <p class="text-[9px] text-slate-500 font-bold uppercase mb-0.5">Satvik</p>
-                            <p class="text-xl font-black text-emerald-600 dark:text-emerald-400 leading-none" id="profSatvik">0</p>
+                    <!-- Achievements Box -->
+                    <div class="mt-4 flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+                        <div id="ach_trusted" class="achievement-locked flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0 transition-all duration-300" title="Maintain 0% Gaddari for 7 consecutive days of voting">
+                            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Trusted Operative</span>
                         </div>
-                        <div class="bg-white dark:bg-slate-900/80 p-2.5 rounded-xl border border-amber-200 dark:border-amber-500/20 text-center shadow-sm">
-                            <p class="text-[9px] text-slate-500 font-bold uppercase mb-0.5">Lahsun</p>
-                            <p class="text-xl font-black text-amber-600 dark:text-amber-400 leading-none" id="profLahsun">0</p>
+                        <div id="ach_weaponsMaster" class="achievement-locked flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0 transition-all duration-300" title="Purchased at least 1 Defense Shield">
+                            <i data-lucide="swords" class="w-4 h-4 text-indigo-500"></i> <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Weapons Master</span>
                         </div>
-                        <div class="bg-white dark:bg-slate-900/80 p-2.5 rounded-xl border border-rose-200 dark:border-rose-500/20 text-center shadow-sm">
-                            <p class="text-[9px] text-slate-500 font-bold uppercase mb-0.5">Non-Veg</p>
-                            <p class="text-xl font-black text-rose-600 dark:text-rose-400 leading-none" id="profNonveg">0</p>
+                        <div id="ach_diplomat" class="achievement-locked flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0 transition-all duration-300" title="Formed a Neta Alliance">
+                            <i data-lucide="handshake" class="w-4 h-4 text-amber-500"></i> <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Diplomat</span>
+                        </div>
+                        <div id="ach_merciful" class="achievement-locked flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0 transition-all duration-300" title="Forgave an appeal request">
+                            <i data-lucide="heart-handshake" class="w-4 h-4 text-rose-500"></i> <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Merciful</span>
                         </div>
                     </div>
 
@@ -516,7 +613,7 @@
                 <div class="flex-1 overflow-y-auto p-4 sm:p-6 hide-scrollbar">
                     <div id="tabContentGaddari" class="space-y-4">
                         <div class="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-500/30 p-3 rounded-lg mb-4 hidden" id="appealHintBox">
-                            <p class="text-[10px] text-indigo-700 dark:text-indigo-300 font-medium"><i data-lucide="info" class="w-3 h-3 inline"></i> <b>Hint:</b> Tap "Appeal Charge" below. If your accuser accepts, your Gaddari Index will be completely restored (-15%).</p>
+                            <p class="text-[10px] text-indigo-700 dark:text-indigo-300 font-medium"><i data-lucide="info" class="w-3 h-3 inline"></i> <b>Hint:</b> Tap "Appeal Charge" below. If your accuser accepts, your Gaddari Index will be completely restored (-10%).</p>
                         </div>
                         <div id="profileGaddariList" class="space-y-3"></div>
                     </div>
@@ -606,6 +703,7 @@
         let isMembersLoaded = false;
         let localMembers = [], localEvents = [], localGaddariVotes = [], localFeed = [];
         let currentAmType = null;
+        let timeLockedCheckInterval = null;
         
         const DEFAULT_MEMBERS = [
             { id: 'm1', name: 'ISHANT', password: 'ishant2112#', isAdmin: true },
@@ -623,6 +721,7 @@
         const appContent = document.getElementById('appContent');
         const profileModal = document.getElementById('profileModal');
         const adminModal = document.getElementById('adminModal');
+        const analyticsModal = document.getElementById('analyticsModal');
         let selectedLoginMember = null;
         let activeProfileId = null;
 
@@ -689,6 +788,7 @@
                             await ensureDatabaseStructure();
                             startRealtimeListeners();
                             startDailyCountdown();
+                            startPresenceTracker();
                         } catch(err) {}
                     }
                 });
@@ -705,7 +805,10 @@
                     batch.set(docRef, { 
                         ...m, satvikCount: 2, lahsunCount: 0, nonvegCount: 0, 
                         gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0,
-                        allianceWith: null, allianceEndTime: 0
+                        allianceWith: null, allianceEndTime: 0,
+                        defenseShields: 0, andiMandiTokens: 5, voteStreak: 0, lastVoteDate: '',
+                        achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false },
+                        lastActiveTime: Date.now()
                     });
                 });
                 await batch.commit();
@@ -730,17 +833,11 @@
                             if (dbMember.name !== target.name) updates.name = target.name;
                             if (dbMember.password === undefined) updates.password = target.password;
                             if (dbMember.isAdmin !== target.isAdmin) updates.isAdmin = target.isAdmin;
-                            if (dbMember.location === undefined) updates.location = 'Base HQ';
-                            if (dbMember.avatarBase64 === undefined) updates.avatarBase64 = '';
-                            if (dbMember.appOpens === undefined) updates.appOpens = 0;
-                            if (dbMember.allianceWith === undefined) updates.allianceWith = null;
-                            if (dbMember.allianceEndTime === undefined) updates.allianceEndTime = 0;
-                            
-                            // Cleanup old fields
-                            if (dbMember.isInactivePenalty !== undefined) updates.isInactivePenalty = deleteField();
-                            if (dbMember.lastAirdropDate !== undefined) updates.lastAirdropDate = deleteField();
-                            if (dbMember.nextDropSabotaged !== undefined) updates.nextDropSabotaged = deleteField();
-                            if (dbMember.weeksWithoutUsage !== undefined) updates.weeksWithoutUsage = deleteField();
+                            if (dbMember.defenseShields === undefined) updates.defenseShields = 0;
+                            if (dbMember.andiMandiTokens === undefined) updates.andiMandiTokens = 5;
+                            if (dbMember.voteStreak === undefined) updates.voteStreak = 0;
+                            if (dbMember.lastVoteDate === undefined) updates.lastVoteDate = '';
+                            if (dbMember.achievements === undefined) updates.achievements = { trusted: false, weaponsMaster: false, diplomat: false, merciful: false };
                             
                             if (Object.keys(updates).length > 0) { 
                                 batch.update(doc(db, basePath, 'members', dbMember.id), updates); 
@@ -783,6 +880,11 @@
                 localFeed.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
                 if (currentUserId) { renderFeed(); updateAdminUI(); }
             });
+            
+            // Check for time-locked resolutions every minute
+            if (!timeLockedCheckInterval) {
+                timeLockedCheckInterval = setInterval(checkTimeLockedResolutions, 60000);
+            }
         }
 
         function startDailyCountdown() {
@@ -797,6 +899,78 @@
                 const s = Math.floor((diff % (1000 * 60)) / 1000);
                 display.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
             }, 1000);
+        }
+
+        function startPresenceTracker() {
+            // Update presence every 2 mins if active
+            setInterval(async () => {
+                if(currentUserId) {
+                    try {
+                        await updateDoc(doc(db, basePath, 'members', currentUserId), { lastActiveTime: Date.now() });
+                    } catch(e) {}
+                }
+            }, 120000);
+        }
+
+        async function checkTimeLockedResolutions() {
+            if(!currentUserId) return;
+            const now = Date.now();
+            const FORTY_EIGHT_HOURS = 48 * 60 * 60 * 1000;
+            
+            const pending = [...localEvents.filter(e => e.status === 'pending').map(e => ({...e, category: 'card'})), 
+                             ...localGaddariVotes.filter(v => v.status === 'pending').map(v => ({...v, category: 'gaddari'}))];
+            
+            for(const ev of pending) {
+                const evTime = ev.timestamp?.toMillis() || now;
+                if (now - evTime > FORTY_EIGHT_HOURS) {
+                    // Time limit exceeded. Process if we are the reporter (avoids multiple writes)
+                    const isReporter = (ev.category === 'card' && ev.reportedBy === currentUserId) || (ev.category === 'gaddari' && ev.voterId === currentUserId);
+                    const me = localMembers.find(m => m.id === currentUserId);
+                    
+                    if (isReporter || (me && me.isAdmin)) {
+                        let approves = 0, rejects = 0;
+                        if(ev.votes) {
+                            Object.values(ev.votes).forEach(v => { 
+                                const decision = typeof v === 'object' ? v.decision : v;
+                                if(decision) approves++; else rejects++; 
+                            });
+                        }
+                        
+                        let newStatus = 'rejected';
+                        if (approves > rejects) newStatus = 'confirmed';
+                        
+                        try {
+                            const collectionName = ev.category === 'card' ? 'am_events' : 'gaddari_votes';
+                            
+                            // Apply penalty / deduction if confirmed
+                            if (newStatus === 'confirmed') {
+                                if (ev.category === 'card') {
+                                    const targetMember = localMembers.find(m => m.id === ev.userId);
+                                    const countKey = `${ev.type}Count`;
+                                    if (targetMember && targetMember[countKey] > 0) {
+                                        await updateDoc(doc(db, basePath, 'members', targetMember.id), { [countKey]: targetMember[countKey] - 1 });
+                                    }
+                                } else if (ev.category === 'gaddari') {
+                                    const targetMember = localMembers.find(m => m.id === ev.targetId);
+                                    if (targetMember) {
+                                        if (targetMember.defenseShields > 0) {
+                                            await updateDoc(doc(db, basePath, 'members', targetMember.id), { defenseShields: targetMember.defenseShields - 1 });
+                                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `🛡️ SYSTEM: ${targetMember.name} automatically deployed a Defense Shield blocking a time-locked Gaddari penalty!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+                                        } else {
+                                            const newGaddari = Math.min(100, (targetMember.gaddariIndex || 0) + 10);
+                                            await updateDoc(doc(db, basePath, 'members', targetMember.id), { gaddariIndex: newGaddari });
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            await updateDoc(doc(db, basePath, collectionName, ev.uid), { status: newStatus, isAutoResolved: true });
+                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `⏱️ SYSTEM: A pending case was auto-resolved to [${newStatus.toUpperCase()}] after 48 hours of inactivity.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+                            
+                        } catch(e) { console.error("Auto-resolve failed", e); }
+                    }
+                }
+            }
         }
 
         async function checkSavedLogin() {
@@ -815,7 +989,7 @@
                 try {
                     const me = localMembers.find(m => m.id === uid);
                     if(me) {
-                        await updateDoc(doc(db, basePath, 'members', uid), { appOpens: (me.appOpens || 0) + 1 });
+                        await updateDoc(doc(db, basePath, 'members', uid), { appOpens: (me.appOpens || 0) + 1, lastActiveTime: Date.now() });
                         sessionStorage.setItem(`appOpened_${uid}`, 'true');
                     }
                 } catch(e) {}
@@ -924,8 +1098,8 @@
             try {
                 const expire = Date.now() + (48 * 60 * 60 * 1000);
                 const batch = writeBatch(db);
-                batch.update(doc(db, basePath, 'members', me.id), { allianceWith: targetId, allianceEndTime: expire });
-                batch.update(doc(db, basePath, 'members', targetId), { allianceWith: me.id, allianceEndTime: expire });
+                batch.update(doc(db, basePath, 'members', me.id), { allianceWith: targetId, allianceEndTime: expire, 'achievements.diplomat': true });
+                batch.update(doc(db, basePath, 'members', targetId), { allianceWith: me.id, allianceEndTime: expire, 'achievements.diplomat': true });
                 await batch.commit();
                 
                 await addDoc(collection(db, basePath, 'squad_feed'), { text: `🤝 ${me.name} and ${target.name} formed a Neta Alliance!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), likes: [], dislikes: [], isSystem: true });
@@ -975,6 +1149,24 @@
             } catch(e) { showToast("Failed transfer.", "error"); }
         }
 
+        // --- BLACK MARKET ---
+        window.buyDefenseShield = async () => {
+            const me = localMembers.find(m => m.id === currentUserId);
+            if(!me) return;
+            if(me.andiMandiTokens < 1) { showToast("Insufficient Andi Mandi Tokens.", "error"); return; }
+            if(!confirm("Spend 1 Andi Mandi Token for a Defense Shield? (Blocks 1 Gaddari penalty automatically)")) return;
+
+            try {
+                await updateDoc(doc(db, basePath, 'members', me.id), { 
+                    andiMandiTokens: me.andiMandiTokens - 1, 
+                    defenseShields: (me.defenseShields || 0) + 1,
+                    'achievements.weaponsMaster': true 
+                });
+                showToast("Defense Shield Acquired!", "success");
+                updateDashboardUI();
+            } catch(e) { showToast("Transaction failed.", "error"); }
+        }
+
         // --- UI UPDATES ---
         function updateScorecards() {
             if(localMembers.length === 0) return;
@@ -1003,11 +1195,11 @@
             const btn = document.getElementById('castJudgmentBtn');
             if(e.target.value === 'none') {
                 div.classList.add('hidden');
-                btn.innerText = "Maintain Peace (0%)";
+                btn.innerText = "Maintain Peace (+1 Token)";
                 btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-sm";
             } else {
                 div.classList.remove('hidden');
-                btn.innerText = "Accuse (Requires 3 Approvals)";
+                btn.innerText = "Accuse (Req: 3 Approvals)";
                 btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white font-black py-3 rounded-lg transition-all shadow-md transform active:scale-95 text-xs uppercase tracking-widest mt-1";
             }
         });
@@ -1145,10 +1337,6 @@
             if (me.allianceWith && me.allianceEndTime < now) {
                 dbUpdates.allianceWith = null; dbUpdates.allianceEndTime = 0;
             }
-
-            if (!me.lastActiveTime || (now - me.lastActiveTime > 3600000 && !dbUpdates.lastActiveTime)) {
-                dbUpdates.lastActiveTime = now;
-            }
             if (Object.keys(dbUpdates).length > 0) {
                 updateDoc(doc(db, basePath, 'members', me.id), dbUpdates);
             }
@@ -1163,6 +1351,13 @@
             headerGaddar.innerText = `${me.gaddariIndex}%`;
             if (me.gaddariIndex > 70) headerGaddar.classList.add('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow'); 
             else headerGaddar.classList.remove('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow');
+
+            // Tokens and Shields display
+            document.getElementById('headerTokens').innerText = me.andiMandiTokens || 0;
+            document.getElementById('headerShields').innerText = me.defenseShields || 0;
+            document.getElementById('mobileTokens').innerText = me.andiMandiTokens || 0;
+            document.getElementById('mobileShields').innerText = me.defenseShields || 0;
+            document.getElementById('currentStreak').innerText = me.voteStreak || 0;
 
             const isBlocked = (me.gaddariIndex > 70) && !me.isAdmin; 
             const lockoutNotice = document.getElementById('gaddarLockoutNotice');
@@ -1191,6 +1386,7 @@
                 const isDanger = m.gaddariIndex > 70;
                 const isAdmin = m.isAdmin;
                 const inTribunal = usersWithPendingEvents.has(m.id);
+                const isOnline = m.lastActiveTime && (now - m.lastActiveTime < 300000); // 5 minutes
                 
                 let rowBgHover = 'hover:bg-slate-50 dark:hover:bg-slate-800/40';
                 let avatarBorder = 'bg-slate-50 dark:bg-darkbg border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400';
@@ -1211,6 +1407,10 @@
 
                 if (isMe) { rowBgHover = isAdmin ? 'bg-amber-50 dark:bg-amber-900/20' : 'bg-indigo-50 dark:bg-indigo-900/10 hover:bg-indigo-100 dark:hover:bg-indigo-900/20'; }
 
+                const onlineIndicator = isOnline ? 
+                    `<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white dark:border-[#0f1423] rounded-full shadow-sm"></div>` : 
+                    `<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-slate-300 dark:bg-slate-600 border-2 border-white dark:border-[#0f1423] rounded-full shadow-sm"></div>`;
+
                 const div = document.createElement('div');
                 div.className = `flex items-center justify-between px-4 py-3 sm:px-5 sm:py-3.5 transition-all cursor-pointer group ${rowBgHover}`;
                 div.onclick = () => openProfileModal(m.id);
@@ -1219,8 +1419,11 @@
 
                 div.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border shrink-0 transition-transform group-hover:scale-105 overflow-hidden shadow-sm ${avatarBorder}">
-                            ${avatarHtml}
+                        <div class="relative w-9 h-9 sm:w-10 sm:h-10 shrink-0">
+                            <div class="w-full h-full rounded-full flex items-center justify-center border transition-transform group-hover:scale-105 overflow-hidden shadow-sm ${avatarBorder}">
+                                ${avatarHtml}
+                            </div>
+                            ${onlineIndicator}
                         </div>
                         <div>
                             <div class="flex items-center gap-1.5 sm:gap-2">
@@ -1231,7 +1434,7 @@
                             </div>
                             <div class="flex items-center gap-2 mt-0.5">
                                 <span class="text-[8px] text-slate-400 font-medium"><i data-lucide="map-pin" class="w-2 h-2 inline"></i> ${m.location || 'Base'}</span>
-                                <span class="text-[8px] text-slate-400 font-medium"><i data-lucide="smartphone" class="w-2 h-2 inline"></i> ${m.appOpens || 0} Opens</span>
+                                <span class="text-[8px] text-slate-400 font-medium"><i data-lucide="shield" class="w-2 h-2 inline"></i> ${m.defenseShields || 0}</span>
                             </div>
                             <div class="w-20 sm:w-28 h-1 bg-slate-200 dark:bg-slate-900 rounded-full mt-1.5 overflow-hidden border border-slate-300 dark:border-slate-800">
                                 <div class="h-full rounded-full transition-all duration-1000 ${isDanger ? 'bg-gradient-to-r from-rose-500 to-red-500' : 'bg-gradient-to-r from-emerald-400 to-teal-400'}" style="width: ${m.gaddariIndex}%"></div>
@@ -1308,7 +1511,7 @@
                 document.getElementById('adminValLahsun').value = target.lahsunCount || 0;
                 document.getElementById('adminValNonveg').value = target.nonvegCount || 0;
                 document.getElementById('adminValGaddari').value = target.gaddariIndex || 0;
-                document.getElementById('adminValOpens').value = target.appOpens || 0;
+                document.getElementById('adminValTokens').value = target.andiMandiTokens || 0;
                 document.getElementById('adminValPassword').value = '';
             }
         }
@@ -1325,7 +1528,7 @@
                     lahsunCount: parseInt(document.getElementById('adminValLahsun').value) || 0,
                     nonvegCount: parseInt(document.getElementById('adminValNonveg').value) || 0,
                     gaddariIndex: parseInt(document.getElementById('adminValGaddari').value) || 0,
-                    appOpens: parseInt(document.getElementById('adminValOpens').value) || 0
+                    andiMandiTokens: parseInt(document.getElementById('adminValTokens').value) || 0
                 };
 
                 const newPass = document.getElementById('adminValPassword').value.trim();
@@ -1353,20 +1556,19 @@
             } catch(e) { showToast("Failed.", "error"); }
         }
 
-        // --- SUPER EDITING LOG FUNCTIONS ---
         window.adminDeleteVote = async (id) => {
             if(!confirm("Overlord: Permanently delete this Gaddari Vote?")) return;
             try { await deleteDoc(doc(db, basePath, 'gaddari_votes', id)); showToast("Vote Purged.", "success"); } catch(e) { showToast("Error", "error"); }
         };
 
         window.adminReverseVote = async (id) => {
-            if(!confirm("Overlord: Reverse this confirmed vote and restore 15% to target?")) return;
+            if(!confirm("Overlord: Reverse this confirmed vote and restore 10% to target?")) return;
             try {
                 const vote = localGaddariVotes.find(v => v.uid === id);
                 if(vote && vote.status === 'confirmed') {
                     const target = localMembers.find(m => m.id === vote.targetId);
                     if(target) {
-                        const rec = Math.max(0, target.gaddariIndex - 15);
+                        const rec = Math.max(0, target.gaddariIndex - 10);
                         await updateDoc(doc(db, basePath, 'members', target.id), { gaddariIndex: rec });
                     }
                 }
@@ -1412,7 +1614,7 @@
                                 <p class="text-[10px] text-slate-600 dark:text-slate-400 italic mt-1 bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded">"${v.reason}"</p>
                                 <div class="flex gap-2 mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <button onclick="adminDeleteVote('${v.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors"><i data-lucide="trash-2" class="w-3 h-3 inline"></i> Delete</button>
-                                    ${v.status === 'confirmed' ? `<button onclick="adminReverseVote('${v.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"><i data-lucide="rotate-ccw" class="w-3 h-3 inline"></i> Reverse (-15%)</button>` : ''}
+                                    ${v.status === 'confirmed' ? `<button onclick="adminReverseVote('${v.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"><i data-lucide="rotate-ccw" class="w-3 h-3 inline"></i> Reverse (-10%)</button>` : ''}
                                 </div>
                             </div>`;
                     } else if (log.type === 'card') {
@@ -1454,7 +1656,7 @@
                 const batch = writeBatch(db);
                 localMembers.forEach(m => {
                     const ref = doc(db, basePath, 'members', m.id);
-                    batch.update(ref, { satvikCount: 2, lahsunCount: 0, nonvegCount: 0, gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0, allianceWith: null, allianceEndTime: 0 });
+                    batch.update(ref, { satvikCount: 2, lahsunCount: 0, nonvegCount: 0, gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0, allianceWith: null, allianceEndTime: 0, defenseShields: 0, andiMandiTokens: 5, voteStreak: 0, achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false } });
                 });
                 localEvents.forEach(e => batch.delete(doc(db, basePath, 'am_events', e.uid)));
                 localGaddariVotes.forEach(v => batch.delete(doc(db, basePath, 'gaddari_votes', v.uid)));
@@ -1599,9 +1801,16 @@
 
             document.getElementById('profileModalName').innerText = member.name;
             document.getElementById('profileLocation').innerText = member.location || 'Base HQ';
-            document.getElementById('profileAppOpens').innerText = member.appOpens || 0;
             document.getElementById('profileAlliance').innerText = member.allianceWith ? `Allied to ${getName(member.allianceWith)}` : 'No Alliance';
+            document.getElementById('profileModalStreak').innerText = member.voteStreak || 0;
             
+            // Achievements
+            const achs = member.achievements || { trusted: false, weaponsMaster: false, diplomat: false, merciful: false };
+            document.getElementById('ach_trusted').className = achs.trusted ? 'achievement-unlocked flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-500/50 shrink-0 transition-all duration-300 shadow-sm' : 'achievement-locked flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0 transition-all duration-300';
+            document.getElementById('ach_weaponsMaster').className = achs.weaponsMaster ? 'achievement-unlocked flex items-center gap-1.5 bg-indigo-50 dark:bg-indigo-900/30 px-2.5 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-500/50 shrink-0 transition-all duration-300 shadow-sm' : 'achievement-locked flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0 transition-all duration-300';
+            document.getElementById('ach_diplomat').className = achs.diplomat ? 'achievement-unlocked flex items-center gap-1.5 bg-amber-50 dark:bg-amber-900/30 px-2.5 py-1.5 rounded-lg border border-amber-200 dark:border-amber-500/50 shrink-0 transition-all duration-300 shadow-sm' : 'achievement-locked flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0 transition-all duration-300';
+            document.getElementById('ach_merciful').className = achs.merciful ? 'achievement-unlocked flex items-center gap-1.5 bg-rose-50 dark:bg-rose-900/30 px-2.5 py-1.5 rounded-lg border border-rose-200 dark:border-rose-500/50 shrink-0 transition-all duration-300 shadow-sm' : 'achievement-locked flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 shrink-0 transition-all duration-300';
+
             const gaddarEl = document.getElementById('profileModalGaddar');
             gaddarEl.innerText = `${member.gaddariIndex}% Gaddar`;
             
@@ -1658,10 +1867,6 @@
                 adminBadge.classList.add('hidden');
                 gaddarEl.className = "text-slate-600 dark:text-slate-300 bg-slate-200 dark:bg-slate-800/80 px-2 py-1 rounded border border-slate-300 dark:border-slate-700";
             }
-
-            document.getElementById('profSatvik').innerText = member.satvikCount;
-            document.getElementById('profLahsun').innerText = member.lahsunCount;
-            document.getElementById('profNonveg').innerText = member.nonvegCount;
 
             const reportSection = document.getElementById('profileReportSection');
             if (isMe || isAdmin) reportSection.classList.add('hidden');
@@ -1730,7 +1935,7 @@
                         statusHtml = `<span class="bg-indigo-100 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest animate-pulse">In Tribunal</span>`;
                     } else if (status === 'confirmed') {
                         hasActiveCharge = true;
-                        statusHtml = `<span class="bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest">+15% Penalty</span>`;
+                        statusHtml = `<span class="bg-rose-100 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest">+10% Penalty</span>`;
                         if (isMe) actionHtml = `<button onclick="appealCharge('${charge.uid}')" class="mt-2 w-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold py-2 rounded-lg border border-indigo-200 dark:border-indigo-500/50 shadow-sm transition-colors flex items-center justify-center gap-1.5"><i data-lucide="scale" class="w-3 h-3"></i> Appeal Charge</button>`;
                     } else if (status === 'appealed') {
                         statusHtml = `<span class="bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20 px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest animate-pulse">Appeal Pending</span>`;
@@ -1770,7 +1975,7 @@
             try {
                 await addDoc(collection(db, basePath, 'am_events'), {
                     userId: targetId, reportedBy: currentUserId, type: type, reason: reason,
-                    status: 'pending', timestamp: serverTimestamp(), votes: { [currentUserId]: true }
+                    status: 'pending', timestamp: serverTimestamp(), votes: { [currentUserId]: { decision: true, reason: 'Initial Request' } }
                 });
                 closeProfileModal();
                 showToast("Accusation filed to Tribunal.", 'success');
@@ -1816,7 +2021,7 @@
 
                 await addDoc(collection(db, basePath, 'am_events'), {
                     userId: currentUserId, reportedBy: currentUserId, type: currentAmType,
-                    reason: reason, status: initialStatus, timestamp: serverTimestamp(), votes: { [currentUserId]: true }
+                    reason: reason, status: initialStatus, timestamp: serverTimestamp(), votes: { [currentUserId]: { decision: true, reason: 'Initial Request' } }
                 });
                 closeAmModal();
             } catch (err) { showToast("Failed.", 'error'); }
@@ -1850,15 +2055,22 @@
                 const isAccusation = reporterId && reporterId !== targetId;
                 const reporterName = isAccusation ? getName(reporterId) : targetUser.name;
                 
-                let conf = { name: 'Gaddari Accusation', color: 'rose', icon: 'crosshair' };
+                let conf = { name: 'Gaddari Accusation', color: 'rose', icon: 'crosshair', reqApprovals: 3 };
                 if (!isGaddari) {
                     const configs = { satvik: { name: 'Satvik Request', color: 'emerald', icon: 'leaf' }, lahsun: { name: 'Lahsun Pyaaj', color: 'amber', icon: 'flame' }, nonveg: { name: 'Non-Veg Strike', color: 'rose', icon: 'skull' } };
-                    conf = configs[event.type];
+                    conf = { ...configs[event.type], reqApprovals: 4 };
                 }
 
                 const hasVoted = event.votes && event.votes[currentUserId] !== undefined;
                 let approves = 0, rejects = 0;
-                if (event.votes) { Object.values(event.votes).forEach(isApprove => { if(isApprove) approves++; else rejects++; }); }
+                let totalVotes = 0;
+                if (event.votes) { 
+                    Object.values(event.votes).forEach(v => { 
+                        const decision = typeof v === 'object' ? v.decision : v;
+                        if(decision) approves++; else rejects++; 
+                        totalVotes++;
+                    }); 
+                }
 
                 const div = document.createElement('div');
                 div.className = 'bg-white dark:bg-[#080b18] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden';
@@ -1869,27 +2081,38 @@
 
                 if (me && me.isAdmin) {
                     actionsHtml = `
-                        <div class="flex gap-2 mt-3">
-                            <button onclick="castTribunalVote('${event.category}', '${event.uid}', true, true)" class="flex-1 bg-amber-50 dark:bg-amber-500/20 hover:bg-amber-100 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/40 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="crown" class="w-3 h-3"></i> Force Approve</button>
-                            <button onclick="castTribunalVote('${event.category}', '${event.uid}', false, true)" class="flex-1 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 text-rose-600 dark:text-rose-500 border border-rose-200 dark:border-rose-900/50 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="x" class="w-3 h-3"></i> Force Reject</button>
+                        <div class="mt-2">
+                            <input type="text" id="voteReason_${event.uid}" placeholder="Explain your Overlord decree..." class="w-full text-[10px] bg-white dark:bg-[#0f1423] border border-slate-200 dark:border-slate-700 p-2 rounded mb-2 outline-none">
+                            <div class="flex gap-2">
+                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', true, true)" class="flex-1 bg-amber-50 dark:bg-amber-500/20 hover:bg-amber-100 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/40 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="crown" class="w-3 h-3"></i> Force Approve</button>
+                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', false, true)" class="flex-1 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 text-rose-600 dark:text-rose-500 border border-rose-200 dark:border-rose-900/50 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="x" class="w-3 h-3"></i> Force Reject</button>
+                            </div>
                         </div>`;
                 } else if (isBlocked) {
                     actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-rose-50 dark:bg-rose-950/20 text-center border border-rose-200 dark:border-rose-900/50"><p class="text-[9px] text-rose-600 dark:text-rose-500 font-bold uppercase">Voting Disabled</p></div>`;
                 } else if (hasVoted) {
-                    const voteText = event.votes[currentUserId] ? '<span class="text-emerald-500 dark:text-emerald-400">Approved</span>' : '<span class="text-rose-500 dark:text-rose-400">Rejected</span>';
-                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-center border border-slate-200 dark:border-slate-800"><p class="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase">Your Verdict: ${voteText}</p></div>`;
+                    const myVoteObj = event.votes[currentUserId];
+                    const decision = typeof myVoteObj === 'object' ? myVoteObj.decision : myVoteObj;
+                    const reason = typeof myVoteObj === 'object' && myVoteObj.reason ? ` - "${myVoteObj.reason}"` : '';
+                    const voteText = decision ? '<span class="text-emerald-500 dark:text-emerald-400">Approved</span>' : '<span class="text-rose-500 dark:text-rose-400">Rejected</span>';
+                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-center border border-slate-200 dark:border-slate-800"><p class="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase">Your Verdict: ${voteText} <span class="italic font-normal lowercase">${reason}</span></p></div>`;
                 } else if (targetId === currentUserId && !isAccusation) {
                     actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-center border border-indigo-200 dark:border-indigo-500/20"><p class="text-[9px] text-indigo-600 dark:text-indigo-400 font-bold uppercase animate-pulse">Awaiting Squad Approvals</p></div>`;
                 } else {
                     actionsHtml = `
-                        <div class="flex gap-2 mt-3">
-                            <button onclick="castTribunalVote('${event.category}', '${event.uid}', true)" class="flex-1 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-up" class="w-3 h-3"></i> Approve</button>
-                            <button onclick="castTribunalVote('${event.category}', '${event.uid}', false)" class="flex-1 bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-down" class="w-3 h-3"></i> Reject</button>
+                        <div class="mt-2">
+                            <input type="text" id="voteReason_${event.uid}" placeholder="Explain your vote (optional)" class="w-full text-[10px] bg-slate-50 dark:bg-[#0f1423] border border-slate-200 dark:border-slate-700 p-2 rounded mb-2 outline-none focus:border-indigo-500 transition-colors">
+                            <div class="flex gap-2">
+                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', true)" class="flex-1 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-up" class="w-3 h-3"></i> Approve</button>
+                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', false)" class="flex-1 bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-down" class="w-3 h-3"></i> Reject</button>
+                            </div>
                         </div>`;
                 }
                 
                 let avatarHtml = targetUser.avatarBase64 ? `<img src="${targetUser.avatarBase64}" class="w-full h-full object-cover">` : `<i data-lucide="${isAccusation ? 'megaphone' : 'user'}" class="w-3.5 h-3.5"></i>`;
                 let padClass = isGaddari ? "pl-2" : "";
+                
+                const confidencePercent = Math.min(100, Math.round((totalVotes / localMembers.length) * 100));
 
                 div.innerHTML = `
                     <div class="flex justify-between items-start mb-2 ${padClass}">
@@ -1908,9 +2131,14 @@
                     <div class="bg-slate-50 dark:bg-slate-900/60 rounded-lg p-2 border border-slate-100 dark:border-slate-800 mb-2 ${padClass}">
                         <p class="text-[10px] text-slate-700 dark:text-slate-300 italic font-medium">"${event.reason}"</p>
                     </div>
-                    <div class="text-[9px] bg-slate-100 dark:bg-slate-900/80 p-1.5 rounded-lg flex justify-between items-center text-slate-500 font-bold ${padClass}">
-                        <span>Approvals: <span class="text-emerald-500 dark:text-emerald-400">${approves}</span> / <span class="text-rose-500 dark:text-rose-400">${rejects} Rejects</span></span>
-                        <span class="text-indigo-500 dark:text-indigo-400">3 Required</span>
+                    <div class="text-[9px] bg-slate-100 dark:bg-slate-900/80 p-1.5 rounded-lg flex flex-col gap-1.5 text-slate-500 font-bold ${padClass}">
+                        <div class="flex justify-between">
+                            <span>Approvals: <span class="text-emerald-500 dark:text-emerald-400">${approves}</span> / <span class="text-rose-500 dark:text-rose-400">${rejects} Rejects</span></span>
+                            <span class="text-indigo-500 dark:text-indigo-400">${conf.reqApprovals} Required</span>
+                        </div>
+                        <div class="w-full bg-slate-200 dark:bg-slate-700 h-1 rounded-full overflow-hidden" title="Confidence: ${totalVotes} voted">
+                            <div class="h-full bg-indigo-400 dark:bg-indigo-500 transition-all" style="width: ${confidencePercent}%"></div>
+                        </div>
                     </div>
                     ${actionsHtml}
                 `;
@@ -1926,15 +2154,23 @@
                 const event = list.find(e => e.uid === eventId);
                 if (!event) return;
 
+                const inputEl = document.getElementById(`voteReason_${eventId}`);
+                const voteReason = inputEl ? inputEl.value.trim() : '';
+
                 let newStatus = 'pending';
-                let updatedVotes = { ...(event.votes || {}), [currentUserId]: isApprove };
+                let updatedVotes = { ...(event.votes || {}), [currentUserId]: { decision: isApprove, reason: voteReason } };
 
                 if (isOverlordOverride) newStatus = isApprove ? 'confirmed' : 'rejected';
                 else {
                     let approves = 0, rejects = 0;
-                    Object.values(updatedVotes).forEach(v => { if(v) approves++; else rejects++; });
-                    if (approves >= 3) newStatus = 'confirmed';
-                    else if (rejects >= 3) newStatus = 'rejected';
+                    Object.values(updatedVotes).forEach(v => { 
+                        const decision = typeof v === 'object' ? v.decision : v;
+                        if(decision) approves++; else rejects++; 
+                    });
+                    
+                    const reqApprovals = category === 'card' ? 4 : 3;
+                    if (approves >= reqApprovals) newStatus = 'confirmed';
+                    else if (rejects >= reqApprovals) newStatus = 'rejected';
                 }
 
                 if (newStatus === 'confirmed') {
@@ -1947,8 +2183,13 @@
                     } else if (category === 'gaddari') {
                         const targetMember = localMembers.find(m => m.id === event.targetId);
                         if (targetMember) {
-                            const newGaddari = Math.min(100, (targetMember.gaddariIndex || 0) + 15);
-                            await updateDoc(doc(db, basePath, 'members', targetMember.id), { gaddariIndex: newGaddari });
+                            if (targetMember.defenseShields > 0) {
+                                await updateDoc(doc(db, basePath, 'members', targetMember.id), { defenseShields: targetMember.defenseShields - 1 });
+                                await addDoc(collection(db, basePath, 'squad_feed'), { text: `🛡️ SYSTEM: ${targetMember.name} automatically deployed a Defense Shield blocking a Gaddari penalty!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+                            } else {
+                                const newGaddari = Math.min(100, (targetMember.gaddariIndex || 0) + 10);
+                                await updateDoc(doc(db, basePath, 'members', targetMember.id), { gaddariIndex: newGaddari });
+                            }
                         }
                     }
                 }
@@ -1966,22 +2207,42 @@
             if (targetId !== 'none' && !reason) { showToast("Evidence mandatory for accusation.", 'warning'); return; }
 
             try {
+                // Streak & Token Logic
+                const me = localMembers.find(m => m.id === currentUserId);
+                const yesterdayDate = new Date();
+                yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+                const yesterdayStr = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth()+1).padStart(2,'0')}-${String(yesterdayDate.getDate()).padStart(2,'0')}`;
+
+                let newStreak = me.voteStreak || 0;
+                if (me.lastVoteDate === yesterdayStr) newStreak += 1;
+                else if (me.lastVoteDate !== todayStr) newStreak = 1;
+
+                let newTokens = (me.andiMandiTokens || 0) + 1;
+                let memberUpdates = { lastVoteDate: todayStr, voteStreak: newStreak, andiMandiTokens: newTokens };
+
+                if (newStreak >= 7 && me.gaddariIndex === 0) {
+                    memberUpdates['achievements.trusted'] = true;
+                }
+
                 if (targetId === 'none') {
                     // Just maintain peace silently
                     await addDoc(collection(db, basePath, 'gaddari_votes'), {
                         date: todayStr, voterId: currentUserId, targetId: 'none',
                         reason: 'Maintained Peace', timestamp: serverTimestamp(), status: 'peace'
                     });
-                    showToast("Peace Maintained for the day.", 'success');
+                    showToast("Peace Maintained (+1 Token).", 'success');
                 } else {
                     // Send to tribunal
                     await addDoc(collection(db, basePath, 'gaddari_votes'), {
                         date: todayStr, voterId: currentUserId, targetId: targetId,
                         reason: reason, timestamp: serverTimestamp(), status: 'pending',
-                        votes: { [currentUserId]: true }
+                        votes: { [currentUserId]: { decision: true, reason: 'Initial Accusation' } }
                     });
-                    showToast("Accusation filed to Tribunal.", 'success');
+                    showToast("Accusation filed to Tribunal (+1 Token).", 'success');
                 }
+                
+                await updateDoc(doc(db, basePath, 'members', currentUserId), memberUpdates);
+
             } catch(err) { showToast("Failed.", 'error'); }
         };
 
@@ -2018,12 +2279,12 @@
                         <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden flex items-center justify-center text-slate-500 border border-amber-300 dark:border-amber-600">${avatarHtml}</div>
                         <div>
                             <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest leading-none block">${target.name} Appealed!</span>
-                            <span class="text-[8px] text-slate-500">Wants you to rethink the +15%</span>
+                            <span class="text-[8px] text-slate-500">Wants you to rethink the +10%</span>
                         </div>
                     </div>
                     <p class="text-[10px] text-slate-700 dark:text-slate-300 mb-2 pl-1">Your Charge: <span class="italic text-slate-500 dark:text-slate-400">"${appeal.reason}"</span></p>
                     <div class="flex gap-2 pl-1">
-                        <button onclick="resolveAppeal('${appeal.uid}', '${appeal.targetId}', true)" class="flex-1 bg-emerald-100 dark:bg-emerald-500/10 hover:bg-emerald-200 text-emerald-700 dark:text-emerald-400 py-1.5 rounded-lg text-[9px] font-bold uppercase transition-all flex justify-center items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Forgive (-15%)</button>
+                        <button onclick="resolveAppeal('${appeal.uid}', '${appeal.targetId}', true)" class="flex-1 bg-emerald-100 dark:bg-emerald-500/10 hover:bg-emerald-200 text-emerald-700 dark:text-emerald-400 py-1.5 rounded-lg text-[9px] font-bold uppercase transition-all flex justify-center items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Forgive (-10%)</button>
                         <button onclick="resolveAppeal('${appeal.uid}', '${appeal.targetId}', false)" class="flex-1 bg-rose-100 dark:bg-rose-500/10 hover:bg-rose-200 text-rose-700 dark:text-rose-400 py-1.5 rounded-lg text-[9px] font-bold uppercase transition-all flex justify-center items-center gap-1"><i data-lucide="x" class="w-3 h-3"></i> Reject</button>
                     </div>
                 `;
@@ -2037,9 +2298,10 @@
                     await updateDoc(doc(db, basePath, 'gaddari_votes', voteId), { status: 'reversed' });
                     const target = localMembers.find(m => m.id === targetId);
                     if (target) {
-                        const newIndex = Math.max(0, (target.gaddariIndex || 0) - 15);
+                        const newIndex = Math.max(0, (target.gaddariIndex || 0) - 10);
                         await updateDoc(doc(db, basePath, 'members', targetId), { gaddariIndex: newIndex });
                     }
+                    await updateDoc(doc(db, basePath, 'members', currentUserId), { 'achievements.merciful': true });
                     showToast("Penalty reversed. Peace restored.", 'success');
                 } else {
                     await updateDoc(doc(db, basePath, 'gaddari_votes', voteId), { status: 'rejected' });
@@ -2047,6 +2309,126 @@
                 }
             } catch (err) { showToast("Failed.", 'error'); }
         };
+
+        // --- CASE ARCHIVE & ANALYTICS ---
+        window.openAnalyticsModal = () => {
+            renderAnalytics();
+            analyticsModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        };
+
+        window.closeAnalyticsModal = () => {
+            analyticsModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        };
+
+        function renderAnalytics() {
+            const resolvedCards = localEvents.filter(e => e.status === 'confirmed' || e.status === 'rejected');
+            const resolvedGaddari = localGaddariVotes.filter(v => (v.status === 'confirmed' || v.status === 'rejected' || v.status === 'reversed') && v.targetId !== 'none');
+            const allResolved = [...resolvedCards.map(e => ({...e, category: 'card'})), ...resolvedGaddari.map(v => ({...v, category: 'gaddari'}))]
+                .sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+
+            // Stats
+            document.getElementById('statTotalCases').innerText = allResolved.length;
+            
+            const totalSatvik = resolvedCards.filter(e => e.type === 'satvik').length;
+            const approvedSatvik = resolvedCards.filter(e => e.type === 'satvik' && e.status === 'confirmed').length;
+            document.getElementById('statSatvikRate').innerText = totalSatvik ? `${Math.round((approvedSatvik/totalSatvik)*100)}%` : 'N/A';
+
+            const totalGaddari = resolvedGaddari.length;
+            const approvedGaddari = resolvedGaddari.filter(v => v.status === 'confirmed').length;
+            document.getElementById('statGaddariRate').innerText = totalGaddari ? `${Math.round((approvedGaddari/totalGaddari)*100)}%` : 'N/A';
+
+            const autoResolved = allResolved.filter(e => e.isAutoResolved).length;
+            document.getElementById('statAutoResolved').innerText = autoResolved;
+
+            // Heatmap (Last 7 Days)
+            const activityChart = document.getElementById('activityChart');
+            const activityLabels = document.getElementById('activityChartLabels');
+            activityChart.innerHTML = ''; activityLabels.innerHTML = '';
+            
+            let daysData = [];
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(); d.setDate(d.getDate() - i);
+                daysData.push({ date: d, str: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`, count: 0 });
+            }
+            
+            const allActivity = [...localEvents, ...localGaddariVotes.filter(v=>v.targetId !== 'none')];
+            allActivity.forEach(a => {
+                if(a.timestamp) {
+                    const tsDate = a.timestamp.toDate();
+                    const tsStr = `${tsDate.getFullYear()}-${String(tsDate.getMonth()+1).padStart(2,'0')}-${String(tsDate.getDate()).padStart(2,'0')}`;
+                    const dayObj = daysData.find(d => d.str === tsStr);
+                    if(dayObj) dayObj.count++;
+                }
+            });
+
+            const maxCount = Math.max(...daysData.map(d => d.count), 5);
+            
+            daysData.forEach(d => {
+                const hPercent = (d.count / maxCount) * 100;
+                activityChart.innerHTML += `
+                    <div class="flex-1 flex flex-col justify-end group relative cursor-help">
+                        <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[9px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">${d.count} Cases</div>
+                        <div class="w-full bg-indigo-500 rounded-t-sm transition-all duration-500 hover:bg-indigo-400" style="height: ${hPercent}%"></div>
+                    </div>`;
+                activityLabels.innerHTML += `<div class="flex-1 text-center text-[8px] font-bold text-slate-500 uppercase">${d.date.toLocaleString('default', {weekday: 'short'})}</div>`;
+            });
+
+            // Archive List
+            const listContainer = document.getElementById('archiveListContainer');
+            listContainer.innerHTML = '';
+            if(allResolved.length === 0) {
+                listContainer.innerHTML = `<p class="text-xs text-slate-400 italic">No precedents found.</p>`;
+            } else {
+                allResolved.slice(0, 30).forEach(ev => { // Show last 30
+                    let title = '', target = '', outcomeClass = '', outcomeText = ev.status.toUpperCase();
+                    if(ev.category === 'card') {
+                        title = `${ev.type.toUpperCase()} REQUEST`;
+                        target = getName(ev.userId);
+                        outcomeClass = ev.status === 'confirmed' ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50' : 'text-rose-500 bg-rose-50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/50';
+                    } else {
+                        title = `GADDARI ACCUSATION`;
+                        target = getName(ev.targetId);
+                        if(ev.status === 'confirmed') outcomeClass = 'text-rose-500 bg-rose-50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/50';
+                        else if(ev.status === 'rejected') outcomeClass = 'text-slate-500 bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800';
+                        else outcomeClass = 'text-amber-500 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50'; // Reversed
+                    }
+
+                    const dateStr = ev.timestamp ? ev.timestamp.toDate().toLocaleDateString() : 'Unknown Date';
+
+                    // Parse vote explanations
+                    let votesHtml = '';
+                    if (ev.votes) {
+                        votesHtml = `<div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 space-y-1">`;
+                        Object.keys(ev.votes).forEach(uid => {
+                            const vObj = ev.votes[uid];
+                            const decision = typeof vObj === 'object' ? vObj.decision : vObj;
+                            const reason = typeof vObj === 'object' && vObj.reason ? vObj.reason : 'No explanation';
+                            votesHtml += `<p class="text-[9px] text-slate-500 dark:text-slate-400"><span class="font-bold ${decision ? 'text-emerald-500' : 'text-rose-500'}">${getName(uid)}:</span> "${reason}"</p>`;
+                        });
+                        votesHtml += `</div>`;
+                    }
+
+                    listContainer.innerHTML += `
+                        <div class="p-3 bg-white dark:bg-[#080b18] border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400 tracking-widest">${title}</span>
+                                    <p class="text-[11px] font-bold text-slate-800 dark:text-slate-200 mt-0.5">Target: ${target}</p>
+                                </div>
+                                <div class="text-right flex flex-col items-end">
+                                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded border ${outcomeClass}">${outcomeText} ${ev.isAutoResolved ? '(AUTO)' : ''}</span>
+                                    <span class="text-[8px] text-slate-400 mt-1">${dateStr}</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-600 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded">"${ev.reason}"</p>
+                            ${votesHtml}
+                        </div>`;
+                });
+            }
+        }
 
         bootup();
     </script>
