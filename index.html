@@ -128,12 +128,8 @@
                 </div>
                 <div class="flex items-center gap-2 sm:gap-4">
 
-                    <!-- Tokens and Shields Header Stats -->
+                    <!-- Shields Header Stat -->
                     <div class="hidden sm:flex items-center gap-3 mr-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/80 rounded-lg border border-slate-200 dark:border-slate-700/50">
-                        <div class="flex items-center gap-1.5 text-xs font-bold text-amber-600 dark:text-amber-400">
-                            <i data-lucide="coins" class="w-4 h-4"></i> <span id="headerTokens">0</span>
-                        </div>
-                        <div class="w-px h-4 bg-slate-300 dark:bg-slate-600"></div>
                         <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                             <i data-lucide="shield" class="w-4 h-4"></i> <span id="headerShields">0</span>
                         </div>
@@ -149,6 +145,9 @@
                     </div>
                     
                     <div class="flex gap-1.5">
+                        <button onclick="openRulesModal()" class="p-2.5 bg-blue-100 dark:bg-blue-900/40 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-800 text-blue-600 dark:text-blue-400 transition-colors border border-blue-200 dark:border-blue-700/50" title="Rules">
+                            <span class="font-black font-mono text-sm leading-none px-1">?</span>
+                        </button>
                         <button onclick="toggleTheme()" class="p-2.5 bg-slate-100 dark:bg-slate-800/80 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-400 transition-colors border border-slate-200 dark:border-slate-700/50">
                             <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
                             <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
@@ -172,7 +171,6 @@
                             <h2 class="text-xl font-black tracking-tight text-slate-900 dark:text-white">Arsenal & Armory</h2>
                         </div>
                         <div class="flex items-center gap-2 sm:hidden text-xs font-bold text-slate-600 dark:text-slate-300">
-                            <span class="flex items-center gap-1 text-amber-500"><i data-lucide="coins" class="w-3.5 h-3.5"></i> <span id="mobileTokens">0</span></span>
                             <span class="flex items-center gap-1 text-emerald-500"><i data-lucide="shield" class="w-3.5 h-3.5"></i> <span id="mobileShields">0</span></span>
                         </div>
                     </div>
@@ -195,8 +193,11 @@
                             <div class="relative z-10 flex-1 flex flex-col">
                                 <div class="w-10 h-10 bg-white dark:bg-indigo-500/10 rounded-xl flex items-center justify-center mb-3 border border-indigo-100 shadow-sm"><i data-lucide="shield" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i></div>
                                 <h3 class="text-xl font-black text-indigo-700 dark:text-indigo-400 mb-0.5">Defense Shield</h3>
-                                <p class="text-xs font-medium text-slate-500 mb-4 flex-1">Blocks 1 confirmed Gaddari Penalty automatically.</p>
-                                <button onclick="buyDefenseShield()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-[10px] uppercase tracking-widest shadow-md transition-colors flex items-center justify-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy (1 Token)</button>
+                                <p class="text-[10px] font-medium text-slate-500 mb-4 flex-1 leading-snug">Blocks 1 confirmed Gaddari Penalty automatically.</p>
+                                <div class="flex gap-2">
+                                    <button onclick="buyDefenseShield()" class="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-md transition-colors flex items-center justify-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy (1 Satvik)</button>
+                                    <button onclick="sellDefenseShield()" class="flex-[1] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-sm transition-colors flex items-center justify-center" title="Undo Purchase / Sell"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
+                                </div>
                             </div>
                         </div>
 
@@ -206,7 +207,7 @@
                             <div class="relative z-10">
                                 <div class="w-10 h-10 bg-white dark:bg-emerald-500/10 rounded-xl flex items-center justify-center mb-3 border border-emerald-100 shadow-sm"><i data-lucide="leaf" class="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i></div>
                                 <h3 class="text-xl font-black text-emerald-700 dark:text-emerald-400 mb-0.5">Satvik</h3>
-                                <p class="text-[11px] font-medium text-slate-500 mb-5 h-8">Standard protocol. Requires 4 squad approvals.</p>
+                                <p class="text-[11px] font-medium text-slate-500 mb-5 h-8">Standard protocol. Requires 3 squad approvals.</p>
                                 <div class="flex justify-between items-end border-t border-emerald-100 dark:border-emerald-500/10 pt-3">
                                     <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-slate-800 dark:text-white leading-none" id="countSatvik">0</span><span class="text-slate-400 font-bold text-[10px] uppercase">in stock</span></div>
                                 </div>
@@ -217,7 +218,7 @@
                             <div class="relative z-10">
                                 <div class="w-10 h-10 bg-white dark:bg-amber-500/10 rounded-xl flex items-center justify-center mb-3 border border-amber-100 shadow-sm"><i data-lucide="flame" class="w-5 h-5 text-amber-600 dark:text-amber-400"></i></div>
                                 <h3 class="text-xl font-black text-amber-700 dark:text-amber-400 mb-0.5">Lahsun Pyaaj</h3>
-                                <p class="text-[11px] font-medium text-slate-500 mb-5 h-8">Requires 4 squad approvals.</p>
+                                <p class="text-[11px] font-medium text-slate-500 mb-5 h-8">Requires 3 squad approvals.</p>
                                 <div class="flex justify-between items-end border-t border-amber-100 dark:border-amber-500/10 pt-3">
                                     <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-slate-800 dark:text-white leading-none" id="countLahsun">0</span><span class="text-slate-400 font-bold text-[10px] uppercase">in stock</span></div>
                                 </div>
@@ -251,7 +252,7 @@
                                     <div class="p-2 bg-rose-100 dark:bg-rose-500/10 rounded-lg text-rose-600 dark:text-rose-400"><i data-lucide="crosshair" class="w-5 h-5"></i></div>
                                     <div>
                                         <h2 class="text-lg font-black text-slate-900 dark:text-white tracking-tight">Daily Judgment</h2>
-                                        <p class="text-[10px] font-medium text-slate-500 uppercase">Penalty: +10% (Req: 3 Votes)</p>
+                                        <p class="text-[10px] font-medium text-slate-500 uppercase">Penalty: +10% (Req: 4 Votes)</p>
                                     </div>
                                 </div>
                                 <div class="text-right" id="streakContainer">
@@ -277,7 +278,7 @@
                                         <div id="gaddarReasonDiv" class="hidden transition-all duration-300">
                                             <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="Required: Provide detailed evidence..."></textarea>
                                         </div>
-                                        <button onclick="submitGaddariVote()" id="castJudgmentBtn" class="w-full bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md">Maintain Peace (+1 Token)</button>
+                                        <button onclick="submitGaddariVote()" id="castJudgmentBtn" class="w-full bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md">Maintain Peace</button>
                                     </div>
                                 </div>
 
@@ -395,58 +396,65 @@
         </main>
     </div>
 
-    <!-- Analytics & Case History Modal -->
-    <div id="analyticsModal" class="fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl z-[60] hidden flex flex-col p-2 sm:p-6">
-        <div class="w-full max-w-4xl mx-auto flex-1 flex flex-col bg-white dark:bg-darkbg rounded-2xl border border-indigo-200 dark:border-indigo-500/30 overflow-hidden shadow-2xl relative">
-            <header class="p-4 sm:p-5 border-b border-indigo-100 dark:border-indigo-500/20 flex justify-between items-center bg-indigo-50 dark:bg-indigo-950/20">
+    <!-- RULES MODAL -->
+    <div id="rulesModal" class="fixed inset-0 bg-slate-900/80 dark:bg-black/90 backdrop-blur-xl z-[80] hidden flex flex-col p-4 sm:p-8 items-center justify-center">
+        <div class="w-full max-w-2xl bg-white dark:bg-darkbg rounded-3xl border border-blue-200 dark:border-blue-500/30 overflow-hidden shadow-2xl relative animate-pop-in flex flex-col max-h-[90vh]">
+            <header class="p-5 sm:p-6 border-b border-blue-100 dark:border-blue-500/20 flex justify-between items-center bg-blue-50 dark:bg-blue-950/20 shrink-0">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-white dark:bg-indigo-500/20 rounded-lg flex items-center justify-center border border-indigo-200 dark:border-indigo-500/40 text-indigo-500"><i data-lucide="library" class="w-5 h-5"></i></div>
+                    <div class="w-10 h-10 bg-white dark:bg-blue-500/20 rounded-xl flex items-center justify-center border border-blue-200 dark:border-blue-500/40 text-blue-500 shadow-sm"><i data-lucide="book-open" class="w-5 h-5"></i></div>
                     <div>
-                        <h2 class="text-xl font-black text-indigo-600 dark:text-indigo-400 tracking-tight">Case Archive & Precedents</h2>
-                        <p class="text-[10px] text-indigo-500 uppercase font-bold tracking-widest">Squad History</p>
+                        <h2 class="text-xl font-black text-blue-700 dark:text-blue-400 tracking-tight leading-none mb-1">Squad Protocols & Rules</h2>
+                        <p class="text-[10px] text-blue-500 font-bold uppercase tracking-widest">Official Rulebook</p>
                     </div>
                 </div>
-                <button onclick="closeAnalyticsModal()" class="p-2 bg-slate-100 dark:bg-slate-900 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <button onclick="closeRulesModal()" class="p-2 bg-white dark:bg-slate-900 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 shadow-sm transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
             </header>
-
-            <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
-                <!-- Stat Cards -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800 text-center">
-                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Total Cases</p>
-                        <p class="text-2xl font-black text-slate-800 dark:text-white" id="statTotalCases">0</p>
-                    </div>
-                    <div class="bg-emerald-50 dark:bg-emerald-950/30 p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/50 text-center">
-                        <p class="text-[9px] font-bold text-emerald-600 uppercase tracking-widest mb-1">Satvik Approval Rate</p>
-                        <p class="text-2xl font-black text-emerald-700 dark:text-emerald-400" id="statSatvikRate">0%</p>
-                    </div>
-                    <div class="bg-rose-50 dark:bg-rose-950/30 p-4 rounded-xl border border-rose-200 dark:border-rose-900/50 text-center">
-                        <p class="text-[9px] font-bold text-rose-600 uppercase tracking-widest mb-1">Gaddari Convictions</p>
-                        <p class="text-2xl font-black text-rose-700 dark:text-rose-400" id="statGaddariRate">0%</p>
-                    </div>
-                    <div class="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-xl border border-amber-200 dark:border-amber-900/50 text-center">
-                        <p class="text-[9px] font-bold text-amber-600 uppercase tracking-widest mb-1">Time-Locked Auto-Resolved</p>
-                        <p class="text-2xl font-black text-amber-700 dark:text-amber-400" id="statAutoResolved">0</p>
-                    </div>
+            <div class="flex-1 overflow-y-auto p-5 sm:p-8 space-y-6 hide-scrollbar text-sm text-slate-700 dark:text-slate-300">
+                
+                <div class="bg-rose-50 dark:bg-rose-950/20 p-4 rounded-2xl border border-rose-100 dark:border-rose-900/50">
+                    <h3 class="font-black text-rose-700 dark:text-rose-400 mb-2 flex items-center gap-2"><i data-lucide="crosshair" class="w-4 h-4"></i> The Gaddar Index (Daily Judgment)</h3>
+                    <ul class="list-disc pl-5 space-y-1.5 marker:text-rose-400">
+                        <li>Every member can vote daily to accuse someone of being a "Gaddar" (Traitor) or choose to "Maintain Peace".</li>
+                        <li>An accusation requires exactly <strong>4 Squad Approvals</strong> to be confirmed.</li>
+                        <li>Once confirmed, the target suffers a <strong>+10% penalty</strong> to their Gaddar Index.</li>
+                        <li>If a member's Gaddari Index exceeds <strong>70%</strong>, their voting and weapon privileges are immediately revoked until they appeal and clear their name.</li>
+                    </ul>
                 </div>
 
-                <!-- Simple Heatmap Activity Chart -->
-                <div class="bg-white dark:bg-slate-900/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
-                    <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-4 flex items-center gap-2"><i data-lucide="bar-chart-2" class="w-4 h-4 text-indigo-500"></i> Squad Activity (Last 7 Days)</h3>
-                    <div class="flex items-end gap-2 h-32" id="activityChart">
-                        <!-- Chart bars populated via JS -->
-                    </div>
-                    <div class="flex items-center gap-2 mt-2" id="activityChartLabels">
-                        <!-- Labels -->
-                    </div>
+                <div class="bg-emerald-50 dark:bg-emerald-950/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
+                    <h3 class="font-black text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2"><i data-lucide="leaf" class="w-4 h-4"></i> Andi Mandi Cards (Tribunal Requests)</h3>
+                    <ul class="list-disc pl-5 space-y-1.5 marker:text-emerald-400">
+                        <li>Requests to use a <strong>Satvik</strong>, <strong>Lahsun</strong>, or <strong>Non-Veg</strong> card must pass through the Tribunal.</li>
+                        <li>All card usage requests require exactly <strong>3 Squad Approvals</strong>.</li>
+                        <li>Approved cards deduct exactly 1 card from the target's inventory.</li>
+                    </ul>
                 </div>
 
-                <!-- Case Archive List -->
-                <div>
-                    <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="file-text" class="w-4 h-4 text-indigo-500"></i> Resolved Cases Log</h3>
-                    <div class="space-y-3" id="archiveListContainer">
-                        <!-- Populated by JS -->
-                    </div>
+                <div class="bg-indigo-50 dark:bg-indigo-950/20 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-900/50">
+                    <h3 class="font-black text-indigo-700 dark:text-indigo-400 mb-2 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Defense Shields & Weapons Economy</h3>
+                    <ul class="list-disc pl-5 space-y-1.5 marker:text-indigo-400">
+                        <li>Tokens are abolished. You must trade exactly <strong>1 Satvik Card</strong> to buy <strong>1 Defense Shield</strong>.</li>
+                        <li>Shields are passive: if you are convicted of Gaddari, the system will automatically consume 1 Shield to completely block the +10% penalty.</li>
+                        <li>You can easily refund a Shield to get your Satvik Card back via the Armory.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-amber-50 dark:bg-amber-950/20 p-4 rounded-2xl border border-amber-100 dark:border-amber-900/50">
+                    <h3 class="font-black text-amber-700 dark:text-amber-400 mb-2 flex items-center gap-2"><i data-lucide="handshake" class="w-4 h-4"></i> Neta Alliances</h3>
+                    <ul class="list-disc pl-5 space-y-1.5 marker:text-amber-400">
+                        <li>You can propose a Neta Alliance with any other member.</li>
+                        <li>Allied members can easily transfer Satvik and Lahsun cards to each other to help out.</li>
+                        <li>To forcefully break an alliance early, a member must sacrifice exactly <strong>1 Non-Veg Card</strong>.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <h3 class="font-black text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2"><i data-lucide="crown" class="w-4 h-4 text-amber-500"></i> Overlords (Admins) & Auto-Resolution</h3>
+                    <ul class="list-disc pl-5 space-y-1.5 marker:text-slate-500">
+                        <li><strong>Auto-Resolution:</strong> Any case left pending in the Tribunal for 48 hours is automatically resolved based on the current majority of votes.</li>
+                        <li><strong>Supreme Power:</strong> Overlords have the power to instantly force-approve or force-reject any case in the Tribunal.</li>
+                        <li>Overlords can also edit any operative's inventory, completely wipe their stats to 0, or execute a global server wipe if necessary.</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -495,8 +503,8 @@
                                 <input type="number" id="adminValGaddari" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                             <div>
-                                <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Tokens</label>
-                                <input type="number" id="adminValTokens" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                                <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Shields</label>
+                                <input type="number" id="adminValShields" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                         </div>
                         <div class="mb-4">
@@ -505,7 +513,8 @@
                         </div>
 
                         <div class="flex gap-2 mb-4">
-                            <button onclick="adminClearAlliance()" class="flex-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg transition-all text-[9px] uppercase">Clear Alliance</button>
+                            <button onclick="adminClearAlliance()" class="flex-[1] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg transition-all text-[9px] uppercase">Break Alliance</button>
+                            <button onclick="adminZeroInventory()" class="flex-[2] bg-rose-200 dark:bg-rose-900/40 hover:bg-rose-300 text-rose-700 dark:text-rose-400 font-bold py-2 rounded-lg transition-all text-[9px] uppercase shadow-sm">Zero Inventory</button>
                         </div>
 
                         <button onclick="adminSaveTargetStats()" class="w-full bg-blue-100 dark:bg-blue-600/20 hover:bg-blue-200 dark:hover:bg-blue-600/40 text-blue-700 dark:text-blue-400 font-bold py-2.5 rounded-lg transition-all text-xs uppercase tracking-wide">Force Save Intel</button>
@@ -722,6 +731,7 @@
         const profileModal = document.getElementById('profileModal');
         const adminModal = document.getElementById('adminModal');
         const analyticsModal = document.getElementById('analyticsModal');
+        const rulesModal = document.getElementById('rulesModal');
         let selectedLoginMember = null;
         let activeProfileId = null;
 
@@ -806,7 +816,7 @@
                         ...m, satvikCount: 2, lahsunCount: 0, nonvegCount: 0, 
                         gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0,
                         allianceWith: null, allianceEndTime: 0,
-                        defenseShields: 0, andiMandiTokens: 5, voteStreak: 0, lastVoteDate: '',
+                        defenseShields: 0, voteStreak: 0, lastVoteDate: '',
                         achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false },
                         lastActiveTime: Date.now()
                     });
@@ -834,11 +844,13 @@
                             if (dbMember.password === undefined) updates.password = target.password;
                             if (dbMember.isAdmin !== target.isAdmin) updates.isAdmin = target.isAdmin;
                             if (dbMember.defenseShields === undefined) updates.defenseShields = 0;
-                            if (dbMember.andiMandiTokens === undefined) updates.andiMandiTokens = 5;
                             if (dbMember.voteStreak === undefined) updates.voteStreak = 0;
                             if (dbMember.lastVoteDate === undefined) updates.lastVoteDate = '';
                             if (dbMember.achievements === undefined) updates.achievements = { trusted: false, weaponsMaster: false, diplomat: false, merciful: false };
                             
+                            // Cleanup token logic entirely
+                            if (dbMember.andiMandiTokens !== undefined) updates.andiMandiTokens = deleteField();
+
                             if (Object.keys(updates).length > 0) { 
                                 batch.update(doc(db, basePath, 'members', dbMember.id), updates); 
                                 needsUpdate = true; 
@@ -1086,6 +1098,9 @@
             renderFeed(); 
         }
 
+        window.openRulesModal = () => { rulesModal.classList.remove('hidden'); };
+        window.closeRulesModal = () => { rulesModal.classList.add('hidden'); };
+
         // --- ALLIANCE FEATURES ---
         window.proposeAlliance = async (targetId) => {
             const target = localMembers.find(m => m.id === targetId);
@@ -1153,16 +1168,31 @@
         window.buyDefenseShield = async () => {
             const me = localMembers.find(m => m.id === currentUserId);
             if(!me) return;
-            if(me.andiMandiTokens < 1) { showToast("Insufficient Andi Mandi Tokens.", "error"); return; }
-            if(!confirm("Spend 1 Andi Mandi Token for a Defense Shield? (Blocks 1 Gaddari penalty automatically)")) return;
+            if((me.satvikCount || 0) < 1) { showToast("Insufficient Satvik Cards.", "error"); return; }
+            if(!confirm("Spend 1 Satvik Card for a Defense Shield? (Blocks 1 Gaddari penalty automatically)")) return;
 
             try {
                 await updateDoc(doc(db, basePath, 'members', me.id), { 
-                    andiMandiTokens: me.andiMandiTokens - 1, 
+                    satvikCount: me.satvikCount - 1, 
                     defenseShields: (me.defenseShields || 0) + 1,
                     'achievements.weaponsMaster': true 
                 });
                 showToast("Defense Shield Acquired!", "success");
+                updateDashboardUI();
+            } catch(e) { showToast("Transaction failed.", "error"); }
+        }
+
+        window.sellDefenseShield = async () => {
+            const me = localMembers.find(m => m.id === currentUserId);
+            if(!me) return;
+            if((me.defenseShields || 0) < 1) { showToast("You have no shields to return.", "error"); return; }
+
+            try {
+                await updateDoc(doc(db, basePath, 'members', me.id), { 
+                    satvikCount: (me.satvikCount || 0) + 1, 
+                    defenseShields: me.defenseShields - 1 
+                });
+                showToast("Shield returned. Satvik refunded.", "success");
                 updateDashboardUI();
             } catch(e) { showToast("Transaction failed.", "error"); }
         }
@@ -1195,11 +1225,11 @@
             const btn = document.getElementById('castJudgmentBtn');
             if(e.target.value === 'none') {
                 div.classList.add('hidden');
-                btn.innerText = "Maintain Peace (+1 Token)";
+                btn.innerText = "Maintain Peace";
                 btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-sm";
             } else {
                 div.classList.remove('hidden');
-                btn.innerText = "Accuse (Req: 3 Approvals)";
+                btn.innerText = "Accuse (Req: 4 Approvals)";
                 btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white font-black py-3 rounded-lg transition-all shadow-md transform active:scale-95 text-xs uppercase tracking-widest mt-1";
             }
         });
@@ -1352,10 +1382,8 @@
             if (me.gaddariIndex > 70) headerGaddar.classList.add('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow'); 
             else headerGaddar.classList.remove('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow');
 
-            // Tokens and Shields display
-            document.getElementById('headerTokens').innerText = me.andiMandiTokens || 0;
+            // Shields display
             document.getElementById('headerShields').innerText = me.defenseShields || 0;
-            document.getElementById('mobileTokens').innerText = me.andiMandiTokens || 0;
             document.getElementById('mobileShields').innerText = me.defenseShields || 0;
             document.getElementById('currentStreak').innerText = me.voteStreak || 0;
 
@@ -1511,7 +1539,7 @@
                 document.getElementById('adminValLahsun').value = target.lahsunCount || 0;
                 document.getElementById('adminValNonveg').value = target.nonvegCount || 0;
                 document.getElementById('adminValGaddari').value = target.gaddariIndex || 0;
-                document.getElementById('adminValTokens').value = target.andiMandiTokens || 0;
+                document.getElementById('adminValShields').value = target.defenseShields || 0;
                 document.getElementById('adminValPassword').value = '';
             }
         }
@@ -1528,7 +1556,7 @@
                     lahsunCount: parseInt(document.getElementById('adminValLahsun').value) || 0,
                     nonvegCount: parseInt(document.getElementById('adminValNonveg').value) || 0,
                     gaddariIndex: parseInt(document.getElementById('adminValGaddari').value) || 0,
-                    andiMandiTokens: parseInt(document.getElementById('adminValTokens').value) || 0
+                    defenseShields: parseInt(document.getElementById('adminValShields').value) || 0
                 };
 
                 const newPass = document.getElementById('adminValPassword').value.trim();
@@ -1554,6 +1582,26 @@
                 await batch.commit();
                 showToast("Target's Alliance forcibly broken.", "success");
             } catch(e) { showToast("Failed.", "error"); }
+        }
+
+        window.adminZeroInventory = async () => {
+            const targetId = document.getElementById('adminTarget').value;
+            if(!targetId) return;
+            const target = localMembers.find(m => m.id === targetId);
+            if(!target) return;
+
+            if(!confirm(`OVERLORD DECREE: Instantly wipe ALL weapons and shields for ${target.name} to 0?`)) return;
+
+            try {
+                await updateDoc(doc(db, basePath, 'members', targetId), {
+                    satvikCount: 0,
+                    lahsunCount: 0,
+                    nonvegCount: 0,
+                    defenseShields: 0
+                });
+                showToast(`${target.name}'s inventory has been wiped to 0.`, "success");
+                loadAdminTargetStats();
+            } catch(e) { showToast("Failed to wipe inventory.", "error"); }
         }
 
         window.adminDeleteVote = async (id) => {
@@ -1656,7 +1704,7 @@
                 const batch = writeBatch(db);
                 localMembers.forEach(m => {
                     const ref = doc(db, basePath, 'members', m.id);
-                    batch.update(ref, { satvikCount: 2, lahsunCount: 0, nonvegCount: 0, gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0, allianceWith: null, allianceEndTime: 0, defenseShields: 0, andiMandiTokens: 5, voteStreak: 0, achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false } });
+                    batch.update(ref, { satvikCount: 2, lahsunCount: 0, nonvegCount: 0, gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0, allianceWith: null, allianceEndTime: 0, defenseShields: 0, voteStreak: 0, achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false } });
                 });
                 localEvents.forEach(e => batch.delete(doc(db, basePath, 'am_events', e.uid)));
                 localGaddariVotes.forEach(v => batch.delete(doc(db, basePath, 'gaddari_votes', v.uid)));
@@ -2055,10 +2103,10 @@
                 const isAccusation = reporterId && reporterId !== targetId;
                 const reporterName = isAccusation ? getName(reporterId) : targetUser.name;
                 
-                let conf = { name: 'Gaddari Accusation', color: 'rose', icon: 'crosshair', reqApprovals: 3 };
+                let conf = { name: 'Gaddari Accusation', color: 'rose', icon: 'crosshair', reqApprovals: 4 };
                 if (!isGaddari) {
                     const configs = { satvik: { name: 'Satvik Request', color: 'emerald', icon: 'leaf' }, lahsun: { name: 'Lahsun Pyaaj', color: 'amber', icon: 'flame' }, nonveg: { name: 'Non-Veg Strike', color: 'rose', icon: 'skull' } };
-                    conf = { ...configs[event.type], reqApprovals: 4 };
+                    conf = { ...configs[event.type], reqApprovals: 3 };
                 }
 
                 const hasVoted = event.votes && event.votes[currentUserId] !== undefined;
@@ -2168,7 +2216,7 @@
                         if(decision) approves++; else rejects++; 
                     });
                     
-                    const reqApprovals = category === 'card' ? 4 : 3;
+                    const reqApprovals = category === 'card' ? 3 : 4;
                     if (approves >= reqApprovals) newStatus = 'confirmed';
                     else if (rejects >= reqApprovals) newStatus = 'rejected';
                 }
@@ -2207,7 +2255,7 @@
             if (targetId !== 'none' && !reason) { showToast("Evidence mandatory for accusation.", 'warning'); return; }
 
             try {
-                // Streak & Token Logic
+                // Streak Logic
                 const me = localMembers.find(m => m.id === currentUserId);
                 const yesterdayDate = new Date();
                 yesterdayDate.setDate(yesterdayDate.getDate() - 1);
@@ -2217,8 +2265,7 @@
                 if (me.lastVoteDate === yesterdayStr) newStreak += 1;
                 else if (me.lastVoteDate !== todayStr) newStreak = 1;
 
-                let newTokens = (me.andiMandiTokens || 0) + 1;
-                let memberUpdates = { lastVoteDate: todayStr, voteStreak: newStreak, andiMandiTokens: newTokens };
+                let memberUpdates = { lastVoteDate: todayStr, voteStreak: newStreak };
 
                 if (newStreak >= 7 && me.gaddariIndex === 0) {
                     memberUpdates['achievements.trusted'] = true;
@@ -2230,7 +2277,7 @@
                         date: todayStr, voterId: currentUserId, targetId: 'none',
                         reason: 'Maintained Peace', timestamp: serverTimestamp(), status: 'peace'
                     });
-                    showToast("Peace Maintained (+1 Token).", 'success');
+                    showToast("Peace Maintained for the day.", 'success');
                 } else {
                     // Send to tribunal
                     await addDoc(collection(db, basePath, 'gaddari_votes'), {
@@ -2238,7 +2285,7 @@
                         reason: reason, timestamp: serverTimestamp(), status: 'pending',
                         votes: { [currentUserId]: { decision: true, reason: 'Initial Accusation' } }
                     });
-                    showToast("Accusation filed to Tribunal (+1 Token).", 'success');
+                    showToast("Accusation filed to Tribunal.", 'success');
                 }
                 
                 await updateDoc(doc(db, basePath, 'members', currentUserId), memberUpdates);
