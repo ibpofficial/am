@@ -191,12 +191,15 @@
                         <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group border-indigo-200 dark:border-indigo-500/30 bg-gradient-to-br from-indigo-50 to-transparent dark:from-indigo-950/40 shadow-sm flex flex-col">
                             <div class="absolute -right-6 -top-6 text-indigo-500/10 group-hover:scale-110 transition-all duration-500"><i data-lucide="shield" class="w-32 h-32"></i></div>
                             <div class="relative z-10 flex-1 flex flex-col">
-                                <div class="w-10 h-10 bg-white dark:bg-indigo-500/10 rounded-xl flex items-center justify-center mb-3 border border-indigo-100 shadow-sm"><i data-lucide="shield" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i></div>
+                                <div class="flex justify-between items-start">
+                                    <div class="w-10 h-10 bg-white dark:bg-indigo-500/10 rounded-xl flex items-center justify-center mb-3 border border-indigo-100 shadow-sm"><i data-lucide="shield" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i></div>
+                                    <span class="text-[8px] bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400 px-1.5 py-0.5 rounded font-bold uppercase">Mon-Wed Only</span>
+                                </div>
                                 <h3 class="text-xl font-black text-indigo-700 dark:text-indigo-400 mb-0.5">Defense Shield</h3>
-                                <p class="text-[10px] font-medium text-slate-500 mb-4 flex-1 leading-snug">Blocks 1 Gaddari Penalty automatically. <br><span class="text-indigo-500 font-bold">Buy: Mon, Tue, Wed ONLY.</span></p>
+                                <p class="text-[10px] font-medium text-slate-500 mb-4 flex-1 leading-snug">Blocks 1 Gaddari Penalty automatically. Undo within 30s.</p>
                                 <div class="flex gap-2">
-                                    <button id="btnBuyShield" onclick="buyDefenseShield()" class="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-md transition-colors flex items-center justify-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy (1 Satvik)</button>
-                                    <button id="btnSellShield" onclick="sellDefenseShield()" class="flex-[1] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-sm transition-colors flex items-center justify-center" title="Undo Purchase (Valid for 30s)"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
+                                    <button onclick="buyDefenseShield()" class="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-md transition-colors flex items-center justify-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy (1 Satvik)</button>
+                                    <button onclick="sellDefenseShield()" class="flex-[1] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-sm transition-colors flex items-center justify-center" title="Undo Purchase (Must be within 30s)"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -276,7 +279,7 @@
                                             </select>
                                         </div>
                                         <div id="gaddarReasonDiv" class="hidden transition-all duration-300">
-                                            <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="REQUIRED: Provide undeniable evidence..."></textarea>
+                                            <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="Required: Provide detailed evidence..."></textarea>
                                         </div>
                                         <button onclick="submitGaddariVote()" id="castJudgmentBtn" class="w-full bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md">Maintain Peace</button>
                                     </div>
@@ -311,7 +314,7 @@
 
                                 <div class="flex-1 flex flex-col">
                                     <div class="flex justify-between items-center border-b border-indigo-200 dark:border-indigo-500/30 pb-1 mb-2">
-                                        <h3 class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Pending Cases (Proof Required)</h3>
+                                        <h3 class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Pending Cases</h3>
                                     </div>
                                     <div id="pendingVotesContainer" class="space-y-2.5 flex-1"></div>
                                 </div>
@@ -324,11 +327,11 @@
                     <div class="lg:col-span-7 h-full flex flex-col gap-6">
 
                         <!-- SQUAD SOCIAL FEED -->
-                        <section class="glass-panel p-4 sm:p-5 rounded-2xl border-blue-200 dark:border-blue-500/30 bg-blue-50/50 dark:bg-blue-900/10 flex flex-col h-80 shrink-0 relative">
+                        <section class="glass-panel p-4 sm:p-5 rounded-2xl border-blue-200 dark:border-blue-500/30 bg-blue-50/50 dark:bg-blue-900/10 flex flex-col h-80 shrink-0">
                             <div class="flex items-center justify-between mb-3 border-b border-blue-200 dark:border-blue-500/20 pb-2 shrink-0">
                                 <div class="flex items-center gap-2">
                                     <i data-lucide="message-square" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
-                                    <h2 class="text-sm font-black tracking-tight text-blue-800 dark:text-blue-300 uppercase">Transparency Log & Feed</h2>
+                                    <h2 class="text-sm font-black tracking-tight text-blue-800 dark:text-blue-300 uppercase">Squad Feed</h2>
                                 </div>
                             </div>
                             
@@ -412,37 +415,51 @@
             <div class="flex-1 overflow-y-auto p-5 sm:p-8 space-y-6 hide-scrollbar text-sm text-slate-700 dark:text-slate-300">
                 
                 <div class="bg-rose-50 dark:bg-rose-950/20 p-4 rounded-2xl border border-rose-100 dark:border-rose-900/50">
-                    <h3 class="font-black text-rose-700 dark:text-rose-400 mb-2 flex items-center gap-2"><i data-lucide="crosshair" class="w-4 h-4"></i> The Gaddar Index & Mandatory Proof</h3>
+                    <h3 class="font-black text-rose-700 dark:text-rose-400 mb-2 flex items-center gap-2"><i data-lucide="crosshair" class="w-4 h-4"></i> The Gaddar Index (Daily Judgment)</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-rose-400">
-                        <li>Every member can vote daily to accuse someone of being a "Gaddar".</li>
+                        <li>Every member can vote daily to accuse someone of being a "Gaddar" (Traitor).</li>
                         <li>An accusation requires exactly <strong>3 Squad Approvals</strong> to be confirmed.</li>
-                        <li><strong>NEW:</strong> Every single vote (Approval or Rejection) requires <strong>MANDATORY PROOF</strong> or an explanation. You cannot vote blindly.</li>
-                        <li>Confirmed target suffers a <strong>+10% penalty</strong>. Excess of 70% revokes all privileges.</li>
+                        <li><strong>MANDATORY PROOF:</strong> You cannot approve an accusation without typing a detailed reason/proof in the Tribunal.</li>
+                        <li>Once confirmed, the target suffers a <strong>+10% penalty</strong> to their Gaddar Index.</li>
+                        <li>If a member's Gaddari Index exceeds <strong>70%</strong>, their voting and weapon privileges are immediately revoked until they appeal and clear their name.</li>
                     </ul>
                 </div>
 
                 <div class="bg-emerald-50 dark:bg-emerald-950/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
-                    <h3 class="font-black text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4"></i> Monday Resets & Inactivity Penalty</h3>
+                    <h3 class="font-black text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2"><i data-lucide="leaf" class="w-4 h-4"></i> Andi Mandi Cards (Tribunal Requests)</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-emerald-400">
-                        <li><strong>Monday Protocol:</strong> On Monday, regardless of past balances, every operative is automatically restocked to exactly <strong>2 Satvik Cards</strong>.</li>
-                        <li><strong>AWOL Penalty:</strong> If you do not log in for <strong>3 continuous days</strong>, your Satvik cards are zeroed out as a penalty.</li>
+                        <li>Requests to use a <strong>Satvik</strong>, <strong>Lahsun</strong>, or <strong>Non-Veg</strong> card must pass through the Tribunal.</li>
+                        <li>All card usage requests require exactly <strong>3 Squad Approvals</strong> with mandatory written proof.</li>
+                        <li><strong>WEEKLY RESET:</strong> Every Monday, all players' Satvik cards are automatically renewed/reset to exactly 2.</li>
+                        <li><strong>INACTIVITY PENALTY:</strong> If you do not open your account for 3 continuous days, your Satvik cards will be wiped to 0 for the remainder of the week.</li>
                     </ul>
                 </div>
 
                 <div class="bg-indigo-50 dark:bg-indigo-950/20 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-900/50">
-                    <h3 class="font-black text-indigo-700 dark:text-indigo-400 mb-2 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Strict Defense Shields Economy</h3>
+                    <h3 class="font-black text-indigo-700 dark:text-indigo-400 mb-2 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Defense Shields & Weapons Economy</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-indigo-400">
-                        <li>Trade exactly <strong>1 Satvik Card</strong> to buy <strong>1 Defense Shield</strong>.</li>
-                        <li><strong>Time-Lock:</strong> Shields can ONLY be purchased on <strong>Monday, Tuesday, and Wednesday</strong>.</li>
-                        <li><strong>Undo Limit:</strong> Selling a shield back is strictly limited to a <strong>30-second window</strong> after purchase.</li>
+                        <li>You must trade exactly <strong>1 Satvik Card</strong> to buy <strong>1 Defense Shield</strong>.</li>
+                        <li><strong>TIME LIMIT:</strong> Shields can ONLY be purchased on Monday, Tuesday, or Wednesday.</li>
+                        <li><strong>UNDO WINDOW:</strong> You can only "Undo" (sell) a shield to get your card back within 30 seconds of buying it.</li>
+                        <li>Shields automatically block 1 confirmed Gaddari penalty.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-amber-50 dark:bg-amber-950/20 p-4 rounded-2xl border border-amber-100 dark:border-amber-900/50">
+                    <h3 class="font-black text-amber-700 dark:text-amber-400 mb-2 flex items-center gap-2"><i data-lucide="handshake" class="w-4 h-4"></i> Neta Alliances</h3>
+                    <ul class="list-disc pl-5 space-y-1.5 marker:text-amber-400">
+                        <li>You can propose a Neta Alliance with any other member.</li>
+                        <li>Allied members can easily transfer Satvik and Lahsun cards to each other to help out.</li>
+                        <li>To forcefully break an alliance early, a member must sacrifice exactly <strong>1 Non-Veg Card</strong>.</li>
                     </ul>
                 </div>
 
                 <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <h3 class="font-black text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2"><i data-lucide="eye" class="w-4 h-4"></i> Radical Transparency & Admins</h3>
+                    <h3 class="font-black text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2"><i data-lucide="eye" class="w-4 h-4 text-indigo-500"></i> Tribunal Transparency & Overlords</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-slate-500">
-                        <li><strong>Transparency Log:</strong> Every action, vote, shield purchase, and card transfer is permanently broadcasted to the Feed with reasons attached. Nothing is hidden.</li>
-                        <li><strong>Overlord Powers:</strong> Admins can force weekly resets, manually clear inactivity penalties, and alter profiles at will via the advanced Admin Terminal.</li>
+                        <li><strong>Full Transparency:</strong> All Tribunal cases now publicly display exactly who voted to approve/reject and what proof they provided.</li>
+                        <li><strong>Auto-Resolution:</strong> Any case left pending in the Tribunal for 48 hours is automatically resolved based on the current majority of votes.</li>
+                        <li>Overlords can edit any operative's inventory, force system announcements, and instantly wipe servers.</li>
                     </ul>
                 </div>
             </div>
@@ -467,19 +484,14 @@
                 <!-- Admin Tools -->
                 <div class="lg:col-span-5 space-y-4">
                     
-                    <div class="bg-amber-50 dark:bg-amber-950/20 p-4 rounded-xl border border-amber-200 dark:border-amber-900/50">
-                        <h3 class="text-xs font-bold text-amber-600 dark:text-amber-500 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="zap" class="w-3.5 h-3.5"></i> System Overrides</h3>
-                        <button onclick="adminForceWeeklyReset()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-lg transition-all text-[10px] uppercase tracking-widest shadow-md mb-2">Force Monday Satvik Reset</button>
-                    </div>
-
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <h3 class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sliders" class="w-3.5 h-3.5 text-blue-500"></i> Operative Override</h3>
                         
-                        <select id="adminTarget" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs mb-3" onchange="loadAdminTargetStats()"></select>
+                        <select id="adminTarget" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs mb-3 font-bold" onchange="loadAdminTargetStats()"></select>
                         
                         <div class="mb-3">
                             <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Operative Name</label>
-                            <input type="text" id="adminValName" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none font-bold">
+                            <input type="text" id="adminValName" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                         </div>
 
                         <div class="grid grid-cols-3 gap-2 mb-2">
@@ -506,15 +518,13 @@
                                 <input type="number" id="adminValShields" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                         </div>
-                        
-                        <div class="flex items-center gap-2 mb-4 p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-700/50">
-                            <input type="checkbox" id="adminValIsAdmin" class="w-4 h-4 text-amber-600 rounded border-amber-300 focus:ring-amber-500">
-                            <label class="text-[10px] text-amber-700 dark:text-amber-400 uppercase font-bold block">Grant Overlord Powers</label>
-                        </div>
-
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Force Update PIN</label>
                             <input type="text" id="adminValPassword" placeholder="Leave blank to keep current" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                        </div>
+                        <div class="mb-4 flex items-center gap-2">
+                            <input type="checkbox" id="adminValIsAdmin" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+                            <label class="text-xs font-bold text-amber-600 dark:text-amber-500 cursor-pointer" for="adminValIsAdmin">Grant Overlord Powers</label>
                         </div>
 
                         <div class="flex gap-2 mb-4">
@@ -525,9 +535,14 @@
                         <button onclick="adminSaveTargetStats()" class="w-full bg-blue-100 dark:bg-blue-600/20 hover:bg-blue-200 dark:hover:bg-blue-600/40 text-blue-700 dark:text-blue-400 font-bold py-2.5 rounded-lg transition-all text-xs uppercase tracking-wide">Force Save Intel</button>
                     </div>
 
+                    <div class="bg-indigo-50 dark:bg-indigo-950/20 p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/50">
+                        <h3 class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="megaphone" class="w-3.5 h-3.5"></i> System Broadcast</h3>
+                        <textarea id="adminBroadcastText" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none mb-2 shadow-sm" placeholder="Message will appear from SYSTEM..."></textarea>
+                        <button onclick="adminBroadcast()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-lg transition-all text-xs uppercase tracking-wide shadow-md">Broadcast to Feed</button>
+                    </div>
+
                     <div class="bg-rose-50 dark:bg-rose-950/20 p-4 rounded-xl border border-rose-200 dark:border-rose-900/50">
                         <h3 class="text-xs font-bold text-rose-600 dark:text-rose-500 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="skull" class="w-3.5 h-3.5"></i> Danger Zone</h3>
-                        <button onclick="adminSanitizeDatabase()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md mb-2 flex items-center justify-center gap-1.5"><i data-lucide="wrench" class="w-3.5 h-3.5"></i> Fix Corrupted Data</button>
                         <button onclick="adminGlobalWipe()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md">Execute System Wipe</button>
                     </div>
                 </div>
@@ -556,7 +571,7 @@
                     <h2 id="amModalTitle" class="text-xl font-black tracking-tight leading-none">Card</h2>
                 </div>
             </div>
-            <textarea id="amReasonInput" rows="3" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-100 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none transition-all resize-none shadow-sm mb-5 text-sm" placeholder="REQUIRED: State undeniable justification..."></textarea>
+            <textarea id="amReasonInput" rows="3" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-100 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none transition-all resize-none shadow-sm mb-5 text-sm" placeholder="State justification..."></textarea>
             <div class="flex gap-3">
                 <button onclick="closeAmModal()" class="flex-1 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl text-sm transition-all">Cancel</button>
                 <button id="amSubmitBtn" class="flex-[2] bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-black py-3 rounded-xl shadow-md transform active:scale-95 text-sm">Submit to Tribunal</button>
@@ -638,7 +653,7 @@
                             <h3 class="text-xs font-bold text-indigo-700 dark:text-indigo-300 mb-2 flex items-center gap-1.5"><i data-lucide="megaphone" class="w-3.5 h-3.5"></i> Accuse Unauthorized Usage</h3>
                             <div class="space-y-2.5 mt-3">
                                 <select id="reportCardType" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm"></select>
-                                <input type="text" id="reportReason" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm" placeholder="MANDATORY Evidence...">
+                                <input type="text" id="reportReason" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm" placeholder="Evidence...">
                                 <button id="reportSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 transition-colors text-white font-bold py-2.5 rounded-lg shadow-md text-xs tracking-wide mt-1">Submit to Tribunal</button>
                             </div>
                         </div>
@@ -701,19 +716,18 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, onSnapshot, updateDoc, addDoc, serverTimestamp, writeBatch, deleteDoc, deleteField } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, getDocs, onSnapshot, updateDoc, addDoc, serverTimestamp, writeBatch, deleteDoc, deleteField } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // UPDATED: Fresh New Server Config
         const userFirebaseConfig = {
-            apiKey: "AIzaSyAGmSHiSFvlOIk5woSsbBLI5rndASromyg",
-            authDomain: "dmin-dbe58.firebaseapp.com",
-            projectId: "dmin-dbe58",
-            storageBucket: "dmin-dbe58.firebasestorage.app",
-            messagingSenderId: "369190320724",
-            appId: "1:369190320724:web:29a949f473c557d63d4bc1"
+            apiKey: "AIzaSyAbXs0vdvBAdNqZa_7V_W6-x9SYo_y1A5Y",
+            authDomain: "admin-7a8e5.firebaseapp.com",
+            projectId: "admin-7a8e5",
+            storageBucket: "admin-7a8e5.firebasestorage.app",
+            messagingSenderId: "751025678000",
+            appId: "1:751025678000:web:9489d7d08d902bad14fd75"
         };
-
-        const REQ_GADDARI_APPROVALS = 3;
 
         let app, auth, db, currentUserId;
         let isInitialized = false;
@@ -721,7 +735,6 @@
         let localMembers = [], localEvents = [], localGaddariVotes = [], localFeed = [];
         let currentAmType = null;
         let timeLockedCheckInterval = null;
-        let shieldUndoInterval = null;
         
         const DEFAULT_MEMBERS = [
             { id: 'm1', name: 'ISHANT', password: 'ishant2112#', isAdmin: true },
@@ -743,6 +756,14 @@
         const rulesModal = document.getElementById('rulesModal');
         let selectedLoginMember = null;
         let activeProfileId = null;
+
+        // Utility: Find Monday midnight of current week
+        const getMonday = (d) => {
+            d = new Date(d);
+            var day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6: 1);
+            d.setDate(diff); d.setHours(0,0,0,0);
+            return d.getTime();
+        };
 
         const getMillis = (ts) => {
             try {
@@ -800,14 +821,6 @@
             return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
         };
 
-        const getWeekIdentifier = (d) => {
-            const date = new Date(d.getTime());
-            date.setHours(0, 0, 0, 0);
-            date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-            const week1 = new Date(date.getFullYear(), 0, 4);
-            return date.getFullYear() + '-' + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
-        };
-
         async function bootup() {
             lucide.createIcons();
             if (typeof __app_id !== 'undefined') appId = __app_id;
@@ -819,7 +832,15 @@
                 db = getFirestore(app);
                 basePath = `artifacts/${appId}/public/data`;
                 
-                await signInAnonymously(auth);
+                const initAuth = async () => {
+                  if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                  } else {
+                    await signInAnonymously(auth);
+                  }
+                };
+                await initAuth();
+
                 onAuthStateChanged(auth, async (user) => {
                     if (user && !isInitialized) {
                         isInitialized = true;
@@ -828,7 +849,6 @@
                             startRealtimeListeners();
                             startDailyCountdown();
                             startPresenceTracker();
-                            shieldUndoInterval = setInterval(updateShieldUndoUI, 1000);
                         } catch(err) {}
                     }
                 });
@@ -838,6 +858,9 @@
         async function ensureDatabaseStructure() {
             const membersRef = collection(db, basePath, 'members');
             const snap = await getDocs(membersRef);
+            const now = Date.now();
+            const currentMonday = getMonday(now);
+
             if (snap.empty) {
                 const batch = writeBatch(db);
                 DEFAULT_MEMBERS.forEach(m => {
@@ -848,7 +871,7 @@
                         allianceWith: null, allianceEndTime: 0,
                         defenseShields: 0, voteStreak: 0, lastVoteDate: '',
                         achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false },
-                        lastActiveTime: Date.now(), lastShieldPurchaseTime: 0
+                        lastActiveTime: now, lastResetMonday: currentMonday, lastShieldBuyTime: 0
                     });
                 });
                 await batch.commit();
@@ -870,13 +893,17 @@
                         const target = DEFAULT_MEMBERS.find(m => m.id === dbMember.id);
                         if (target) {
                             let updates = {};
-                            if (dbMember.name !== target.name && target.isAdmin && !dbMember.isAdmin) updates.name = target.name;
+                            if (dbMember.name !== target.name) updates.name = target.name;
                             if (dbMember.password === undefined) updates.password = target.password;
                             if (dbMember.isAdmin !== target.isAdmin) updates.isAdmin = target.isAdmin;
                             if (dbMember.defenseShields === undefined) updates.defenseShields = 0;
                             if (dbMember.voteStreak === undefined) updates.voteStreak = 0;
-                            if (dbMember.lastShieldPurchaseTime === undefined) updates.lastShieldPurchaseTime = 0;
+                            if (dbMember.lastResetMonday === undefined) updates.lastResetMonday = getMonday(Date.now());
+                            if (dbMember.lastShieldBuyTime === undefined) updates.lastShieldBuyTime = 0;
+                            if (dbMember.achievements === undefined) updates.achievements = { trusted: false, weaponsMaster: false, diplomat: false, merciful: false };
                             
+                            if (dbMember.andiMandiTokens !== undefined) updates.andiMandiTokens = deleteField();
+
                             if (Object.keys(updates).length > 0) { 
                                 batch.update(doc(db, basePath, 'members', dbMember.id), updates); 
                                 needsUpdate = true; 
@@ -888,11 +915,11 @@
 
                 if (!isMembersLoaded) {
                     isMembersLoaded = true;
-                    await checkWeeklyReset(); // Check Monday reset first
                     await checkSavedLogin();
                 } else if (!currentUserId) {
                     renderLoginScreen();
                 } else {
+                    runGlobalMaintenance(); // Execute Monday reset + inactivity checks globally
                     updateDashboardUI();
                     if(activeProfileId) updateProfileModalData();
                     updateAdminUI();
@@ -925,32 +952,39 @@
             }
         }
 
-        async function checkWeeklyReset() {
-            try {
-                const today = new Date();
-                const currentWeek = getWeekIdentifier(today);
-                const globalsRef = doc(db, basePath, 'system', 'globals');
-                const snap = await getDoc(globalsRef);
-                
-                let lastResetWeek = '';
-                if(snap.exists()) lastResetWeek = snap.data().lastResetWeek;
+        // --- GLOBAL MAINTENANCE: Monday Reset & Inactivity ---
+        async function runGlobalMaintenance() {
+            if(!currentUserId || localMembers.length === 0) return;
+            const now = Date.now();
+            const currentMonday = getMonday(now);
+            const batch = writeBatch(db);
+            let needsCommit = false;
 
-                // Trigger if it's Monday AND we haven't reset this week yet
-                if (today.getDay() === 1 && currentWeek !== lastResetWeek) {
-                    await setDoc(globalsRef, { lastResetWeek: currentWeek }, { merge: true });
-                    
-                    const batch = writeBatch(db);
-                    localMembers.forEach(m => {
-                        batch.update(doc(db, basePath, 'members', m.id), { satvikCount: 2 });
-                    });
-                    await batch.commit();
-                    
-                    await addDoc(collection(db, basePath, 'squad_feed'), { 
-                        text: `🔄 MONDAY PROTOCOL INITIATED: A new week begins. All operatives have been restocked to exactly 2 Satvik Cards.`, 
-                        authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true 
-                    });
+            localMembers.forEach(m => {
+                let updates = {};
+                // 1. Monday Reset
+                if (m.lastResetMonday !== currentMonday) {
+                    updates.lastResetMonday = currentMonday;
+                    updates.satvikCount = 2; // Renew exactly to 2
                 }
-            } catch (err) { console.warn("Weekly reset check failed:", err); }
+
+                // 2. 3-Day Inactivity Wipe
+                const lastActive = m.lastActiveTime || now; 
+                if ((now - lastActive) > (3 * 24 * 60 * 60 * 1000)) {
+                    if (m.satvikCount > 0) {
+                        updates.satvikCount = 0;
+                    }
+                }
+
+                if (Object.keys(updates).length > 0) {
+                    batch.update(doc(db, basePath, 'members', m.id), updates);
+                    needsCommit = true;
+                }
+            });
+
+            if (needsCommit) {
+                try { await batch.commit(); } catch(e) {}
+            }
         }
 
         function startDailyCountdown() {
@@ -970,9 +1004,7 @@
         function startPresenceTracker() {
             setInterval(async () => {
                 if(currentUserId) {
-                    try {
-                        await updateDoc(doc(db, basePath, 'members', currentUserId), { lastActiveTime: Date.now() });
-                    } catch(e) {}
+                    try { await updateDoc(doc(db, basePath, 'members', currentUserId), { lastActiveTime: Date.now() }); } catch(e) {}
                 }
             }, 120000);
         }
@@ -1018,7 +1050,7 @@
                                     if (targetMember) {
                                         if (targetMember.defenseShields > 0) {
                                             await updateDoc(doc(db, basePath, 'members', targetMember.id), { defenseShields: targetMember.defenseShields - 1 });
-                                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `🛡️ SYSTEM: ${targetMember.name} automatically deployed a Defense Shield blocking an auto-resolved penalty!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+                                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `🛡️ SYSTEM: ${targetMember.name} automatically deployed a Defense Shield blocking a time-locked Gaddari penalty!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
                                         } else {
                                             const newGaddari = Math.min(100, (targetMember.gaddariIndex || 0) + 10);
                                             await updateDoc(doc(db, basePath, 'members', targetMember.id), { gaddariIndex: newGaddari });
@@ -1028,7 +1060,7 @@
                             }
                             
                             await updateDoc(doc(db, basePath, collectionName, ev.uid), { status: newStatus, isAutoResolved: true });
-                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `⏱️ SYSTEM: A pending case was auto-resolved to [${newStatus.toUpperCase()}] after 48 hours.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `⏱️ SYSTEM: A pending case was auto-resolved to [${newStatus.toUpperCase()}] after 48 hours of inactivity.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
                             
                         } catch(e) { console.error("Auto-resolve failed", e); }
                     }
@@ -1052,22 +1084,7 @@
                 try {
                     const me = localMembers.find(m => m.id === uid);
                     if(me) {
-                        // 3-Day Inactivity Penalty check
-                        const lastActive = me.lastActiveTime || Date.now();
-                        const daysInactive = (Date.now() - lastActive) / (1000 * 60 * 60 * 24);
-                        
-                        let updates = { appOpens: (me.appOpens || 0) + 1, lastActiveTime: Date.now() };
-                        
-                        if (daysInactive >= 3 && me.satvikCount > 0) {
-                            updates.satvikCount = 0;
-                            showToast("You lost all Satvik cards due to 3+ days of inactivity.", "error");
-                            await addDoc(collection(db, basePath, 'squad_feed'), { 
-                                text: `⚠️ AWOL PENALTY: ${me.name} was missing for 3+ days. Satvik cards have been zeroed out.`, 
-                                authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true 
-                            });
-                        }
-                        
-                        await updateDoc(doc(db, basePath, 'members', uid), updates);
+                        await updateDoc(doc(db, basePath, 'members', uid), { appOpens: (me.appOpens || 0) + 1, lastActiveTime: Date.now() });
                         sessionStorage.setItem(`appOpened_${uid}`, 'true');
                     }
                 } catch(e) {}
@@ -1137,6 +1154,7 @@
                 loginModal.classList.add('hidden');
                 
                 await processAppOpen(currentUserId);
+                runGlobalMaintenance();
                 
                 showToast(`Access Granted.`, 'success');
                 showApp();
@@ -1183,7 +1201,7 @@
                 batch.update(doc(db, basePath, 'members', targetId), { allianceWith: me.id, allianceEndTime: expire, 'achievements.diplomat': true });
                 await batch.commit();
                 
-                await addDoc(collection(db, basePath, 'squad_feed'), { text: `🤝 TRANSPARENCY: ${me.name} and ${target.name} formed a Neta Alliance!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), likes: [], dislikes: [], isSystem: true });
+                await addDoc(collection(db, basePath, 'squad_feed'), { text: `🤝 ${me.name} and ${target.name} formed a Neta Alliance!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), likes: [], dislikes: [], isSystem: true });
                 
                 showToast("Alliance Formed! Valid for 48 hours.", "success");
                 closeProfileModal();
@@ -1204,7 +1222,7 @@
                 batch.update(doc(db, basePath, 'members', partnerId), { allianceWith: null, allianceEndTime: 0 });
                 await batch.commit();
                 
-                await addDoc(collection(db, basePath, 'squad_feed'), { text: `💔 TRANSPARENCY: ${me.name} brutally broke their alliance with ${getName(partnerId)} using a Non-Veg!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), likes: [], dislikes: [], isSystem: true });
+                await addDoc(collection(db, basePath, 'squad_feed'), { text: `💔 ${me.name} brutally broke their alliance with ${getName(partnerId)}!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), likes: [], dislikes: [], isSystem: true });
                 
                 showToast("Alliance broken.", "success");
                 closeProfileModal();
@@ -1225,38 +1243,33 @@
                 batch.update(doc(db, basePath, 'members', me.id), { [countKey]: me[countKey] - 1 });
                 batch.update(doc(db, basePath, 'members', target.id), { [countKey]: (target[countKey] || 0) + 1 });
                 await batch.commit();
-
-                await addDoc(collection(db, basePath, 'squad_feed'), { text: `📦 TRANSPARENCY: ${me.name} transferred 1 ${type.toUpperCase()} card to ${target.name}.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
-
                 showToast(`Transferred 1 ${type} to ${target.name}!`, "success");
                 updateProfileModalData();
             } catch(e) { showToast("Failed transfer.", "error"); }
         }
 
-        // --- BLACK MARKET ---
+        // --- BLACK MARKET / SHIELDS ---
         window.buyDefenseShield = async () => {
-            const day = new Date().getDay();
+            const me = localMembers.find(m => m.id === currentUserId);
+            if(!me) return;
+            
+            const day = new Date().getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
             if (![1, 2, 3].includes(day)) {
                 showToast("Shields can ONLY be bought on Mon, Tue, or Wed.", "error");
                 return;
             }
 
-            const me = localMembers.find(m => m.id === currentUserId);
-            if(!me) return;
             if((me.satvikCount || 0) < 1) { showToast("Insufficient Satvik Cards.", "error"); return; }
-            if(!confirm("Spend 1 Satvik Card for a Defense Shield?")) return;
+            if(!confirm("Spend 1 Satvik Card for a Defense Shield? (Blocks 1 Gaddari penalty automatically)")) return;
 
             try {
                 await updateDoc(doc(db, basePath, 'members', me.id), { 
                     satvikCount: me.satvikCount - 1, 
                     defenseShields: (me.defenseShields || 0) + 1,
-                    lastShieldPurchaseTime: Date.now(),
+                    lastShieldBuyTime: Date.now(),
                     'achievements.weaponsMaster': true 
                 });
-                
-                await addDoc(collection(db, basePath, 'squad_feed'), { text: `🛒 TRANSPARENCY: ${me.name} purchased a Defense Shield.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
-
-                showToast("Defense Shield Acquired!", "success");
+                showToast("Defense Shield Acquired! (30s Undo Window Active)", "success");
                 updateDashboardUI();
             } catch(e) { showToast("Transaction failed.", "error"); }
         }
@@ -1265,10 +1278,10 @@
             const me = localMembers.find(m => m.id === currentUserId);
             if(!me) return;
             if((me.defenseShields || 0) < 1) { showToast("You have no shields to return.", "error"); return; }
-            
-            const timeSince = Date.now() - (me.lastShieldPurchaseTime || 0);
-            if (timeSince > 30000) {
-                showToast("Undo window expired. You only have 30 seconds after purchase.", "error");
+
+            const now = Date.now();
+            if (!me.lastShieldBuyTime || (now - me.lastShieldBuyTime > 30000)) {
+                showToast("Undo period (30 seconds) has expired. Cannot return.", "error");
                 return;
             }
 
@@ -1276,48 +1289,20 @@
                 await updateDoc(doc(db, basePath, 'members', me.id), { 
                     satvikCount: (me.satvikCount || 0) + 1, 
                     defenseShields: me.defenseShields - 1,
-                    lastShieldPurchaseTime: 0
+                    lastShieldBuyTime: 0 
                 });
-                
-                await addDoc(collection(db, basePath, 'squad_feed'), { text: `🔄 TRANSPARENCY: ${me.name} used the 30-second Undo window to sell back a Defense Shield.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
-
-                showToast("Shield returned. Satvik refunded.", "success");
+                showToast("Shield purchase successfully undone.", "success");
                 updateDashboardUI();
             } catch(e) { showToast("Transaction failed.", "error"); }
-        }
-
-        function updateShieldUndoUI() {
-            if(!currentUserId) return;
-            const me = localMembers.find(m => m.id === currentUserId);
-            if(!me) return;
-            
-            const btn = document.getElementById('btnSellShield');
-            if(!btn) return;
-            
-            const timeSince = Date.now() - (me.lastShieldPurchaseTime || 0);
-            if (me.defenseShields > 0 && timeSince <= 30000) {
-                const left = Math.ceil((30000 - timeSince)/1000);
-                btn.innerHTML = `<i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Undo (${left}s)`;
-                btn.classList.remove('opacity-50', 'cursor-not-allowed');
-                lucide.createIcons();
-            } else {
-                btn.innerHTML = `<i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Undo Expired`;
-                btn.classList.add('opacity-50', 'cursor-not-allowed');
-                lucide.createIcons();
-            }
         }
 
         // --- UI UPDATES ---
         function updateScorecards() {
             if(localMembers.length === 0) return;
             
-            const sortRender = (arr, elId, formatFunc, emptyMsg = "None") => {
+            const sortRender = (arr, elId, formatFunc) => {
                 const el = document.getElementById(elId);
                 el.innerHTML = '';
-                if (arr.length === 0) {
-                    el.innerHTML = `<div class="text-center text-[10px] text-slate-400 italic py-2">${emptyMsg}</div>`;
-                    return;
-                }
                 arr.slice(0,3).forEach((m, idx) => {
                     const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉';
                     el.innerHTML += `
@@ -1329,14 +1314,9 @@
                 });
             };
             
-            const gaddars = [...localMembers].filter(m => m.gaddariIndex > 0).sort((a,b) => b.gaddariIndex - a.gaddariIndex);
-            sortRender(gaddars, 'leaderboardGaddar', m => `${m.gaddariIndex}%`, "No Gaddars Found.");
-            
-            const peacekeepers = [...localMembers].filter(m => m.gaddariIndex === 0).sort((a,b) => a.gaddariIndex - b.gaddariIndex);
-            sortRender(peacekeepers, 'leaderboardPeace', m => `${m.gaddariIndex}%`, "No Peacekeepers.");
-            
-            const armed = [...localMembers].filter(m => (m.satvikCount+m.lahsunCount+m.nonvegCount) > 0).sort((a,b) => (b.satvikCount+b.lahsunCount+b.nonvegCount) - (a.satvikCount+a.lahsunCount+a.nonvegCount));
-            sortRender(armed, 'leaderboardArmed', m => m.satvikCount+m.lahsunCount+m.nonvegCount, "Squad Disarmed.");
+            sortRender([...localMembers].sort((a,b) => b.gaddariIndex - a.gaddariIndex), 'leaderboardGaddar', m => `${m.gaddariIndex}%`);
+            sortRender([...localMembers].sort((a,b) => a.gaddariIndex - b.gaddariIndex), 'leaderboardPeace', m => `${m.gaddariIndex}%`);
+            sortRender([...localMembers].sort((a,b) => (b.satvikCount+b.lahsunCount+b.nonvegCount) - (a.satvikCount+a.lahsunCount+a.nonvegCount)), 'leaderboardArmed', m => m.satvikCount+m.lahsunCount+m.nonvegCount);
         }
 
         document.getElementById('gaddarTarget').addEventListener('change', (e) => {
@@ -1366,69 +1346,63 @@
             const me = localMembers.find(m => m.id === currentUserId);
 
             localFeed.forEach(post => {
-                try {
-                    let timeAgo = '';
-                    if(post.timestamp) {
-                        const diffMs = Date.now() - getMillis(post.timestamp);
-                        const mins = Math.floor(diffMs / 60000);
-                        if (mins < 60) timeAgo = `${mins}m`;
-                        else if (mins < 1440) timeAgo = `${Math.floor(mins/60)}h`;
-                        else timeAgo = `${Math.floor(mins/1440)}d`;
+                let timeAgo = '';
+                if(post.timestamp) {
+                    const diffMs = Date.now() - getMillis(post.timestamp);
+                    const mins = Math.floor(diffMs / 60000);
+                    if (mins < 60) timeAgo = `${mins}m`;
+                    else if (mins < 1440) timeAgo = `${Math.floor(mins/60)}h`;
+                    else timeAgo = `${Math.floor(mins/1440)}d`;
+                }
+
+                if(post.isSystem) {
+                    const div = document.createElement('div');
+                    div.className = 'bg-amber-50 dark:bg-amber-950/20 p-3 rounded-lg border border-amber-200 dark:border-amber-900/30 flex items-center gap-2 mb-3';
+                    div.innerHTML = `
+                        <i data-lucide="bot" class="w-4 h-4 text-amber-500 shrink-0"></i>
+                        <p class="text-[10px] text-amber-800 dark:text-amber-400 font-medium"><strong class="font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500 mr-1">System:</strong> ${post.text}</p>
+                    `;
+                    feed.appendChild(div);
+                } else {
+                    const author = localMembers.find(m => m.id === post.authorId) || { name: 'Unknown', location: '', avatarBase64: '' };
+                    const likes = post.likes || [];
+                    const dislikes = post.dislikes || [];
+                    const hasLiked = likes.includes(currentUserId);
+                    const hasDisliked = dislikes.includes(currentUserId);
+                    
+                    let avatarHtml = author.avatarBase64 ? 
+                        `<img src="${author.avatarBase64}" class="w-full h-full object-cover">` : 
+                        `<i data-lucide="user" class="w-4 h-4 text-slate-500"></i>`;
+
+                    let deleteBtn = '';
+                    if (me && me.isAdmin) {
+                        deleteBtn = `<button onclick="deletePost('${post.uid}')" class="p-1 hover:bg-rose-100 dark:hover:bg-rose-900/30 rounded text-slate-400 hover:text-rose-500 transition-colors ml-auto"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>`;
                     }
 
-                    if(post.isSystem) {
-                        const div = document.createElement('div');
-                        div.className = 'bg-amber-50 dark:bg-amber-950/20 p-3 rounded-lg border border-amber-200 dark:border-amber-900/30 flex items-start gap-2 mb-3 shadow-sm';
-                        div.innerHTML = `
-                            <i data-lucide="bell-ring" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i>
-                            <p class="text-[11px] text-amber-800 dark:text-amber-400 font-bold leading-snug">${post.text}</p>
-                        `;
-                        feed.appendChild(div);
-                    } else {
-                        const author = localMembers.find(m => m.id === post.authorId) || { name: 'Unknown', location: '', avatarBase64: '' };
-                        
-                        // SAFE DATA PARSING: Prevents crashes if Firestore is edited manually and corrupted
-                        const likes = Array.isArray(post.likes) ? post.likes : [];
-                        const dislikes = Array.isArray(post.dislikes) ? post.dislikes : [];
-                        const hasLiked = likes.includes(currentUserId);
-                        const hasDisliked = dislikes.includes(currentUserId);
-                        
-                        let avatarHtml = author.avatarBase64 ? 
-                            `<img src="${author.avatarBase64}" class="w-full h-full object-cover">` : 
-                            `<i data-lucide="user" class="w-4 h-4 text-slate-500"></i>`;
-
-                        let deleteBtn = '';
-                        if (me && me.isAdmin) {
-                            deleteBtn = `<button onclick="deletePost('${post.uid}')" class="p-1 hover:bg-rose-100 dark:hover:bg-rose-900/30 rounded text-slate-400 hover:text-rose-500 transition-colors ml-auto"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>`;
-                        }
-
-                        const div = document.createElement('div');
-                        div.className = 'feed-item bg-white/80 dark:bg-[#030712]/80 p-3.5 rounded-xl border border-blue-200 dark:border-blue-500/20 shadow-sm mb-3';
-                        div.innerHTML = `
-                            <div class="flex items-center gap-2.5 mb-2">
-                                <div class="w-8 h-8 shrink-0 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden border border-slate-300 dark:border-slate-700 flex items-center justify-center">${avatarHtml}</div>
-                                <div>
-                                    <p class="text-xs font-bold text-slate-900 dark:text-white leading-none">${author.name}</p>
-                                    <p class="text-[9px] text-slate-500 dark:text-slate-400 font-medium mt-0.5"><i data-lucide="map-pin" class="w-2.5 h-2.5 inline"></i> ${author.location || 'Base'}</p>
-                                </div>
-                                <span class="text-[9px] text-slate-400 font-bold ml-auto">${timeAgo}</span>
-                                ${deleteBtn}
+                    const div = document.createElement('div');
+                    div.className = 'feed-item bg-white/80 dark:bg-[#030712]/80 p-3.5 rounded-xl border border-blue-200 dark:border-blue-500/20 shadow-sm mb-3';
+                    div.innerHTML = `
+                        <div class="flex items-center gap-2.5 mb-2">
+                            <div class="w-8 h-8 shrink-0 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden border border-slate-300 dark:border-slate-700 flex items-center justify-center">${avatarHtml}</div>
+                            <div>
+                                <p class="text-xs font-bold text-slate-900 dark:text-white leading-none">${author.name}</p>
+                                <p class="text-[9px] text-slate-500 dark:text-slate-400 font-medium mt-0.5"><i data-lucide="map-pin" class="w-2.5 h-2.5 inline"></i> ${author.location || 'Base'}</p>
                             </div>
-                            <p class="text-xs text-slate-700 dark:text-slate-300 font-medium leading-relaxed pl-1">"${post.text}"</p>
-                            
-                            <div class="flex items-center gap-3 mt-3 pt-2 border-t border-slate-100 dark:border-slate-800/60 pl-1">
-                                <button onclick="interactPost('${post.uid}', 'like')" class="flex items-center gap-1.5 text-[10px] font-bold ${hasLiked ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-blue-500'} transition-colors">
-                                    <i data-lucide="thumbs-up" class="w-3.5 h-3.5 ${hasLiked ? 'fill-current' : ''}"></i> ${likes.length}
-                                </button>
-                                <button onclick="interactPost('${post.uid}', 'dislike')" class="flex items-center gap-1.5 text-[10px] font-bold ${hasDisliked ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 hover:text-rose-500'} transition-colors">
-                                    <i data-lucide="thumbs-down" class="w-3.5 h-3.5 ${hasDisliked ? 'fill-current' : ''}"></i> ${dislikes.length}
-                                </button>
-                            </div>
-                        `;
-                        feed.appendChild(div);
-                    }
-                } catch(e) {
-                    console.error("Corrupted Post Handled Safely:", post, e);
+                            <span class="text-[9px] text-slate-400 font-bold ml-auto">${timeAgo}</span>
+                            ${deleteBtn}
+                        </div>
+                        <p class="text-xs text-slate-700 dark:text-slate-300 font-medium leading-relaxed pl-1">"${post.text}"</p>
+                        
+                        <div class="flex items-center gap-3 mt-3 pt-2 border-t border-slate-100 dark:border-slate-800/60 pl-1">
+                            <button onclick="interactPost('${post.uid}', 'like')" class="flex items-center gap-1.5 text-[10px] font-bold ${hasLiked ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-blue-500'} transition-colors">
+                                <i data-lucide="thumbs-up" class="w-3.5 h-3.5 ${hasLiked ? 'fill-current' : ''}"></i> ${likes.length}
+                            </button>
+                            <button onclick="interactPost('${post.uid}', 'dislike')" class="flex items-center gap-1.5 text-[10px] font-bold ${hasDisliked ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 hover:text-rose-500'} transition-colors">
+                                <i data-lucide="thumbs-down" class="w-3.5 h-3.5 ${hasDisliked ? 'fill-current' : ''}"></i> ${dislikes.length}
+                            </button>
+                        </div>
+                    `;
+                    feed.appendChild(div);
                 }
             });
             lucide.createIcons();
@@ -1457,9 +1431,8 @@
             const post = localFeed.find(p => p.uid === postId);
             if(!post) return;
 
-            // Safe parsing again in case it is still corrupted in DB
-            let likes = Array.isArray(post.likes) ? [...post.likes] : [];
-            let dislikes = Array.isArray(post.dislikes) ? [...post.dislikes] : [];
+            let likes = [...(post.likes || [])];
+            let dislikes = [...(post.dislikes || [])];
 
             if (action === 'like') {
                 if (likes.includes(currentUserId)) likes = likes.filter(id => id !== currentUserId);
@@ -1508,6 +1481,7 @@
             if (me.gaddariIndex > 70) headerGaddar.classList.add('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow'); 
             else headerGaddar.classList.remove('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow');
 
+            // Shields display
             document.getElementById('headerShields').innerText = me.defenseShields || 0;
             document.getElementById('mobileShields').innerText = me.defenseShields || 0;
             document.getElementById('currentStreak').innerText = me.voteStreak || 0;
@@ -1539,7 +1513,7 @@
                 const isDanger = m.gaddariIndex > 70;
                 const isAdmin = m.isAdmin;
                 const inTribunal = usersWithPendingEvents.has(m.id);
-                const isOnline = m.lastActiveTime && (now - m.lastActiveTime < 300000); 
+                const isOnline = m.lastActiveTime && (now - m.lastActiveTime < 300000); // 5 minutes
                 
                 let rowBgHover = 'hover:bg-slate-50 dark:hover:bg-slate-800/40';
                 let avatarBorder = 'bg-slate-50 dark:bg-darkbg border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400';
@@ -1666,26 +1640,9 @@
                 document.getElementById('adminValNonveg').value = target.nonvegCount || 0;
                 document.getElementById('adminValGaddari').value = target.gaddariIndex || 0;
                 document.getElementById('adminValShields').value = target.defenseShields || 0;
-                document.getElementById('adminValIsAdmin').checked = target.isAdmin || false;
                 document.getElementById('adminValPassword').value = '';
+                document.getElementById('adminValIsAdmin').checked = target.isAdmin === true;
             }
-        }
-
-        window.adminForceWeeklyReset = async () => {
-            if(!confirm("OVERLORD WARNING: This will force ALL users to immediately reset to 2 Satvik Cards regardless of the day. Continue?")) return;
-            try {
-                const batch = writeBatch(db);
-                localMembers.forEach(m => {
-                    batch.update(doc(db, basePath, 'members', m.id), { satvikCount: 2 });
-                });
-                await batch.commit();
-                
-                await addDoc(collection(db, basePath, 'squad_feed'), { 
-                    text: `⚠️ OVERLORD DECREE: The Admin has forced a manual Weekly Restock. All operatives now have exactly 2 Satvik Cards.`, 
-                    authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true 
-                });
-                showToast("Forced Reset Complete.", "success");
-            } catch(e) { showToast("Reset Failed.", "error"); }
         }
 
         window.adminSaveTargetStats = async () => {
@@ -1697,19 +1654,19 @@
             try {
                 const updates = {
                     name: document.getElementById('adminValName').value.trim() || target.name,
-                    isAdmin: document.getElementById('adminValIsAdmin').checked,
                     satvikCount: parseInt(document.getElementById('adminValSatvik').value) || 0,
                     lahsunCount: parseInt(document.getElementById('adminValLahsun').value) || 0,
                     nonvegCount: parseInt(document.getElementById('adminValNonveg').value) || 0,
                     gaddariIndex: parseInt(document.getElementById('adminValGaddari').value) || 0,
-                    defenseShields: parseInt(document.getElementById('adminValShields').value) || 0
+                    defenseShields: parseInt(document.getElementById('adminValShields').value) || 0,
+                    isAdmin: document.getElementById('adminValIsAdmin').checked
                 };
 
                 const newPass = document.getElementById('adminValPassword').value.trim();
                 if(newPass.length > 0) updates.password = newPass;
                 
                 await updateDoc(doc(db, basePath, 'members', targetId), updates);
-                showToast(`Operative Intelligence Overridden.`, "success");
+                showToast(`${target.name}'s Intel Successfully Overridden.`, "success");
             } catch(err) {
                 showToast("Failed to override stats.", "error");
             }
@@ -1740,12 +1697,32 @@
 
             try {
                 await updateDoc(doc(db, basePath, 'members', targetId), {
-                    satvikCount: 0, lahsunCount: 0, nonvegCount: 0, defenseShields: 0
+                    satvikCount: 0,
+                    lahsunCount: 0,
+                    nonvegCount: 0,
+                    defenseShields: 0
                 });
                 showToast(`${target.name}'s inventory has been wiped to 0.`, "success");
                 loadAdminTargetStats();
             } catch(e) { showToast("Failed to wipe inventory.", "error"); }
         }
+
+        window.adminBroadcast = async () => {
+            const text = document.getElementById('adminBroadcastText').value.trim();
+            if(!text) return;
+            try {
+                await addDoc(collection(db, basePath, 'squad_feed'), {
+                    text: text,
+                    authorId: 'SYSTEM', 
+                    timestamp: serverTimestamp(),
+                    likes: [],
+                    dislikes: [],
+                    isSystem: true
+                });
+                document.getElementById('adminBroadcastText').value = '';
+                showToast("System Broadcast deployed.", "success");
+            } catch (err) { showToast("Failed to broadcast.", "error"); }
+        };
 
         window.adminDeleteVote = async (id) => {
             if(!confirm("Overlord: Permanently delete this Gaddari Vote?")) return;
@@ -1856,37 +1833,6 @@
                 showToast("SYSTEM WIPE SUCCESSFUL.", "success");
                 closeAdminPanel();
             } catch (err) { showToast(`Wipe failed`, "error"); }
-        }
-
-        window.adminSanitizeDatabase = async () => {
-            if(!confirm("Scan and automatically fix corrupted data (e.g., malformed likes, broken arrays caused by manual Firebase edits)?")) return;
-            try {
-                const batch = writeBatch(db);
-                let changes = 0;
-
-                // Fix corrupted Feed Posts
-                localFeed.forEach(p => {
-                    let needsFix = false;
-                    let updates = {};
-                    if (!Array.isArray(p.likes)) { updates.likes = []; needsFix = true; }
-                    if (!Array.isArray(p.dislikes)) { updates.dislikes = []; needsFix = true; }
-                    
-                    if (needsFix) {
-                        batch.update(doc(db, basePath, 'squad_feed', p.uid), updates);
-                        changes++;
-                    }
-                });
-
-                if (changes > 0) {
-                    await batch.commit();
-                    showToast(`Fixed ${changes} corrupted records. Refreshing...`, "success");
-                } else {
-                    showToast("No corrupted data found. Systems nominal.", "info");
-                }
-            } catch (err) { 
-                console.error(err);
-                showToast(`Sanitize failed`, "error"); 
-            }
         }
 
         // --- PUBLIC PROFILE LOGIC & CUSTOMIZATION ---
@@ -2196,15 +2142,12 @@
         window.submitAccusation = async (targetId) => {
             const type = document.getElementById('reportCardType').value;
             const reason = document.getElementById('reportReason').value.trim();
-            if (!type || !reason) { showToast("Evidence is mandatory.", 'error'); return; }
+            if (!type || !reason) { showToast("Evidence required.", 'error'); return; }
             try {
                 await addDoc(collection(db, basePath, 'am_events'), {
                     userId: targetId, reportedBy: currentUserId, type: type, reason: reason,
                     status: 'pending', timestamp: serverTimestamp(), votes: { [currentUserId]: { decision: true, reason: 'Initial Request' } }
                 });
-                
-                await addDoc(collection(db, basePath, 'squad_feed'), { text: `⚖️ TRIBUNAL: ${getName(currentUserId)} has accused ${getName(targetId)} of unauthorized ${type.toUpperCase()} usage. Awaiting 3 votes.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
-
                 closeProfileModal();
                 showToast("Accusation filed to Tribunal.", 'success');
             } catch (err) { showToast("Failed to file.", 'error'); }
@@ -2236,7 +2179,7 @@
 
         document.getElementById('amSubmitBtn').addEventListener('click', async () => {
             const reason = document.getElementById('amReasonInput').value.trim();
-            if (!reason) { showToast("MANDATORY: State your justification clearly.", 'error'); return; }
+            if (!reason) { showToast("Justification required.", 'error'); return; }
             try {
                 const me = localMembers.find(m => m.id === currentUserId);
                 let initialStatus = 'pending';
@@ -2251,11 +2194,6 @@
                     userId: currentUserId, reportedBy: currentUserId, type: currentAmType,
                     reason: reason, status: initialStatus, timestamp: serverTimestamp(), votes: { [currentUserId]: { decision: true, reason: 'Initial Request' } }
                 });
-
-                if(!me.isAdmin) {
-                    await addDoc(collection(db, basePath, 'squad_feed'), { text: `⚖️ TRIBUNAL: ${me.name} is requesting permission to deploy a ${currentAmType.toUpperCase()} card. Awaiting 3 votes.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
-                }
-
                 closeAmModal();
             } catch (err) { showToast("Failed.", 'error'); }
         });
@@ -2288,7 +2226,7 @@
                 const isAccusation = reporterId && reporterId !== targetId;
                 const reporterName = isAccusation ? getName(reporterId) : targetUser.name;
                 
-                let conf = { name: 'Gaddari Accusation', color: 'rose', icon: 'crosshair', reqApprovals: REQ_GADDARI_APPROVALS };
+                let conf = { name: 'Gaddari Accusation', color: 'rose', icon: 'crosshair', reqApprovals: 3 };
                 if (!isGaddari) {
                     const configs = { satvik: { name: 'Satvik Request', color: 'emerald', icon: 'leaf' }, lahsun: { name: 'Lahsun Pyaaj', color: 'amber', icon: 'flame' }, nonveg: { name: 'Non-Veg Strike', color: 'rose', icon: 'skull' } };
                     conf = { ...configs[event.type], reqApprovals: 3 };
@@ -2297,12 +2235,20 @@
                 const hasVoted = event.votes && event.votes[currentUserId] !== undefined;
                 let approves = 0, rejects = 0;
                 let totalVotes = 0;
+                
+                let liveVotesHtml = '';
                 if (event.votes) { 
-                    Object.values(event.votes).forEach(v => { 
-                        const decision = typeof v === 'object' ? v.decision : v;
+                    liveVotesHtml = `<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5"><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1"><i data-lucide="eye" class="w-3 h-3 inline"></i> Live Vote Ledger</p>`;
+                    Object.keys(event.votes).forEach(uid => { 
+                        const vObj = event.votes[uid];
+                        const decision = typeof vObj === 'object' ? vObj.decision : vObj;
+                        const reason = typeof vObj === 'object' && vObj.reason ? vObj.reason : 'No proof attached';
                         if(decision) approves++; else rejects++; 
                         totalVotes++;
+
+                        liveVotesHtml += `<p class="text-[10px] text-slate-600 dark:text-slate-400 leading-tight"><span class="font-bold ${decision ? 'text-emerald-500' : 'text-rose-500'}">${getName(uid)} (${decision ? 'Approve' : 'Reject'}):</span> "${reason}"</p>`;
                     }); 
+                    liveVotesHtml += `</div>`;
                 }
 
                 const div = document.createElement('div');
@@ -2316,18 +2262,17 @@
                 } else if (hasVoted) {
                     const myVoteObj = event.votes[currentUserId];
                     const decision = typeof myVoteObj === 'object' ? myVoteObj.decision : myVoteObj;
-                    const reason = typeof myVoteObj === 'object' && myVoteObj.reason ? ` - "${myVoteObj.reason}"` : '';
                     const voteText = decision ? '<span class="text-emerald-500 dark:text-emerald-400">Approved</span>' : '<span class="text-rose-500 dark:text-rose-400">Rejected</span>';
-                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-center border border-slate-200 dark:border-slate-800"><p class="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase">Your Verdict: ${voteText} <span class="italic font-normal lowercase">${reason}</span></p></div>`;
+                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-center border border-slate-200 dark:border-slate-800"><p class="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase">Your Verdict: ${voteText}</p></div>`;
                 } else if (targetId === currentUserId && !isAccusation) {
                     actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-center border border-indigo-200 dark:border-indigo-500/20"><p class="text-[9px] text-indigo-600 dark:text-indigo-400 font-bold uppercase animate-pulse">Awaiting Squad Approvals</p></div>`;
                 } else {
                     actionsHtml = `
-                        <div class="mt-2">
-                            <input type="text" id="voteReason_${event.uid}" placeholder="MANDATORY: Provide clear proof/reason for your vote" class="w-full text-[10px] bg-slate-50 dark:bg-[#0f1423] border border-slate-200 dark:border-slate-700 p-2 rounded mb-2 outline-none focus:border-indigo-500 transition-colors">
+                        <div class="mt-3">
+                            <input type="text" id="voteReason_${event.uid}" placeholder="Mandatory: Attach evidence/proof..." class="w-full text-xs bg-slate-50 dark:bg-[#0f1423] border border-slate-200 dark:border-slate-700 p-2.5 rounded-lg mb-2.5 outline-none focus:border-indigo-500 transition-colors">
                             <div class="flex gap-2">
-                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', true)" class="flex-1 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-up" class="w-3 h-3"></i> Approve</button>
-                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', false)" class="flex-1 bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-down" class="w-3 h-3"></i> Reject</button>
+                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', true)" class="flex-1 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 py-2.5 rounded-lg text-[10px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors shadow-sm"><i data-lucide="thumbs-up" class="w-3.5 h-3.5"></i> Approve</button>
+                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', false)" class="flex-1 bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-500/30 py-2.5 rounded-lg text-[10px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors shadow-sm"><i data-lucide="thumbs-down" class="w-3.5 h-3.5"></i> Reject</button>
                             </div>
                         </div>`;
                 }
@@ -2363,6 +2308,7 @@
                             <div class="h-full bg-indigo-400 dark:bg-indigo-500 transition-all" style="width: ${confidencePercent}%"></div>
                         </div>
                     </div>
+                    ${liveVotesHtml}
                     ${actionsHtml}
                 `;
                 container.appendChild(div);
@@ -2380,13 +2326,14 @@
                 const inputEl = document.getElementById(`voteReason_${eventId}`);
                 const voteReason = inputEl ? inputEl.value.trim() : '';
 
-                if (!voteReason) {
-                    showToast("MANDATORY: Proof or reason required to cast a vote.", 'error');
+                // NEW RULE: PROOF REQUIRED TO APPROVE
+                if (isApprove && !voteReason) {
+                    showToast("Proof / Reason is absolutely mandatory to approve.", "error");
                     return;
                 }
 
                 let newStatus = 'pending';
-                let updatedVotes = { ...(event.votes || {}), [currentUserId]: { decision: isApprove, reason: voteReason } };
+                let updatedVotes = { ...(event.votes || {}), [currentUserId]: { decision: isApprove, reason: voteReason || 'No proof given' } };
 
                 let approves = 0, rejects = 0;
                 Object.values(updatedVotes).forEach(v => { 
@@ -2394,7 +2341,9 @@
                     if(decision) approves++; else rejects++; 
                 });
                 
-                const reqApprovals = category === 'card' ? 3 : REQ_GADDARI_APPROVALS;
+                // NEW RULE: 3 APPROVALS FOR EVERYTHING
+                const reqApprovals = 3; 
+
                 if (approves >= reqApprovals) newStatus = 'confirmed';
                 else if (rejects >= reqApprovals) newStatus = 'rejected';
 
@@ -2444,13 +2393,6 @@
                 }
 
                 await updateDoc(eventRef, { votes: updatedVotes, status: newStatus });
-
-                const voteText = isApprove ? 'APPROVED' : 'REJECTED';
-                const me = localMembers.find(m => m.id === currentUserId);
-                const targetName = category === 'gaddari' ? getName(event.targetId) : getName(event.userId);
-                const actText = category === 'gaddari' ? `the Gaddari charge vs ${targetName}` : `the ${event.type.toUpperCase()} request from ${targetName}`;
-                await addDoc(collection(db, basePath, 'squad_feed'), { text: `📜 TRANSPARENCY: ${me.name} voted to ${voteText} ${actText}. Reason: "${voteReason}"`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
-
                 showToast("Verdict recorded in Tribunal.", 'success');
             } catch (err) { console.error(err); showToast("Failed to vote.", 'error'); }
         };
@@ -2460,7 +2402,7 @@
             const reason = document.getElementById('gaddarReason').value.trim();
             const todayStr = getLocalDateStr();
 
-            if (targetId !== 'none' && !reason) { showToast("Evidence is MANDATORY for accusation.", 'warning'); return; }
+            if (targetId !== 'none' && !reason) { showToast("Evidence mandatory for accusation.", 'warning'); return; }
 
             try {
                 // Streak Logic
@@ -2491,7 +2433,6 @@
                         reason: reason, timestamp: serverTimestamp(), status: 'pending',
                         votes: { [currentUserId]: { decision: true, reason: 'Initial Accusation' } }
                     });
-                    await addDoc(collection(db, basePath, 'squad_feed'), { text: `⚖️ TRIBUNAL: ${me.name} officially accuses ${getName(targetId)} of Gaddari. Proof: "${reason}". Requires 3 approvals.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
                     showToast("Accusation filed to Tribunal.", 'success');
                 }
                 
@@ -2662,12 +2603,12 @@
                     // Parse vote explanations
                     let votesHtml = '';
                     if (ev.votes) {
-                        votesHtml = `<div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 space-y-1">`;
+                        votesHtml = `<div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5"><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1"><i data-lucide="eye" class="w-3 h-3 inline"></i> Historic Vote Ledger</p>`;
                         Object.keys(ev.votes).forEach(uid => {
                             const vObj = ev.votes[uid];
                             const decision = typeof vObj === 'object' ? vObj.decision : vObj;
                             const reason = typeof vObj === 'object' && vObj.reason ? vObj.reason : 'No explanation';
-                            votesHtml += `<p class="text-[9px] text-slate-500 dark:text-slate-400"><span class="font-bold ${decision ? 'text-emerald-500' : 'text-rose-500'}">${getName(uid)}:</span> "${reason}"</p>`;
+                            votesHtml += `<p class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight"><span class="font-bold ${decision ? 'text-emerald-500' : 'text-rose-500'}">${getName(uid)} (${decision ? 'Approve' : 'Reject'}):</span> "${reason}"</p>`;
                         });
                         votesHtml += `</div>`;
                     }
