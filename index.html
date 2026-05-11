@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AM | Advanced Gaddar Index</title>
+    <title>AM | Advanced Gaddar Index v2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -40,7 +39,6 @@
         body { font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         
-        /* Refined Glass Morphism */
         .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); }
         .dark .glass-panel { background: rgba(15, 20, 35, 0.85); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); }
 
@@ -129,7 +127,6 @@
                 </div>
                 <div class="flex items-center gap-2 sm:gap-4">
 
-                    <!-- Shields Header Stat -->
                     <div class="hidden sm:flex items-center gap-3 mr-2 px-3 py-1.5 bg-slate-100 dark:bg-slate-800/80 rounded-lg border border-slate-200 dark:border-slate-700/50">
                         <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                             <i data-lucide="shield" class="w-4 h-4"></i> <span id="headerShields">0</span>
@@ -192,15 +189,15 @@
                         <div class="glass-panel p-5 rounded-2xl relative overflow-hidden group border-indigo-200 dark:border-indigo-500/30 bg-gradient-to-br from-indigo-50 to-transparent dark:from-indigo-950/40 shadow-sm flex flex-col">
                             <div class="absolute -right-6 -top-6 text-indigo-500/10 group-hover:scale-110 transition-all duration-500"><i data-lucide="shield" class="w-32 h-32"></i></div>
                             <div class="relative z-10 flex-1 flex flex-col">
-                                <div class="flex justify-between items-start">
-                                    <div class="w-10 h-10 bg-white dark:bg-indigo-500/10 rounded-xl flex items-center justify-center mb-3 border border-indigo-100 shadow-sm"><i data-lucide="shield" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i></div>
-                                    <span class="text-[8px] bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400 px-1.5 py-0.5 rounded font-bold uppercase">Mon-Wed Only</span>
-                                </div>
+                                <div class="w-10 h-10 bg-white dark:bg-indigo-500/10 rounded-xl flex items-center justify-center mb-3 border border-indigo-100 shadow-sm"><i data-lucide="shield" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i></div>
                                 <h3 class="text-xl font-black text-indigo-700 dark:text-indigo-400 mb-0.5">Defense Shield</h3>
-                                <p class="text-[10px] font-medium text-slate-500 mb-4 flex-1 leading-snug">Blocks 1 Gaddari Penalty automatically. Undo within 30s.</p>
+                                <p class="text-[10px] font-medium text-slate-500 mb-2 flex-1 leading-snug">Blocks 1 confirmed Gaddari Penalty automatically. Buy window: Mon-Wed only.</p>
+                                
                                 <div class="flex gap-2">
-                                    <button onclick="buyDefenseShield()" class="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-md transition-colors flex items-center justify-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy (1 Satvik)</button>
-                                    <button onclick="sellDefenseShield()" class="flex-[1] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-sm transition-colors flex items-center justify-center" title="Undo Purchase (Must be within 30s)"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
+                                    <button id="buyShieldBtn" onclick="buyDefenseShield()" class="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-md transition-colors flex items-center justify-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy (1 Satvik)</button>
+                                    <button id="undoShieldBtn" onclick="sellDefenseShield()" class="hidden flex-[1] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-sm transition-colors flex items-center justify-center relative overflow-hidden" title="Undo Purchase (30s)">
+                                        <span class="relative z-10 flex items-center gap-1"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> <span id="undoShieldTimer"></span></span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -211,7 +208,7 @@
                             <div class="relative z-10">
                                 <div class="w-10 h-10 bg-white dark:bg-emerald-500/10 rounded-xl flex items-center justify-center mb-3 border border-emerald-100 shadow-sm"><i data-lucide="leaf" class="w-5 h-5 text-emerald-600 dark:text-emerald-400"></i></div>
                                 <h3 class="text-xl font-black text-emerald-700 dark:text-emerald-400 mb-0.5">Satvik</h3>
-                                <p class="text-[11px] font-medium text-slate-500 mb-5 h-8">Standard protocol. Requires 3 squad approvals.</p>
+                                <p class="text-[11px] font-medium text-slate-500 mb-5 h-8">Standard protocol. Requires 3 squad approvals. Resets Monday.</p>
                                 <div class="flex justify-between items-end border-t border-emerald-100 dark:border-emerald-500/10 pt-3">
                                     <div class="flex items-baseline gap-1"><span class="text-3xl font-black text-slate-800 dark:text-white leading-none" id="countSatvik">0</span><span class="text-slate-400 font-bold text-[10px] uppercase">in stock</span></div>
                                 </div>
@@ -280,7 +277,7 @@
                                             </select>
                                         </div>
                                         <div id="gaddarReasonDiv" class="hidden transition-all duration-300">
-                                            <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="Required: Provide detailed evidence..."></textarea>
+                                            <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="Required: Provide detailed evidence/proof..."></textarea>
                                         </div>
                                         <button onclick="submitGaddariVote()" id="castJudgmentBtn" class="w-full bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md">Maintain Peace</button>
                                     </div>
@@ -315,7 +312,7 @@
 
                                 <div class="flex-1 flex flex-col">
                                     <div class="flex justify-between items-center border-b border-indigo-200 dark:border-indigo-500/30 pb-1 mb-2">
-                                        <h3 class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Pending Cases</h3>
+                                        <h3 class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Pending Cases (Proof Required)</h3>
                                     </div>
                                     <div id="pendingVotesContainer" class="space-y-2.5 flex-1"></div>
                                 </div>
@@ -332,7 +329,7 @@
                             <div class="flex items-center justify-between mb-3 border-b border-blue-200 dark:border-blue-500/20 pb-2 shrink-0">
                                 <div class="flex items-center gap-2">
                                     <i data-lucide="message-square" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
-                                    <h2 class="text-sm font-black tracking-tight text-blue-800 dark:text-blue-300 uppercase">Squad Feed</h2>
+                                    <h2 class="text-sm font-black tracking-tight text-blue-800 dark:text-blue-300 uppercase">Squad Feed & Intel Logs</h2>
                                 </div>
                             </div>
                             
@@ -379,7 +376,7 @@
                                 <div class="p-2 bg-slate-100 dark:bg-slate-800/80 rounded-lg text-slate-600 dark:text-slate-300"><i data-lucide="users" class="w-5 h-5"></i></div>
                                 <div>
                                     <h2 class="text-lg font-black text-slate-900 dark:text-white tracking-tight">Squad Roster</h2>
-                                    <p class="text-[9px] text-slate-500 uppercase font-semibold tracking-wider">Select member to view intel & achievements</p>
+                                    <p class="text-[9px] text-slate-500 uppercase font-semibold tracking-wider">Monitor operative activity and intel</p>
                                 </div>
                             </div>
 
@@ -407,8 +404,8 @@
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-white dark:bg-blue-500/20 rounded-xl flex items-center justify-center border border-blue-200 dark:border-blue-500/40 text-blue-500 shadow-sm"><i data-lucide="book-open" class="w-5 h-5"></i></div>
                     <div>
-                        <h2 class="text-xl font-black text-blue-700 dark:text-blue-400 tracking-tight leading-none mb-1">Squad Protocols & Rules</h2>
-                        <p class="text-[10px] text-blue-500 font-bold uppercase tracking-widest">Official Rulebook</p>
+                        <h2 class="text-xl font-black text-blue-700 dark:text-blue-400 tracking-tight leading-none mb-1">Squad Protocols & Rules v2</h2>
+                        <p class="text-[10px] text-blue-500 font-bold uppercase tracking-widest">Official Transparency Rulebook</p>
                     </div>
                 </div>
                 <button onclick="closeRulesModal()" class="p-2 bg-white dark:bg-slate-900 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 shadow-sm transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -416,51 +413,37 @@
             <div class="flex-1 overflow-y-auto p-5 sm:p-8 space-y-6 hide-scrollbar text-sm text-slate-700 dark:text-slate-300">
                 
                 <div class="bg-rose-50 dark:bg-rose-950/20 p-4 rounded-2xl border border-rose-100 dark:border-rose-900/50">
-                    <h3 class="font-black text-rose-700 dark:text-rose-400 mb-2 flex items-center gap-2"><i data-lucide="crosshair" class="w-4 h-4"></i> The Gaddar Index (Daily Judgment)</h3>
+                    <h3 class="font-black text-rose-700 dark:text-rose-400 mb-2 flex items-center gap-2"><i data-lucide="crosshair" class="w-4 h-4"></i> The Tribunal & Mandatory Proof</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-rose-400">
-                        <li>Every member can vote daily to accuse someone of being a "Gaddar" (Traitor).</li>
-                        <li>An accusation requires exactly <strong>3 Squad Approvals</strong> to be confirmed.</li>
-                        <li><strong>MANDATORY PROOF:</strong> You cannot approve an accusation without typing a detailed reason/proof in the Tribunal.</li>
-                        <li>Once confirmed, the target suffers a <strong>+10% penalty</strong> to their Gaddar Index.</li>
+                        <li>Every vote inside the Tribunal requires a <strong>mandatory written explanation/proof</strong>. You cannot silently approve or reject requests.</li>
+                        <li>An accusation or card request now requires exactly <strong>3 Squad Approvals</strong> to be confirmed.</li>
+                        <li>Once confirmed, the target suffers a <strong>+10% penalty</strong> to their Gaddar Index or loses their card.</li>
                         <li>If a member's Gaddari Index exceeds <strong>70%</strong>, their voting and weapon privileges are immediately revoked until they appeal and clear their name.</li>
                     </ul>
                 </div>
 
                 <div class="bg-emerald-50 dark:bg-emerald-950/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
-                    <h3 class="font-black text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2"><i data-lucide="leaf" class="w-4 h-4"></i> Andi Mandi Cards (Tribunal Requests)</h3>
+                    <h3 class="font-black text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2"><i data-lucide="leaf" class="w-4 h-4"></i> Satvik Monday Resets & MIA Penalty</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-emerald-400">
-                        <li>Requests to use a <strong>Satvik</strong>, <strong>Lahsun</strong>, or <strong>Non-Veg</strong> card must pass through the Tribunal.</li>
-                        <li>All card usage requests require exactly <strong>3 Squad Approvals</strong> with mandatory written proof.</li>
-                        <li><strong>WEEKLY RESET:</strong> Every Monday, all players' Satvik cards are automatically renewed/reset to exactly 2.</li>
-                        <li><strong>INACTIVITY PENALTY:</strong> If you do not open your account for 3 continuous days, your Satvik cards will be wiped to 0 for the remainder of the week.</li>
+                        <li><strong>Monday Reset:</strong> Every Monday, the system performs a global sweep. Every operative's Satvik count is forcefully reset to exactly 2 (regardless of past count).</li>
+                        <li><strong>3-Day MIA Penalty:</strong> If you do not open the terminal for 3 continuous days (72 hours), the system will flag you as MIA, publicly announce it in the Feed, and confiscate your Satvik cards for the current week (resets to 0).</li>
                     </ul>
                 </div>
 
                 <div class="bg-indigo-50 dark:bg-indigo-950/20 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-900/50">
-                    <h3 class="font-black text-indigo-700 dark:text-indigo-400 mb-2 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Defense Shields & Weapons Economy</h3>
+                    <h3 class="font-black text-indigo-700 dark:text-indigo-400 mb-2 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Restricted Defense Shield Economy</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-indigo-400">
-                        <li>You must trade exactly <strong>1 Satvik Card</strong> to buy <strong>1 Defense Shield</strong>.</li>
-                        <li><strong>TIME LIMIT:</strong> Shields can ONLY be purchased on Monday, Tuesday, or Wednesday.</li>
-                        <li><strong>UNDO WINDOW:</strong> You can only "Undo" (sell) a shield to get your card back within 30 seconds of buying it.</li>
-                        <li>Shields automatically block 1 confirmed Gaddari penalty.</li>
+                        <li>Defense Shields cost exactly 1 Satvik Card. Shields block 1 confirmed Gaddari Penalty automatically.</li>
+                        <li><strong>Purchase Window:</strong> Shields can <strong>ONLY</strong> be purchased on Monday, Tuesday, or Wednesday. The Armory locks purchases from Thursday-Sunday.</li>
+                        <li><strong>Strict Refund Window:</strong> You can only undo a Shield purchase (and get your Satvik back) within a strict <strong>30-second window</strong> after purchasing. After 30s, the shield is permanently locked into your inventory.</li>
                     </ul>
                 </div>
 
                 <div class="bg-amber-50 dark:bg-amber-950/20 p-4 rounded-2xl border border-amber-100 dark:border-amber-900/50">
-                    <h3 class="font-black text-amber-700 dark:text-amber-400 mb-2 flex items-center gap-2"><i data-lucide="handshake" class="w-4 h-4"></i> Neta Alliances</h3>
+                    <h3 class="font-black text-amber-700 dark:text-amber-400 mb-2 flex items-center gap-2"><i data-lucide="handshake" class="w-4 h-4"></i> Transparency & Alliances</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-amber-400">
-                        <li>You can propose a Neta Alliance with any other member.</li>
-                        <li>Allied members can easily transfer Satvik and Lahsun cards to each other to help out.</li>
-                        <li>To forcefully break an alliance early, a member must sacrifice exactly <strong>1 Non-Veg Card</strong>.</li>
-                    </ul>
-                </div>
-
-                <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <h3 class="font-black text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2"><i data-lucide="eye" class="w-4 h-4 text-indigo-500"></i> Tribunal Transparency & Overlords</h3>
-                    <ul class="list-disc pl-5 space-y-1.5 marker:text-slate-500">
-                        <li><strong>Full Transparency:</strong> All Tribunal cases now publicly display exactly who voted to approve/reject and what proof they provided.</li>
-                        <li><strong>Auto-Resolution:</strong> Any case left pending in the Tribunal for 48 hours is automatically resolved based on the current majority of votes.</li>
-                        <li>Overlords can edit any operative's inventory, force system announcements, and instantly wipe servers.</li>
+                        <li><strong>Total Transparency:</strong> The Tribunal and Archives now display exactly who voted for what, and exactly what their reasoning was. There are no secrets.</li>
+                        <li>You can propose a Neta Alliance with any other member. Allied members share punishments and can easily transfer cards to each other. Breaking an alliance costs 1 Non-Veg Card.</li>
                     </ul>
                 </div>
             </div>
@@ -469,7 +452,7 @@
 
     <!-- Admin Panel Modal -->
     <div id="adminModal" class="fixed inset-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl z-[70] hidden flex flex-col p-2 sm:p-6">
-        <div class="w-full max-w-5xl mx-auto flex-1 flex flex-col bg-white dark:bg-darkbg rounded-2xl border border-amber-200 dark:border-amber-500/30 overflow-hidden shadow-2xl relative">
+        <div class="w-full max-w-6xl mx-auto flex-1 flex flex-col bg-white dark:bg-darkbg rounded-2xl border border-amber-200 dark:border-amber-500/30 overflow-hidden shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-500"></div>
             <header class="p-4 sm:p-5 border-b border-amber-100 dark:border-amber-500/20 flex justify-between items-center bg-amber-50 dark:bg-amber-950/20">
                 <div class="flex items-center gap-3">
@@ -478,7 +461,10 @@
                         <h2 class="text-xl font-black text-amber-600 dark:text-amber-400 tracking-tight">OVERLORD TERMINAL</h2>
                     </div>
                 </div>
-                <button onclick="closeAdminPanel()" class="p-2 bg-slate-100 dark:bg-slate-900 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+                <div class="flex items-center gap-2">
+                    <button onclick="checkGlobalRules()" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-700 dark:bg-indigo-900/50 dark:hover:bg-indigo-800 dark:text-indigo-300 text-[10px] font-bold px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-700 uppercase tracking-widest"><i data-lucide="refresh-cw" class="w-3.5 h-3.5 inline"></i> Force Global Sync</button>
+                    <button onclick="closeAdminPanel()" class="p-2 bg-slate-100 dark:bg-slate-900 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+                </div>
             </header>
 
             <div class="flex-1 overflow-y-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -490,9 +476,8 @@
                         
                         <select id="adminTarget" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs mb-3 font-bold" onchange="loadAdminTargetStats()"></select>
                         
-                        <div class="mb-3">
-                            <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Operative Name</label>
-                            <input type="text" id="adminValName" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
+                        <div id="adminPasswordDisplay" class="mb-3 text-[10px] font-mono bg-amber-100 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-500/30 p-2 rounded text-amber-800 dark:text-amber-400 hidden">
+                            Current PIN: <span id="adminValCurrentPassword" class="font-black"></span>
                         </div>
 
                         <div class="grid grid-cols-3 gap-2 mb-2">
@@ -515,31 +500,24 @@
                                 <input type="number" id="adminValGaddari" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                             <div>
-                                <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Shields</label>
+                                <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Shields (Bypass)</label>
                                 <input type="number" id="adminValShields" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Force Update PIN</label>
                             <input type="text" id="adminValPassword" placeholder="Leave blank to keep current" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                         </div>
-                        <div class="mb-4 flex items-center gap-2">
-                            <input type="checkbox" id="adminValIsAdmin" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
-                            <label class="text-xs font-bold text-amber-600 dark:text-amber-500 cursor-pointer" for="adminValIsAdmin">Grant Overlord Powers</label>
-                        </div>
 
                         <div class="flex gap-2 mb-4">
+                            <button onclick="adminResetActivity()" class="flex-[1] bg-emerald-100 dark:bg-emerald-900/40 hover:bg-emerald-200 text-emerald-700 dark:text-emerald-400 font-bold py-2 rounded-lg transition-all text-[9px] uppercase">Reset MIA Status</button>
                             <button onclick="adminClearAlliance()" class="flex-[1] bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg transition-all text-[9px] uppercase">Break Alliance</button>
-                            <button onclick="adminZeroInventory()" class="flex-[2] bg-rose-200 dark:bg-rose-900/40 hover:bg-rose-300 text-rose-700 dark:text-rose-400 font-bold py-2 rounded-lg transition-all text-[9px] uppercase shadow-sm">Zero Inventory</button>
+                        </div>
+                        <div class="mb-4">
+                             <button onclick="adminZeroInventory()" class="w-full bg-rose-200 dark:bg-rose-900/40 hover:bg-rose-300 text-rose-700 dark:text-rose-400 font-bold py-2 rounded-lg transition-all text-[9px] uppercase shadow-sm">Zero Inventory</button>
                         </div>
 
                         <button onclick="adminSaveTargetStats()" class="w-full bg-blue-100 dark:bg-blue-600/20 hover:bg-blue-200 dark:hover:bg-blue-600/40 text-blue-700 dark:text-blue-400 font-bold py-2.5 rounded-lg transition-all text-xs uppercase tracking-wide">Force Save Intel</button>
-                    </div>
-
-                    <div class="bg-indigo-50 dark:bg-indigo-950/20 p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/50">
-                        <h3 class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="megaphone" class="w-3.5 h-3.5"></i> System Broadcast</h3>
-                        <textarea id="adminBroadcastText" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none mb-2 shadow-sm" placeholder="Message will appear from SYSTEM..."></textarea>
-                        <button onclick="adminBroadcast()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 rounded-lg transition-all text-xs uppercase tracking-wide shadow-md">Broadcast to Feed</button>
                     </div>
 
                     <div class="bg-rose-50 dark:bg-rose-950/20 p-4 rounded-xl border border-rose-200 dark:border-rose-900/50">
@@ -553,7 +531,7 @@
                     <div class="bg-slate-50 dark:bg-slate-900/40 rounded-xl border border-slate-200 dark:border-slate-800 flex-1 flex flex-col overflow-hidden">
                         <div class="p-3 border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/80 flex justify-between items-center">
                             <h3 class="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest flex items-center gap-1.5"><i data-lucide="eye" class="w-3.5 h-3.5"></i> God's Eye (Super Powers)</h3>
-                            <span class="text-[10px] text-slate-500 font-mono">Raw Feed</span>
+                            <span class="text-[10px] text-slate-500 font-mono">Raw Event Feed</span>
                         </div>
                         <div class="flex-1 overflow-y-auto p-3 space-y-3" id="adminLogContainer"></div>
                     </div>
@@ -564,7 +542,7 @@
 
     <!-- Self-Use Andi Mandi Modal -->
     <div id="amModal" class="fixed inset-0 bg-white/90 dark:bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="glass-panel p-6 sm:p-8 rounded-2xl w-full max-w-sm animate-pop-in">
+        <div class="glass-panel p-6 sm:p-8 rounded-2xl w-full max-w-sm animate-pop-in border-2 border-indigo-500/30">
             <div class="flex items-center gap-3 mb-5 pb-5 border-b border-slate-200 dark:border-slate-800">
                 <div id="amModalIconBg" class="p-3 rounded-xl"><i id="amModalIcon" data-lucide="zap" class="w-6 h-6"></i></div>
                 <div>
@@ -572,7 +550,7 @@
                     <h2 id="amModalTitle" class="text-xl font-black tracking-tight leading-none">Card</h2>
                 </div>
             </div>
-            <textarea id="amReasonInput" rows="3" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-100 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none transition-all resize-none shadow-sm mb-5 text-sm" placeholder="State justification..."></textarea>
+            <textarea id="amReasonInput" rows="3" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-100 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none transition-all resize-none shadow-sm mb-5 text-sm" placeholder="Mandatory proof: State justification..."></textarea>
             <div class="flex gap-3">
                 <button onclick="closeAmModal()" class="flex-1 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl text-sm transition-all">Cancel</button>
                 <button id="amSubmitBtn" class="flex-[2] bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-black py-3 rounded-xl shadow-md transform active:scale-95 text-sm">Submit to Tribunal</button>
@@ -603,9 +581,10 @@
                                 <span id="profileModalAdminBadge" class="hidden text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-500/10 px-2 py-1 rounded border border-amber-300 dark:border-amber-500/30"><i data-lucide="crown" class="inline w-2.5 h-2.5 mr-1"></i>Overlord</span>
                                 <span class="px-2 py-1 rounded border border-indigo-200 dark:border-indigo-500/30 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"><i data-lucide="flame" class="inline w-2.5 h-2.5 mr-1"></i><span id="profileModalStreak">0</span> Day Streak</span>
                             </div>
-                            <div class="flex items-center gap-3 text-[10px] text-slate-500 dark:text-slate-400 font-medium">
+                            <div class="flex items-center gap-3 text-[10px] text-slate-500 dark:text-slate-400 font-medium mt-2">
                                 <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i> <span id="profileLocation">Unknown</span></span>
                                 <span class="flex items-center gap-1"><i data-lucide="link" class="w-3 h-3 text-indigo-500"></i> <span id="profileAlliance">No Alliance</span></span>
+                                <span class="flex items-center gap-1 bg-slate-200 dark:bg-slate-800 px-1.5 py-0.5 rounded"><i data-lucide="clock" class="w-3 h-3 text-slate-500"></i> <span id="profileLastActive">Active</span></span>
                             </div>
                         </div>
                     </div>
@@ -654,7 +633,7 @@
                             <h3 class="text-xs font-bold text-indigo-700 dark:text-indigo-300 mb-2 flex items-center gap-1.5"><i data-lucide="megaphone" class="w-3.5 h-3.5"></i> Accuse Unauthorized Usage</h3>
                             <div class="space-y-2.5 mt-3">
                                 <select id="reportCardType" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm"></select>
-                                <input type="text" id="reportReason" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm" placeholder="Evidence...">
+                                <input type="text" id="reportReason" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm" placeholder="Mandatory evidence...">
                                 <button id="reportSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 transition-colors text-white font-bold py-2.5 rounded-lg shadow-md text-xs tracking-wide mt-1">Submit to Tribunal</button>
                             </div>
                         </div>
@@ -712,15 +691,53 @@
         </div>
     </div>
 
+    <!-- Analytics / Archive Modal -->
+    <div id="analyticsModal" class="fixed inset-0 bg-white/95 dark:bg-[#050814]/95 backdrop-blur-xl z-[60] hidden flex flex-col p-2 sm:p-6">
+        <div class="w-full max-w-5xl mx-auto flex-1 flex flex-col bg-white dark:bg-[#0f1423] rounded-2xl border border-slate-200 dark:border-slate-800/80 overflow-hidden shadow-2xl">
+            <header class="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-[#080b18]">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center border border-indigo-200 dark:border-indigo-700/50 text-indigo-600 dark:text-indigo-400"><i data-lucide="library" class="w-5 h-5"></i></div>
+                    <div>
+                        <h2 class="text-xl font-black text-slate-900 dark:text-white tracking-tight">SQUAD ARCHIVES</h2>
+                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Transparent Precedents</p>
+                    </div>
+                </div>
+                <button onclick="closeAnalyticsModal()" class="p-2 bg-slate-100 dark:bg-slate-900 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </header>
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="bg-slate-50 dark:bg-slate-900/40 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">Global Statistics</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center"><span class="text-[11px] text-slate-600 dark:text-slate-300 font-bold">Total Cases Resolved</span><span class="text-sm font-black text-indigo-600 dark:text-indigo-400" id="statTotalCases">0</span></div>
+                            <div class="flex justify-between items-center"><span class="text-[11px] text-slate-600 dark:text-slate-300 font-bold">Satvik Auth Rate</span><span class="text-sm font-black text-emerald-600 dark:text-emerald-400" id="statSatvikRate">0%</span></div>
+                            <div class="flex justify-between items-center"><span class="text-[11px] text-slate-600 dark:text-slate-300 font-bold">Gaddari Conviction Rate</span><span class="text-sm font-black text-rose-600 dark:text-rose-400" id="statGaddariRate">0%</span></div>
+                            <div class="flex justify-between items-center"><span class="text-[11px] text-slate-600 dark:text-slate-300 font-bold">Auto-Resolved (48h)</span><span class="text-sm font-black text-amber-500 dark:text-amber-400" id="statAutoResolved">0</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/40 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                        <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">Activity Heatmap (7 Days)</h3>
+                        <div class="h-32 flex items-end gap-1.5" id="activityChart"></div>
+                        <div class="flex justify-between mt-2" id="activityChartLabels"></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 flex flex-col h-[60vh] lg:h-auto">
+                    <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5"><i data-lucide="scroll-text" class="w-3.5 h-3.5"></i> Comprehensive Precedent Log</h3>
+                    <div class="bg-slate-50 dark:bg-slate-900/40 rounded-xl border border-slate-200 dark:border-slate-800 flex-1 overflow-y-auto p-3 space-y-3" id="archiveListContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Container -->
     <div id="toastContainer" class="fixed top-4 right-4 sm:top-auto sm:bottom-6 sm:right-6 z-[100] flex flex-col gap-2.5 pointer-events-none"></div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, getDocs, onSnapshot, updateDoc, addDoc, serverTimestamp, writeBatch, deleteDoc, deleteField } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // UPDATED: Fresh New Server Config
+        // BRAND NEW SERVER CONFIGURATION
         const userFirebaseConfig = {
             apiKey: "AIzaSyAbXs0vdvBAdNqZa_7V_W6-x9SYo_y1A5Y",
             authDomain: "admin-7a8e5.firebaseapp.com",
@@ -736,6 +753,7 @@
         let localMembers = [], localEvents = [], localGaddariVotes = [], localFeed = [];
         let currentAmType = null;
         let timeLockedCheckInterval = null;
+        let shieldTimerInterval = null;
         
         const DEFAULT_MEMBERS = [
             { id: 'm1', name: 'ISHANT', password: 'ishant2112#', isAdmin: true },
@@ -746,7 +764,7 @@
             { id: 'm6', name: 'OVERLORD YASH', password: '202538116@789456@789456', isAdmin: true } 
         ];
 
-        let appId = 'local-squad-app';
+        let appId = 'squad-app-v2';
         let basePath = '';
 
         const loginModal = document.getElementById('loginModal');
@@ -758,14 +776,6 @@
         let selectedLoginMember = null;
         let activeProfileId = null;
 
-        // Utility: Find Monday midnight of current week
-        const getMonday = (d) => {
-            d = new Date(d);
-            var day = d.getDay(), diff = d.getDate() - day + (day == 0 ? -6: 1);
-            d.setDate(diff); d.setHours(0,0,0,0);
-            return d.getTime();
-        };
-
         const getMillis = (ts) => {
             try {
                 if (!ts) return 0;
@@ -776,6 +786,19 @@
                 if (ts.seconds) return ts.seconds * 1000;
             } catch(e) { return 0; }
             return 0;
+        };
+
+        const getMostRecentMonday = () => {
+            const d = new Date();
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            const monday = new Date(d.setDate(diff));
+            return `${monday.getFullYear()}-${String(monday.getMonth()+1).padStart(2,'0')}-${String(monday.getDate()).padStart(2,'0')}`;
+        };
+
+        const getDaysSince = (timestamp) => {
+            if(!timestamp) return 0;
+            return (Date.now() - timestamp) / (1000 * 60 * 60 * 24);
         };
 
         window.toggleTheme = () => {
@@ -824,7 +847,6 @@
 
         async function bootup() {
             lucide.createIcons();
-            if (typeof __app_id !== 'undefined') appId = __app_id;
             let configToUse = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userFirebaseConfig;
 
             try {
@@ -833,15 +855,7 @@
                 db = getFirestore(app);
                 basePath = `artifacts/${appId}/public/data`;
                 
-                const initAuth = async () => {
-                  if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                  } else {
-                    await signInAnonymously(auth);
-                  }
-                };
-                await initAuth();
-
+                await signInAnonymously(auth);
                 onAuthStateChanged(auth, async (user) => {
                     if (user && !isInitialized) {
                         isInitialized = true;
@@ -850,7 +864,7 @@
                             startRealtimeListeners();
                             startDailyCountdown();
                             startPresenceTracker();
-                        } catch(err) {}
+                        } catch(err) { console.error("DB Error", err); }
                     }
                 });
             } catch (error) { showToast(`Firebase Error`, 'error'); }
@@ -859,11 +873,9 @@
         async function ensureDatabaseStructure() {
             const membersRef = collection(db, basePath, 'members');
             const snap = await getDocs(membersRef);
-            const now = Date.now();
-            const currentMonday = getMonday(now);
-
             if (snap.empty) {
                 const batch = writeBatch(db);
+                const currentMonday = getMostRecentMonday();
                 DEFAULT_MEMBERS.forEach(m => {
                     const docRef = doc(db, basePath, 'members', m.id);
                     batch.set(docRef, { 
@@ -871,8 +883,9 @@
                         gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0,
                         allianceWith: null, allianceEndTime: 0,
                         defenseShields: 0, voteStreak: 0, lastVoteDate: '',
+                        lastSatvikReset: currentMonday, inactivePenaltyApplied: false,
                         achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false },
-                        lastActiveTime: now, lastResetMonday: currentMonday, lastShieldBuyTime: 0
+                        lastActiveTime: Date.now()
                     });
                 });
                 await batch.commit();
@@ -898,13 +911,9 @@
                             if (dbMember.password === undefined) updates.password = target.password;
                             if (dbMember.isAdmin !== target.isAdmin) updates.isAdmin = target.isAdmin;
                             if (dbMember.defenseShields === undefined) updates.defenseShields = 0;
-                            if (dbMember.voteStreak === undefined) updates.voteStreak = 0;
-                            if (dbMember.lastResetMonday === undefined) updates.lastResetMonday = getMonday(Date.now());
-                            if (dbMember.lastShieldBuyTime === undefined) updates.lastShieldBuyTime = 0;
-                            if (dbMember.achievements === undefined) updates.achievements = { trusted: false, weaponsMaster: false, diplomat: false, merciful: false };
+                            if (dbMember.lastSatvikReset === undefined) updates.lastSatvikReset = getMostRecentMonday();
+                            if (dbMember.inactivePenaltyApplied === undefined) updates.inactivePenaltyApplied = false;
                             
-                            if (dbMember.andiMandiTokens !== undefined) updates.andiMandiTokens = deleteField();
-
                             if (Object.keys(updates).length > 0) { 
                                 batch.update(doc(db, basePath, 'members', dbMember.id), updates); 
                                 needsUpdate = true; 
@@ -920,7 +929,6 @@
                 } else if (!currentUserId) {
                     renderLoginScreen();
                 } else {
-                    runGlobalMaintenance(); // Execute Monday reset + inactivity checks globally
                     updateDashboardUI();
                     if(activeProfileId) updateProfileModalData();
                     updateAdminUI();
@@ -953,41 +961,6 @@
             }
         }
 
-        // --- GLOBAL MAINTENANCE: Monday Reset & Inactivity ---
-        async function runGlobalMaintenance() {
-            if(!currentUserId || localMembers.length === 0) return;
-            const now = Date.now();
-            const currentMonday = getMonday(now);
-            const batch = writeBatch(db);
-            let needsCommit = false;
-
-            localMembers.forEach(m => {
-                let updates = {};
-                // 1. Monday Reset
-                if (m.lastResetMonday !== currentMonday) {
-                    updates.lastResetMonday = currentMonday;
-                    updates.satvikCount = 2; // Renew exactly to 2
-                }
-
-                // 2. 3-Day Inactivity Wipe
-                const lastActive = m.lastActiveTime || now; 
-                if ((now - lastActive) > (3 * 24 * 60 * 60 * 1000)) {
-                    if (m.satvikCount > 0) {
-                        updates.satvikCount = 0;
-                    }
-                }
-
-                if (Object.keys(updates).length > 0) {
-                    batch.update(doc(db, basePath, 'members', m.id), updates);
-                    needsCommit = true;
-                }
-            });
-
-            if (needsCommit) {
-                try { await batch.commit(); } catch(e) {}
-            }
-        }
-
         function startDailyCountdown() {
             const display = document.getElementById('dailyCountdown');
             setInterval(() => {
@@ -1005,10 +978,54 @@
         function startPresenceTracker() {
             setInterval(async () => {
                 if(currentUserId) {
-                    try { await updateDoc(doc(db, basePath, 'members', currentUserId), { lastActiveTime: Date.now() }); } catch(e) {}
+                    try {
+                        await updateDoc(doc(db, basePath, 'members', currentUserId), { lastActiveTime: Date.now() });
+                    } catch(e) {}
                 }
             }, 120000);
         }
+
+        // Check globally for everyone (inactivity rule + monday reset)
+        window.checkGlobalRules = async () => {
+            if(!currentUserId) return;
+            const now = Date.now();
+            const currentMonday = getMostRecentMonday();
+            const batch = writeBatch(db);
+            let hasUpdates = false;
+
+            localMembers.forEach(m => {
+                let memberUpdates = {};
+                
+                // 1. Inactivity Rule (3 Days)
+                if (m.lastActiveTime && (m.satvikCount > 0)) {
+                    const daysInactive = (now - m.lastActiveTime) / (1000 * 60 * 60 * 24);
+                    if (daysInactive >= 3 && !m.inactivePenaltyApplied) {
+                        memberUpdates.satvikCount = 0;
+                        memberUpdates.inactivePenaltyApplied = true;
+                        // Post to feed
+                        addDoc(collection(db, basePath, 'squad_feed'), { 
+                            text: `⚠️ SYSTEM: Operative ${m.name} has been MIA for 3+ days. Satvik cards confiscated.`, 
+                            authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true 
+                        });
+                    }
+                }
+
+                // 2. Monday Reset Rule
+                if (m.lastSatvikReset !== currentMonday) {
+                    memberUpdates.satvikCount = 2;
+                    memberUpdates.lastSatvikReset = currentMonday;
+                    memberUpdates.inactivePenaltyApplied = false; // Fresh start for penalty tracking
+                }
+
+                if (Object.keys(memberUpdates).length > 0) {
+                    batch.update(doc(db, basePath, 'members', m.id), memberUpdates);
+                    hasUpdates = true;
+                }
+            });
+            if(hasUpdates) {
+                await batch.commit();
+            }
+        };
 
         async function checkTimeLockedResolutions() {
             if(!currentUserId) return;
@@ -1081,13 +1098,18 @@
         }
 
         async function processAppOpen(uid) {
-            if (!sessionStorage.getItem(`appOpened_${uid}`)) {
+            // First check global rules (so inactive penalty applies immediately if needed)
+            await checkGlobalRules();
+
+            const me = localMembers.find(m => m.id === uid);
+            if(me) {
+                let updates = { lastActiveTime: Date.now() };
+                if (!sessionStorage.getItem(`appOpened_${uid}`)) {
+                    updates.appOpens = (me.appOpens || 0) + 1;
+                    sessionStorage.setItem(`appOpened_${uid}`, 'true');
+                }
                 try {
-                    const me = localMembers.find(m => m.id === uid);
-                    if(me) {
-                        await updateDoc(doc(db, basePath, 'members', uid), { appOpens: (me.appOpens || 0) + 1, lastActiveTime: Date.now() });
-                        sessionStorage.setItem(`appOpened_${uid}`, 'true');
-                    }
+                    await updateDoc(doc(db, basePath, 'members', uid), updates);
                 } catch(e) {}
             }
         }
@@ -1155,7 +1177,6 @@
                 loginModal.classList.add('hidden');
                 
                 await processAppOpen(currentUserId);
-                runGlobalMaintenance();
                 
                 showToast(`Access Granted.`, 'success');
                 showApp();
@@ -1249,14 +1270,15 @@
             } catch(e) { showToast("Failed transfer.", "error"); }
         }
 
-        // --- BLACK MARKET / SHIELDS ---
+        // --- BLACK MARKET (Restricted Mon-Wed) ---
         window.buyDefenseShield = async () => {
             const me = localMembers.find(m => m.id === currentUserId);
             if(!me) return;
             
-            const day = new Date().getDay(); // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
-            if (![1, 2, 3].includes(day)) {
-                showToast("Shields can ONLY be bought on Mon, Tue, or Wed.", "error");
+            // Check day constraint
+            const day = new Date().getDay();
+            if(day === 0 || day > 3) { // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+                showToast("Shields can only be purchased Mon, Tue, or Wed.", "error");
                 return;
             }
 
@@ -1270,7 +1292,7 @@
                     lastShieldBuyTime: Date.now(),
                     'achievements.weaponsMaster': true 
                 });
-                showToast("Defense Shield Acquired! (30s Undo Window Active)", "success");
+                showToast("Defense Shield Acquired! (Undo available for 30s)", "success");
                 updateDashboardUI();
             } catch(e) { showToast("Transaction failed.", "error"); }
         }
@@ -1279,10 +1301,12 @@
             const me = localMembers.find(m => m.id === currentUserId);
             if(!me) return;
             if((me.defenseShields || 0) < 1) { showToast("You have no shields to return.", "error"); return; }
-
-            const now = Date.now();
-            if (!me.lastShieldBuyTime || (now - me.lastShieldBuyTime > 30000)) {
-                showToast("Undo period (30 seconds) has expired. Cannot return.", "error");
+            
+            // Check 30s timer
+            const timeSinceBuy = Date.now() - (me.lastShieldBuyTime || 0);
+            if(timeSinceBuy > 30000) {
+                showToast("Undo window expired. Purchase is permanent.", "error");
+                updateDashboardUI();
                 return;
             }
 
@@ -1290,11 +1314,35 @@
                 await updateDoc(doc(db, basePath, 'members', me.id), { 
                     satvikCount: (me.satvikCount || 0) + 1, 
                     defenseShields: me.defenseShields - 1,
-                    lastShieldBuyTime: 0 
+                    lastShieldBuyTime: 0 // clear
                 });
-                showToast("Shield purchase successfully undone.", "success");
+                showToast("Shield returned. Satvik refunded.", "success");
                 updateDashboardUI();
             } catch(e) { showToast("Transaction failed.", "error"); }
+        }
+
+        function manageShieldTimer(me) {
+            const undoBtn = document.getElementById('undoShieldBtn');
+            const timerSpan = document.getElementById('undoShieldTimer');
+            if (shieldTimerInterval) clearInterval(shieldTimerInterval);
+
+            const lastBuy = me.lastShieldBuyTime || 0;
+            const diff = Date.now() - lastBuy;
+
+            if (lastBuy > 0 && diff <= 30000) {
+                undoBtn.classList.remove('hidden');
+                shieldTimerInterval = setInterval(() => {
+                    const timeLeft = Math.max(0, 30000 - (Date.now() - lastBuy));
+                    if (timeLeft <= 0) {
+                        undoBtn.classList.add('hidden');
+                        clearInterval(shieldTimerInterval);
+                    } else {
+                        timerSpan.innerText = `${Math.ceil(timeLeft / 1000)}s`;
+                    }
+                }, 1000);
+            } else {
+                undoBtn.classList.add('hidden');
+            }
         }
 
         // --- UI UPDATES ---
@@ -1361,7 +1409,7 @@
                     div.className = 'bg-amber-50 dark:bg-amber-950/20 p-3 rounded-lg border border-amber-200 dark:border-amber-900/30 flex items-center gap-2 mb-3';
                     div.innerHTML = `
                         <i data-lucide="bot" class="w-4 h-4 text-amber-500 shrink-0"></i>
-                        <p class="text-[10px] text-amber-800 dark:text-amber-400 font-medium"><strong class="font-bold uppercase tracking-wider text-amber-600 dark:text-amber-500 mr-1">System:</strong> ${post.text}</p>
+                        <p class="text-[10px] text-amber-800 dark:text-amber-400 font-medium">System: ${post.text}</p>
                     `;
                     feed.appendChild(div);
                 } else {
@@ -1472,6 +1520,7 @@
             }
 
             updateScorecards();
+            manageShieldTimer(me);
 
             if(me.isAdmin) document.getElementById('btnAdminPortal').classList.remove('hidden');
             else document.getElementById('btnAdminPortal').classList.add('hidden');
@@ -1514,7 +1563,16 @@
                 const isDanger = m.gaddariIndex > 70;
                 const isAdmin = m.isAdmin;
                 const inTribunal = usersWithPendingEvents.has(m.id);
-                const isOnline = m.lastActiveTime && (now - m.lastActiveTime < 300000); // 5 minutes
+                
+                let timeText = 'Unknown';
+                let isOnline = false;
+                if (m.lastActiveTime) {
+                    const diffMins = Math.floor((now - m.lastActiveTime)/60000);
+                    if(diffMins < 5) { isOnline = true; timeText = 'Online'; }
+                    else if(diffMins < 60) { timeText = `${diffMins}m ago`; }
+                    else if(diffMins < 1440) { timeText = `${Math.floor(diffMins/60)}h ago`; }
+                    else { timeText = `${Math.floor(diffMins/1440)}d ago`; }
+                }
                 
                 let rowBgHover = 'hover:bg-slate-50 dark:hover:bg-slate-800/40';
                 let avatarBorder = 'bg-slate-50 dark:bg-darkbg border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400';
@@ -1561,7 +1619,7 @@
                                 ${isMe ? '<span class="text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-300 font-bold uppercase tracking-widest border border-indigo-200 dark:border-indigo-500/30">You</span>' : ''}
                             </div>
                             <div class="flex items-center gap-2 mt-0.5">
-                                <span class="text-[8px] text-slate-400 font-medium"><i data-lucide="map-pin" class="w-2 h-2 inline"></i> ${m.location || 'Base'}</span>
+                                <span class="text-[8px] text-slate-400 font-medium"><i data-lucide="clock" class="w-2 h-2 inline"></i> ${timeText}</span>
                                 <span class="text-[8px] text-slate-400 font-medium"><i data-lucide="shield" class="w-2 h-2 inline"></i> ${m.defenseShields || 0}</span>
                             </div>
                             <div class="w-20 sm:w-28 h-1 bg-slate-200 dark:bg-slate-900 rounded-full mt-1.5 overflow-hidden border border-slate-300 dark:border-slate-800">
@@ -1632,17 +1690,20 @@
 
         window.loadAdminTargetStats = () => {
             const targetId = document.getElementById('adminTarget').value;
-            if(!targetId) return;
+            const passBox = document.getElementById('adminPasswordDisplay');
+            if(!targetId) { passBox.classList.add('hidden'); return; }
+            
             const target = localMembers.find(m => m.id === targetId);
             if(target) {
-                document.getElementById('adminValName').value = target.name || '';
                 document.getElementById('adminValSatvik').value = target.satvikCount || 0;
                 document.getElementById('adminValLahsun').value = target.lahsunCount || 0;
                 document.getElementById('adminValNonveg').value = target.nonvegCount || 0;
                 document.getElementById('adminValGaddari').value = target.gaddariIndex || 0;
                 document.getElementById('adminValShields').value = target.defenseShields || 0;
                 document.getElementById('adminValPassword').value = '';
-                document.getElementById('adminValIsAdmin').checked = target.isAdmin === true;
+                
+                document.getElementById('adminValCurrentPassword').innerText = target.password || 'NOT SET';
+                passBox.classList.remove('hidden');
             }
         }
 
@@ -1654,13 +1715,11 @@
 
             try {
                 const updates = {
-                    name: document.getElementById('adminValName').value.trim() || target.name,
                     satvikCount: parseInt(document.getElementById('adminValSatvik').value) || 0,
                     lahsunCount: parseInt(document.getElementById('adminValLahsun').value) || 0,
                     nonvegCount: parseInt(document.getElementById('adminValNonveg').value) || 0,
                     gaddariIndex: parseInt(document.getElementById('adminValGaddari').value) || 0,
-                    defenseShields: parseInt(document.getElementById('adminValShields').value) || 0,
-                    isAdmin: document.getElementById('adminValIsAdmin').checked
+                    defenseShields: parseInt(document.getElementById('adminValShields').value) || 0
                 };
 
                 const newPass = document.getElementById('adminValPassword').value.trim();
@@ -1668,9 +1727,19 @@
                 
                 await updateDoc(doc(db, basePath, 'members', targetId), updates);
                 showToast(`${target.name}'s Intel Successfully Overridden.`, "success");
+                loadAdminTargetStats();
             } catch(err) {
                 showToast("Failed to override stats.", "error");
             }
+        }
+        
+        window.adminResetActivity = async () => {
+            const targetId = document.getElementById('adminTarget').value;
+            if(!targetId) return;
+            try {
+                await updateDoc(doc(db, basePath, 'members', targetId), { lastActiveTime: Date.now(), inactivePenaltyApplied: false });
+                showToast("MIA Penalty tracking reset for user.", "success");
+            } catch(e) { showToast("Failed.", "error"); }
         }
 
         window.adminClearAlliance = async () => {
@@ -1708,42 +1777,18 @@
             } catch(e) { showToast("Failed to wipe inventory.", "error"); }
         }
 
-        window.adminBroadcast = async () => {
-            const text = document.getElementById('adminBroadcastText').value.trim();
-            if(!text) return;
+        window.adminForceResolve = async (collectionName, id, statusStr) => {
+            if(!confirm(`Overlord: Force resolve this case to ${statusStr.toUpperCase()}?`)) return;
             try {
-                await addDoc(collection(db, basePath, 'squad_feed'), {
-                    text: text,
-                    authorId: 'SYSTEM', 
-                    timestamp: serverTimestamp(),
-                    likes: [],
-                    dislikes: [],
-                    isSystem: true
-                });
-                document.getElementById('adminBroadcastText').value = '';
-                showToast("System Broadcast deployed.", "success");
-            } catch (err) { showToast("Failed to broadcast.", "error"); }
-        };
+                const evRef = doc(db, basePath, collectionName, id);
+                await updateDoc(evRef, { status: statusStr, isAutoResolved: true });
+                showToast(`Case forcefully ${statusStr}.`, "success");
+            } catch(e) { showToast("Error", "error"); }
+        }
 
         window.adminDeleteVote = async (id) => {
             if(!confirm("Overlord: Permanently delete this Gaddari Vote?")) return;
             try { await deleteDoc(doc(db, basePath, 'gaddari_votes', id)); showToast("Vote Purged.", "success"); } catch(e) { showToast("Error", "error"); }
-        };
-
-        window.adminReverseVote = async (id) => {
-            if(!confirm("Overlord: Reverse this confirmed vote and restore 10% to target?")) return;
-            try {
-                const vote = localGaddariVotes.find(v => v.uid === id);
-                if(vote && vote.status === 'confirmed') {
-                    const target = localMembers.find(m => m.id === vote.targetId);
-                    if(target) {
-                        const rec = Math.max(0, target.gaddariIndex - 10);
-                        await updateDoc(doc(db, basePath, 'members', target.id), { gaddariIndex: rec });
-                    }
-                }
-                await updateDoc(doc(db, basePath, 'gaddari_votes', id), { status: 'reversed' });
-                showToast("Vote Reversed by Overlord.", "success");
-            } catch(e) { showToast("Error", "error"); }
         };
 
         window.adminDeleteAmEvent = async (id) => {
@@ -1753,10 +1798,12 @@
 
         function updateAdminUI() {
             const targetSelect = document.getElementById('adminTarget');
+            const currentSel = targetSelect.value;
             targetSelect.innerHTML = '<option value="">Select Operative...</option>';
             localMembers.forEach(m => {
                 targetSelect.innerHTML += `<option value="${m.id}">${m.name} (${m.gaddariIndex}%)</option>`;
             });
+            targetSelect.value = currentSel;
 
             const logContainer = document.getElementById('adminLogContainer');
             logContainer.innerHTML = '';
@@ -1773,6 +1820,9 @@
                 allLogs.slice(0, 50).forEach(log => {
                     if (log.type === 'gaddari') {
                         const v = log.data;
+                        let extraBtns = v.status === 'pending' ? `<button onclick="adminForceResolve('gaddari_votes', '${v.uid}', 'confirmed')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors">Force Accept</button>
+                                                                  <button onclick="adminForceResolve('gaddari_votes', '${v.uid}', 'rejected')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Force Reject</button>` : '';
+                        
                         logContainer.innerHTML += `
                             <div class="p-3 bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm group">
                                 <div class="flex justify-between items-center mb-1">
@@ -1780,15 +1830,18 @@
                                     <span class="text-[9px] text-slate-400">${v.date} | ${v.status}</span>
                                 </div>
                                 <p class="text-[11px] text-slate-700 dark:text-slate-300"><span class="font-bold text-indigo-600 dark:text-indigo-400">${getName(v.voterId)}</span> voted vs <span class="font-bold text-rose-600 dark:text-rose-400">${v.targetId === 'none'?'Peace':getName(v.targetId)}</span></p>
-                                <p class="text-[10px] text-slate-600 dark:text-slate-400 italic mt-1 bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded">"${v.reason}"</p>
+                                <p class="text-[10px] text-slate-600 dark:text-slate-400 italic mt-1 bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded">Proof: "${v.reason}"</p>
                                 <div class="flex gap-2 mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <button onclick="adminDeleteVote('${v.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors"><i data-lucide="trash-2" class="w-3 h-3 inline"></i> Delete</button>
-                                    ${v.status === 'confirmed' ? `<button onclick="adminReverseVote('${v.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"><i data-lucide="rotate-ccw" class="w-3 h-3 inline"></i> Reverse (-10%)</button>` : ''}
+                                    ${extraBtns}
                                 </div>
                             </div>`;
                     } else if (log.type === 'card') {
                         const e = log.data;
                         const actionType = e.reportedBy === e.userId ? 'Requested' : 'Accused';
+                        let extraBtns = e.status === 'pending' ? `<button onclick="adminForceResolve('am_events', '${e.uid}', 'confirmed')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors">Force Accept</button>
+                                                                  <button onclick="adminForceResolve('am_events', '${e.uid}', 'rejected')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">Force Reject</button>` : '';
+
                         logContainer.innerHTML += `
                             <div class="p-3 bg-white dark:bg-[#030712]/50 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm group">
                                 <div class="flex justify-between items-center mb-1">
@@ -1796,9 +1849,10 @@
                                     <span class="text-[9px] text-slate-400">${e.status}</span>
                                 </div>
                                 <p class="text-[11px] text-slate-700 dark:text-slate-300"><span class="font-bold text-indigo-600 dark:text-indigo-400">${getName(e.reportedBy)}</span> ${actionType} <span class="font-bold text-amber-600 dark:text-amber-400">${e.type}</span> on <span class="font-bold">${getName(e.userId)}</span></p>
-                                <p class="text-[10px] text-slate-600 dark:text-slate-400 italic mt-1 bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded">"${e.reason}"</p>
+                                <p class="text-[10px] text-slate-600 dark:text-slate-400 italic mt-1 bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded">Proof: "${e.reason}"</p>
                                 <div class="flex gap-2 mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button onclick="adminDeleteAmEvent('${e.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors"><i data-lucide="trash-2" class="w-3 h-3 inline"></i> Purge Request</button>
+                                    <button onclick="adminDeleteAmEvent('${e.uid}')" class="text-[9px] bg-slate-100 dark:bg-slate-800 text-rose-600 dark:text-rose-400 px-2.5 py-1 rounded font-bold uppercase hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors"><i data-lucide="trash-2" class="w-3 h-3 inline"></i> Purge</button>
+                                    ${extraBtns}
                                 </div>
                             </div>`;
                     } else if (log.type === 'feed') {
@@ -1825,7 +1879,7 @@
                 const batch = writeBatch(db);
                 localMembers.forEach(m => {
                     const ref = doc(db, basePath, 'members', m.id);
-                    batch.update(ref, { satvikCount: 2, lahsunCount: 0, nonvegCount: 0, gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0, allianceWith: null, allianceEndTime: 0, defenseShields: 0, voteStreak: 0, achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false } });
+                    batch.update(ref, { satvikCount: 2, lahsunCount: 0, nonvegCount: 0, gaddariIndex: 0, location: 'Base HQ', avatarBase64: '', appOpens: 0, allianceWith: null, allianceEndTime: 0, defenseShields: 0, voteStreak: 0, achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false }, lastSatvikReset: getMostRecentMonday(), inactivePenaltyApplied: false });
                 });
                 localEvents.forEach(e => batch.delete(doc(db, basePath, 'am_events', e.uid)));
                 localGaddariVotes.forEach(v => batch.delete(doc(db, basePath, 'gaddari_votes', v.uid)));
@@ -1972,6 +2026,16 @@
             document.getElementById('profileLocation').innerText = member.location || 'Base HQ';
             document.getElementById('profileAlliance').innerText = member.allianceWith ? `Allied to ${getName(member.allianceWith)}` : 'No Alliance';
             document.getElementById('profileModalStreak').innerText = member.voteStreak || 0;
+
+            let timeText = 'Unknown';
+            if (member.lastActiveTime) {
+                const diffMins = Math.floor((Date.now() - member.lastActiveTime)/60000);
+                if(diffMins < 5) timeText = 'Active Now';
+                else if(diffMins < 60) timeText = `${diffMins}m ago`;
+                else if(diffMins < 1440) timeText = `${Math.floor(diffMins/60)}h ago`;
+                else timeText = `${Math.floor(diffMins/1440)}d ago`;
+            }
+            document.getElementById('profileLastActive').innerText = timeText;
             
             // Achievements
             const achs = member.achievements || { trusted: false, weaponsMaster: false, diplomat: false, merciful: false };
@@ -2083,7 +2147,7 @@
                                 </div>
                                 <span class="text-[8px] text-slate-500 dark:text-slate-400 font-bold">${dateStr}</span>
                             </div>
-                            <p class="text-xs text-slate-700 dark:text-slate-300 italic">"${event.reason}"</p>
+                            <p class="text-xs text-slate-700 dark:text-slate-300 italic">Proof: "${event.reason}"</p>
                         </div>`;
                 });
             }
@@ -2128,7 +2192,7 @@
                                 ${statusHtml}
                             </div>
                             <div class="bg-slate-50 dark:bg-[#030712]/80 rounded-lg p-2 border border-slate-100 dark:border-slate-800 relative ${status === 'confirmed' ? 'ml-2' : ''}">
-                                <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-0.5">Evidence:</p>
+                                <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-0.5">Evidence/Proof:</p>
                                 <p class="text-xs text-slate-700 dark:text-slate-300 italic">"${charge.reason}"</p>
                             </div>
                             ${actionHtml}
@@ -2143,7 +2207,7 @@
         window.submitAccusation = async (targetId) => {
             const type = document.getElementById('reportCardType').value;
             const reason = document.getElementById('reportReason').value.trim();
-            if (!type || !reason) { showToast("Evidence required.", 'error'); return; }
+            if (!type || !reason) { showToast("Mandatory evidence required.", 'error'); return; }
             try {
                 await addDoc(collection(db, basePath, 'am_events'), {
                     userId: targetId, reportedBy: currentUserId, type: type, reason: reason,
@@ -2180,7 +2244,7 @@
 
         document.getElementById('amSubmitBtn').addEventListener('click', async () => {
             const reason = document.getElementById('amReasonInput').value.trim();
-            if (!reason) { showToast("Justification required.", 'error'); return; }
+            if (!reason) { showToast("Mandatory justification/proof required.", 'error'); return; }
             try {
                 const me = localMembers.find(m => m.id === currentUserId);
                 let initialStatus = 'pending';
@@ -2236,20 +2300,12 @@
                 const hasVoted = event.votes && event.votes[currentUserId] !== undefined;
                 let approves = 0, rejects = 0;
                 let totalVotes = 0;
-                
-                let liveVotesHtml = '';
                 if (event.votes) { 
-                    liveVotesHtml = `<div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5"><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1"><i data-lucide="eye" class="w-3 h-3 inline"></i> Live Vote Ledger</p>`;
-                    Object.keys(event.votes).forEach(uid => { 
-                        const vObj = event.votes[uid];
-                        const decision = typeof vObj === 'object' ? vObj.decision : vObj;
-                        const reason = typeof vObj === 'object' && vObj.reason ? vObj.reason : 'No proof attached';
+                    Object.values(event.votes).forEach(v => { 
+                        const decision = typeof v === 'object' ? v.decision : v;
                         if(decision) approves++; else rejects++; 
                         totalVotes++;
-
-                        liveVotesHtml += `<p class="text-[10px] text-slate-600 dark:text-slate-400 leading-tight"><span class="font-bold ${decision ? 'text-emerald-500' : 'text-rose-500'}">${getName(uid)} (${decision ? 'Approve' : 'Reject'}):</span> "${reason}"</p>`;
                     }); 
-                    liveVotesHtml += `</div>`;
                 }
 
                 const div = document.createElement('div');
@@ -2263,17 +2319,18 @@
                 } else if (hasVoted) {
                     const myVoteObj = event.votes[currentUserId];
                     const decision = typeof myVoteObj === 'object' ? myVoteObj.decision : myVoteObj;
+                    const reason = typeof myVoteObj === 'object' && myVoteObj.reason ? ` - "${myVoteObj.reason}"` : '';
                     const voteText = decision ? '<span class="text-emerald-500 dark:text-emerald-400">Approved</span>' : '<span class="text-rose-500 dark:text-rose-400">Rejected</span>';
-                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-center border border-slate-200 dark:border-slate-800"><p class="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase">Your Verdict: ${voteText}</p></div>`;
+                    actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/50 text-center border border-slate-200 dark:border-slate-800"><p class="text-[9px] text-slate-500 dark:text-slate-400 font-bold uppercase">Your Verdict: ${voteText} <span class="italic font-normal lowercase">${reason}</span></p></div>`;
                 } else if (targetId === currentUserId && !isAccusation) {
                     actionsHtml = `<div class="mt-3 p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 text-center border border-indigo-200 dark:border-indigo-500/20"><p class="text-[9px] text-indigo-600 dark:text-indigo-400 font-bold uppercase animate-pulse">Awaiting Squad Approvals</p></div>`;
                 } else {
                     actionsHtml = `
-                        <div class="mt-3">
-                            <input type="text" id="voteReason_${event.uid}" placeholder="Mandatory: Attach evidence/proof..." class="w-full text-xs bg-slate-50 dark:bg-[#0f1423] border border-slate-200 dark:border-slate-700 p-2.5 rounded-lg mb-2.5 outline-none focus:border-indigo-500 transition-colors">
+                        <div class="mt-2">
+                            <input type="text" id="voteReason_${event.uid}" placeholder="Mandatory proof: Explain your vote to the squad..." class="w-full text-[10px] bg-slate-50 dark:bg-[#0f1423] border border-slate-200 dark:border-slate-700 p-2 rounded mb-2 outline-none focus:border-indigo-500 transition-colors">
                             <div class="flex gap-2">
-                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', true)" class="flex-1 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 py-2.5 rounded-lg text-[10px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors shadow-sm"><i data-lucide="thumbs-up" class="w-3.5 h-3.5"></i> Approve</button>
-                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', false)" class="flex-1 bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-500/30 py-2.5 rounded-lg text-[10px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors shadow-sm"><i data-lucide="thumbs-down" class="w-3.5 h-3.5"></i> Reject</button>
+                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', true)" class="flex-1 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-up" class="w-3 h-3"></i> Approve</button>
+                                <button onclick="castTribunalVote('${event.category}', '${event.uid}', false)" class="flex-1 bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-down" class="w-3 h-3"></i> Reject</button>
                             </div>
                         </div>`;
                 }
@@ -2309,7 +2366,6 @@
                             <div class="h-full bg-indigo-400 dark:bg-indigo-500 transition-all" style="width: ${confidencePercent}%"></div>
                         </div>
                     </div>
-                    ${liveVotesHtml}
                     ${actionsHtml}
                 `;
                 container.appendChild(div);
@@ -2327,14 +2383,13 @@
                 const inputEl = document.getElementById(`voteReason_${eventId}`);
                 const voteReason = inputEl ? inputEl.value.trim() : '';
 
-                // NEW RULE: PROOF REQUIRED TO APPROVE
-                if (isApprove && !voteReason) {
-                    showToast("Proof / Reason is absolutely mandatory to approve.", "error");
+                if (voteReason.length < 5) {
+                    showToast("Mandatory: Provide clear proof/reasoning (min 5 chars).", "error");
                     return;
                 }
 
                 let newStatus = 'pending';
-                let updatedVotes = { ...(event.votes || {}), [currentUserId]: { decision: isApprove, reason: voteReason || 'No proof given' } };
+                let updatedVotes = { ...(event.votes || {}), [currentUserId]: { decision: isApprove, reason: voteReason } };
 
                 let approves = 0, rejects = 0;
                 Object.values(updatedVotes).forEach(v => { 
@@ -2342,9 +2397,8 @@
                     if(decision) approves++; else rejects++; 
                 });
                 
-                // NEW RULE: 3 APPROVALS FOR EVERYTHING
-                const reqApprovals = 3; 
-
+                // Requirement check: 3 approvals to confirm, 3 rejects to reject
+                const reqApprovals = 3;
                 if (approves >= reqApprovals) newStatus = 'confirmed';
                 else if (rejects >= reqApprovals) newStatus = 'rejected';
 
@@ -2403,10 +2457,9 @@
             const reason = document.getElementById('gaddarReason').value.trim();
             const todayStr = getLocalDateStr();
 
-            if (targetId !== 'none' && !reason) { showToast("Evidence mandatory for accusation.", 'warning'); return; }
+            if (targetId !== 'none' && reason.length < 5) { showToast("Mandatory proof required for accusation.", 'warning'); return; }
 
             try {
-                // Streak Logic
                 const me = localMembers.find(m => m.id === currentUserId);
                 const yesterdayDate = new Date();
                 yesterdayDate.setDate(yesterdayDate.getDate() - 1);
@@ -2513,16 +2566,10 @@
                 analyticsModal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
                 lucide.createIcons();
-            } catch (err) {
-                console.error(err);
-                showToast("Failed to open archive.", "error");
-            }
+            } catch (err) { console.error(err); showToast("Failed to open archive.", "error"); }
         };
 
-        window.closeAnalyticsModal = () => {
-            analyticsModal.classList.add('hidden');
-            document.body.style.overflow = '';
-        };
+        window.closeAnalyticsModal = () => { analyticsModal.classList.add('hidden'); document.body.style.overflow = ''; };
 
         function renderAnalytics() {
             const resolvedCards = localEvents.filter(e => e.status === 'confirmed' || e.status === 'rejected');
@@ -2530,7 +2577,6 @@
             const allResolved = [...resolvedCards.map(e => ({...e, category: 'card'})), ...resolvedGaddari.map(v => ({...v, category: 'gaddari'}))]
                 .sort((a,b) => getMillis(b.timestamp) - getMillis(a.timestamp));
 
-            // Stats
             document.getElementById('statTotalCases').innerText = allResolved.length;
             
             const totalSatvik = resolvedCards.filter(e => e.type === 'satvik').length;
@@ -2544,7 +2590,6 @@
             const autoResolved = allResolved.filter(e => e.isAutoResolved).length;
             document.getElementById('statAutoResolved').innerText = autoResolved;
 
-            // Heatmap (Last 7 Days)
             const activityChart = document.getElementById('activityChart');
             const activityLabels = document.getElementById('activityChartLabels');
             activityChart.innerHTML = ''; activityLabels.innerHTML = '';
@@ -2578,13 +2623,12 @@
                 activityLabels.innerHTML += `<div class="flex-1 text-center text-[8px] font-bold text-slate-500 uppercase">${d.date.toLocaleString('default', {weekday: 'short'})}</div>`;
             });
 
-            // Archive List
             const listContainer = document.getElementById('archiveListContainer');
             listContainer.innerHTML = '';
             if(allResolved.length === 0) {
                 listContainer.innerHTML = `<p class="text-xs text-slate-400 italic">No precedents found.</p>`;
             } else {
-                allResolved.slice(0, 30).forEach(ev => { // Show last 30
+                allResolved.slice(0, 30).forEach(ev => { 
                     let title = '', target = '', outcomeClass = '', outcomeText = ev.status.toUpperCase();
                     if(ev.category === 'card') {
                         title = `${ev.type.toUpperCase()} REQUEST`;
@@ -2595,21 +2639,20 @@
                         target = getName(ev.targetId);
                         if(ev.status === 'confirmed') outcomeClass = 'text-rose-500 bg-rose-50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/50';
                         else if(ev.status === 'rejected') outcomeClass = 'text-slate-500 bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800';
-                        else outcomeClass = 'text-amber-500 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50'; // Reversed
+                        else outcomeClass = 'text-amber-500 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50'; 
                     }
 
                     const ms = getMillis(ev.timestamp);
                     const dateStr = ms > 0 ? new Date(ms).toLocaleDateString() : 'Just Now';
 
-                    // Parse vote explanations
                     let votesHtml = '';
                     if (ev.votes) {
-                        votesHtml = `<div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5"><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1"><i data-lucide="eye" class="w-3 h-3 inline"></i> Historic Vote Ledger</p>`;
+                        votesHtml = `<div class="mt-2 pt-2 border-t border-slate-100 dark:border-slate-800/60 space-y-1">`;
                         Object.keys(ev.votes).forEach(uid => {
                             const vObj = ev.votes[uid];
                             const decision = typeof vObj === 'object' ? vObj.decision : vObj;
-                            const reason = typeof vObj === 'object' && vObj.reason ? vObj.reason : 'No explanation';
-                            votesHtml += `<p class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight"><span class="font-bold ${decision ? 'text-emerald-500' : 'text-rose-500'}">${getName(uid)} (${decision ? 'Approve' : 'Reject'}):</span> "${reason}"</p>`;
+                            const reason = typeof vObj === 'object' && vObj.reason ? vObj.reason : 'No explanation provided';
+                            votesHtml += `<p class="text-[9px] text-slate-500 dark:text-slate-400"><span class="font-bold ${decision ? 'text-emerald-500' : 'text-rose-500'}">${getName(uid)}:</span> "${reason}"</p>`;
                         });
                         votesHtml += `</div>`;
                     }
@@ -2626,7 +2669,7 @@
                                     <span class="text-[8px] text-slate-400 mt-1">${dateStr}</span>
                                 </div>
                             </div>
-                            <p class="text-[10px] text-slate-600 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded">"${ev.reason}"</p>
+                            <p class="text-[10px] text-slate-600 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded">Proof: "${ev.reason}"</p>
                             ${votesHtml}
                         </div>`;
                 });
@@ -2637,5 +2680,3 @@
     </script>
 </body>
 </html>
-
-
