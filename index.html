@@ -193,10 +193,10 @@
                             <div class="relative z-10 flex-1 flex flex-col">
                                 <div class="w-10 h-10 bg-white dark:bg-indigo-500/10 rounded-xl flex items-center justify-center mb-3 border border-indigo-100 shadow-sm"><i data-lucide="shield" class="w-5 h-5 text-indigo-600 dark:text-indigo-400"></i></div>
                                 <h3 class="text-xl font-black text-indigo-700 dark:text-indigo-400 mb-0.5">Defense Shield</h3>
-                                <p class="text-[10px] font-medium text-slate-500 mb-4 flex-1 leading-snug">Blocks 1 confirmed Gaddari Penalty automatically.</p>
+                                <p class="text-[10px] font-medium text-slate-500 mb-4 flex-1 leading-snug">Blocks 1 Gaddari Penalty automatically. <br><span class="text-indigo-500 font-bold">Buy: Mon, Tue, Wed ONLY.</span></p>
                                 <div class="flex gap-2">
-                                    <button onclick="buyDefenseShield()" class="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-md transition-colors flex items-center justify-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy (1 Satvik)</button>
-                                    <button onclick="sellDefenseShield()" class="flex-[1] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-sm transition-colors flex items-center justify-center" title="Undo Purchase / Sell"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
+                                    <button id="btnBuyShield" onclick="buyDefenseShield()" class="flex-[2] bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-md transition-colors flex items-center justify-center gap-1.5"><i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy (1 Satvik)</button>
+                                    <button id="btnSellShield" onclick="sellDefenseShield()" class="flex-[1] bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-2 rounded-lg text-[9px] uppercase tracking-widest shadow-sm transition-colors flex items-center justify-center" title="Undo Purchase (Valid for 30s)"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -252,7 +252,7 @@
                                     <div class="p-2 bg-rose-100 dark:bg-rose-500/10 rounded-lg text-rose-600 dark:text-rose-400"><i data-lucide="crosshair" class="w-5 h-5"></i></div>
                                     <div>
                                         <h2 class="text-lg font-black text-slate-900 dark:text-white tracking-tight">Daily Judgment</h2>
-                                        <p class="text-[10px] font-medium text-slate-500 uppercase">Penalty: +10% (Req: 4 Votes)</p>
+                                        <p class="text-[10px] font-medium text-slate-500 uppercase">Penalty: +10% (Req: 3 Votes)</p>
                                     </div>
                                 </div>
                                 <div class="text-right" id="streakContainer">
@@ -276,7 +276,7 @@
                                             </select>
                                         </div>
                                         <div id="gaddarReasonDiv" class="hidden transition-all duration-300">
-                                            <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="Required: Provide detailed evidence..."></textarea>
+                                            <textarea id="gaddarReason" rows="2" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-3 rounded-lg border border-slate-300 dark:border-slate-700 focus:border-rose-500 outline-none resize-none shadow-sm text-xs placeholder:text-slate-400" placeholder="REQUIRED: Provide undeniable evidence..."></textarea>
                                         </div>
                                         <button onclick="submitGaddariVote()" id="castJudgmentBtn" class="w-full bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md">Maintain Peace</button>
                                     </div>
@@ -311,7 +311,7 @@
 
                                 <div class="flex-1 flex flex-col">
                                     <div class="flex justify-between items-center border-b border-indigo-200 dark:border-indigo-500/30 pb-1 mb-2">
-                                        <h3 class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Pending Cases</h3>
+                                        <h3 class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Pending Cases (Proof Required)</h3>
                                     </div>
                                     <div id="pendingVotesContainer" class="space-y-2.5 flex-1"></div>
                                 </div>
@@ -324,11 +324,11 @@
                     <div class="lg:col-span-7 h-full flex flex-col gap-6">
 
                         <!-- SQUAD SOCIAL FEED -->
-                        <section class="glass-panel p-4 sm:p-5 rounded-2xl border-blue-200 dark:border-blue-500/30 bg-blue-50/50 dark:bg-blue-900/10 flex flex-col h-80 shrink-0">
+                        <section class="glass-panel p-4 sm:p-5 rounded-2xl border-blue-200 dark:border-blue-500/30 bg-blue-50/50 dark:bg-blue-900/10 flex flex-col h-80 shrink-0 relative">
                             <div class="flex items-center justify-between mb-3 border-b border-blue-200 dark:border-blue-500/20 pb-2 shrink-0">
                                 <div class="flex items-center gap-2">
                                     <i data-lucide="message-square" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
-                                    <h2 class="text-sm font-black tracking-tight text-blue-800 dark:text-blue-300 uppercase">Squad Feed</h2>
+                                    <h2 class="text-sm font-black tracking-tight text-blue-800 dark:text-blue-300 uppercase">Transparency Log & Feed</h2>
                                 </div>
                             </div>
                             
@@ -412,49 +412,37 @@
             <div class="flex-1 overflow-y-auto p-5 sm:p-8 space-y-6 hide-scrollbar text-sm text-slate-700 dark:text-slate-300">
                 
                 <div class="bg-rose-50 dark:bg-rose-950/20 p-4 rounded-2xl border border-rose-100 dark:border-rose-900/50">
-                    <h3 class="font-black text-rose-700 dark:text-rose-400 mb-2 flex items-center gap-2"><i data-lucide="crosshair" class="w-4 h-4"></i> The Gaddar Index (Daily Judgment)</h3>
+                    <h3 class="font-black text-rose-700 dark:text-rose-400 mb-2 flex items-center gap-2"><i data-lucide="crosshair" class="w-4 h-4"></i> The Gaddar Index & Mandatory Proof</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-rose-400">
-                        <li>Every member can vote daily to accuse someone of being a "Gaddar" (Traitor) or choose to "Maintain Peace".</li>
-                        <li>An accusation requires exactly <strong>4 Squad Approvals</strong> to be confirmed.</li>
-                        <li>Once confirmed, the target suffers a <strong>+10% penalty</strong> to their Gaddar Index.</li>
-                        <li><strong>Note:</strong> If you cast a vote to approve/reject someone else's active Gaddari request in the Tribunal, it immediately consumes your ability to start a *new* daily accusation for that day.</li>
-                        <li>If a member's Gaddari Index exceeds <strong>70%</strong>, their voting and weapon privileges are immediately revoked until they appeal and clear their name.</li>
+                        <li>Every member can vote daily to accuse someone of being a "Gaddar".</li>
+                        <li>An accusation requires exactly <strong>3 Squad Approvals</strong> to be confirmed.</li>
+                        <li><strong>NEW:</strong> Every single vote (Approval or Rejection) requires <strong>MANDATORY PROOF</strong> or an explanation. You cannot vote blindly.</li>
+                        <li>Confirmed target suffers a <strong>+10% penalty</strong>. Excess of 70% revokes all privileges.</li>
                     </ul>
                 </div>
 
                 <div class="bg-emerald-50 dark:bg-emerald-950/20 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
-                    <h3 class="font-black text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2"><i data-lucide="leaf" class="w-4 h-4"></i> Andi Mandi Cards (Tribunal Requests)</h3>
+                    <h3 class="font-black text-emerald-700 dark:text-emerald-400 mb-2 flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4"></i> Monday Resets & Inactivity Penalty</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-emerald-400">
-                        <li>Requests to use a <strong>Satvik</strong>, <strong>Lahsun</strong>, or <strong>Non-Veg</strong> card must pass through the Tribunal.</li>
-                        <li>All card usage requests require exactly <strong>3 Squad Approvals</strong>.</li>
-                        <li>Approved cards deduct exactly 1 card from the target's inventory.</li>
+                        <li><strong>Monday Protocol:</strong> On Monday, regardless of past balances, every operative is automatically restocked to exactly <strong>2 Satvik Cards</strong>.</li>
+                        <li><strong>AWOL Penalty:</strong> If you do not log in for <strong>3 continuous days</strong>, your Satvik cards are zeroed out as a penalty.</li>
                     </ul>
                 </div>
 
                 <div class="bg-indigo-50 dark:bg-indigo-950/20 p-4 rounded-2xl border border-indigo-100 dark:border-indigo-900/50">
-                    <h3 class="font-black text-indigo-700 dark:text-indigo-400 mb-2 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Defense Shields & Weapons Economy</h3>
+                    <h3 class="font-black text-indigo-700 dark:text-indigo-400 mb-2 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Strict Defense Shields Economy</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-indigo-400">
-                        <li>Tokens are abolished. You must trade exactly <strong>1 Satvik Card</strong> to buy <strong>1 Defense Shield</strong>.</li>
-                        <li>Shields are passive: if you are convicted of Gaddari, the system will automatically consume 1 Shield to completely block the +10% penalty.</li>
-                        <li>You can easily refund a Shield to get your Satvik Card back via the Armory.</li>
-                    </ul>
-                </div>
-
-                <div class="bg-amber-50 dark:bg-amber-950/20 p-4 rounded-2xl border border-amber-100 dark:border-amber-900/50">
-                    <h3 class="font-black text-amber-700 dark:text-amber-400 mb-2 flex items-center gap-2"><i data-lucide="handshake" class="w-4 h-4"></i> Neta Alliances</h3>
-                    <ul class="list-disc pl-5 space-y-1.5 marker:text-amber-400">
-                        <li>You can propose a Neta Alliance with any other member.</li>
-                        <li>Allied members can easily transfer Satvik and Lahsun cards to each other to help out.</li>
-                        <li>To forcefully break an alliance early, a member must sacrifice exactly <strong>1 Non-Veg Card</strong>.</li>
+                        <li>Trade exactly <strong>1 Satvik Card</strong> to buy <strong>1 Defense Shield</strong>.</li>
+                        <li><strong>Time-Lock:</strong> Shields can ONLY be purchased on <strong>Monday, Tuesday, and Wednesday</strong>.</li>
+                        <li><strong>Undo Limit:</strong> Selling a shield back is strictly limited to a <strong>30-second window</strong> after purchase.</li>
                     </ul>
                 </div>
 
                 <div class="bg-slate-100 dark:bg-slate-900/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <h3 class="font-black text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2"><i data-lucide="crown" class="w-4 h-4 text-amber-500"></i> Overlords (Admins) & Auto-Resolution</h3>
+                    <h3 class="font-black text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2"><i data-lucide="eye" class="w-4 h-4"></i> Radical Transparency & Admins</h3>
                     <ul class="list-disc pl-5 space-y-1.5 marker:text-slate-500">
-                        <li><strong>Auto-Resolution:</strong> Any case left pending in the Tribunal for 48 hours is automatically resolved based on the current majority of votes.</li>
-                        <li><strong>Supreme Power:</strong> Overlords' votes count strictly as exactly 1 normal vote inside the Tribunal. However, Overlords hold Supreme abilities inside the Admin Terminal.</li>
-                        <li>Overlords can edit any operative's inventory, instantly wipe their stats to 0, or execute a global server wipe if necessary.</li>
+                        <li><strong>Transparency Log:</strong> Every action, vote, shield purchase, and card transfer is permanently broadcasted to the Feed with reasons attached. Nothing is hidden.</li>
+                        <li><strong>Overlord Powers:</strong> Admins can force weekly resets, manually clear inactivity penalties, and alter profiles at will via the advanced Admin Terminal.</li>
                     </ul>
                 </div>
             </div>
@@ -479,11 +467,21 @@
                 <!-- Admin Tools -->
                 <div class="lg:col-span-5 space-y-4">
                     
+                    <div class="bg-amber-50 dark:bg-amber-950/20 p-4 rounded-xl border border-amber-200 dark:border-amber-900/50">
+                        <h3 class="text-xs font-bold text-amber-600 dark:text-amber-500 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="zap" class="w-3.5 h-3.5"></i> System Overrides</h3>
+                        <button onclick="adminForceWeeklyReset()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-lg transition-all text-[10px] uppercase tracking-widest shadow-md mb-2">Force Monday Satvik Reset</button>
+                    </div>
+
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <h3 class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="sliders" class="w-3.5 h-3.5 text-blue-500"></i> Operative Override</h3>
                         
                         <select id="adminTarget" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs mb-3" onchange="loadAdminTargetStats()"></select>
                         
+                        <div class="mb-3">
+                            <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Operative Name</label>
+                            <input type="text" id="adminValName" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none font-bold">
+                        </div>
+
                         <div class="grid grid-cols-3 gap-2 mb-2">
                             <div>
                                 <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Satvik</label>
@@ -508,6 +506,12 @@
                                 <input type="number" id="adminValShields" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
                             </div>
                         </div>
+                        
+                        <div class="flex items-center gap-2 mb-4 p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-700/50">
+                            <input type="checkbox" id="adminValIsAdmin" class="w-4 h-4 text-amber-600 rounded border-amber-300 focus:ring-amber-500">
+                            <label class="text-[10px] text-amber-700 dark:text-amber-400 uppercase font-bold block">Grant Overlord Powers</label>
+                        </div>
+
                         <div class="mb-4">
                             <label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Force Update PIN</label>
                             <input type="text" id="adminValPassword" placeholder="Leave blank to keep current" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs outline-none">
@@ -551,7 +555,7 @@
                     <h2 id="amModalTitle" class="text-xl font-black tracking-tight leading-none">Card</h2>
                 </div>
             </div>
-            <textarea id="amReasonInput" rows="3" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-100 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none transition-all resize-none shadow-sm mb-5 text-sm" placeholder="State justification..."></textarea>
+            <textarea id="amReasonInput" rows="3" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-100 p-3 rounded-xl border border-slate-300 dark:border-slate-700 focus:border-indigo-500 outline-none transition-all resize-none shadow-sm mb-5 text-sm" placeholder="REQUIRED: State undeniable justification..."></textarea>
             <div class="flex gap-3">
                 <button onclick="closeAmModal()" class="flex-1 bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl text-sm transition-all">Cancel</button>
                 <button id="amSubmitBtn" class="flex-[2] bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-black py-3 rounded-xl shadow-md transform active:scale-95 text-sm">Submit to Tribunal</button>
@@ -633,7 +637,7 @@
                             <h3 class="text-xs font-bold text-indigo-700 dark:text-indigo-300 mb-2 flex items-center gap-1.5"><i data-lucide="megaphone" class="w-3.5 h-3.5"></i> Accuse Unauthorized Usage</h3>
                             <div class="space-y-2.5 mt-3">
                                 <select id="reportCardType" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm"></select>
-                                <input type="text" id="reportReason" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm" placeholder="Evidence...">
+                                <input type="text" id="reportReason" class="w-full bg-white dark:bg-darkbg text-slate-800 dark:text-slate-200 p-2.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs shadow-sm" placeholder="MANDATORY Evidence...">
                                 <button id="reportSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 transition-colors text-white font-bold py-2.5 rounded-lg shadow-md text-xs tracking-wide mt-1">Submit to Tribunal</button>
                             </div>
                         </div>
@@ -697,7 +701,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, getDocs, onSnapshot, updateDoc, addDoc, serverTimestamp, writeBatch, deleteDoc, deleteField } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, onSnapshot, updateDoc, addDoc, serverTimestamp, writeBatch, deleteDoc, deleteField } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const userFirebaseConfig = {
             apiKey: "AIzaSyAGmSHiSFvlOIk5woSsbBLI5rndASromyg",
@@ -708,12 +712,15 @@
             appId: "1:369190320724:web:29a949f473c557d63d4bc1"
         };
 
+        const REQ_GADDARI_APPROVALS = 3;
+
         let app, auth, db, currentUserId;
         let isInitialized = false;
         let isMembersLoaded = false;
         let localMembers = [], localEvents = [], localGaddariVotes = [], localFeed = [];
         let currentAmType = null;
         let timeLockedCheckInterval = null;
+        let shieldUndoInterval = null;
         
         const DEFAULT_MEMBERS = [
             { id: 'm1', name: 'ISHANT', password: 'ishant2112#', isAdmin: true },
@@ -736,7 +743,6 @@
         let selectedLoginMember = null;
         let activeProfileId = null;
 
-        // SAFE TIMESTAMP PARSER: Prevents the modal from crashing when serverTimestamp is locally pending
         const getMillis = (ts) => {
             try {
                 if (!ts) return 0;
@@ -793,6 +799,14 @@
             return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
         };
 
+        const getWeekIdentifier = (d) => {
+            const date = new Date(d.getTime());
+            date.setHours(0, 0, 0, 0);
+            date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+            const week1 = new Date(date.getFullYear(), 0, 4);
+            return date.getFullYear() + '-' + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+        };
+
         async function bootup() {
             lucide.createIcons();
             if (typeof __app_id !== 'undefined') appId = __app_id;
@@ -813,6 +827,7 @@
                             startRealtimeListeners();
                             startDailyCountdown();
                             startPresenceTracker();
+                            shieldUndoInterval = setInterval(updateShieldUndoUI, 1000);
                         } catch(err) {}
                     }
                 });
@@ -832,7 +847,7 @@
                         allianceWith: null, allianceEndTime: 0,
                         defenseShields: 0, voteStreak: 0, lastVoteDate: '',
                         achievements: { trusted: false, weaponsMaster: false, diplomat: false, merciful: false },
-                        lastActiveTime: Date.now()
+                        lastActiveTime: Date.now(), lastShieldPurchaseTime: 0
                     });
                 });
                 await batch.commit();
@@ -854,17 +869,13 @@
                         const target = DEFAULT_MEMBERS.find(m => m.id === dbMember.id);
                         if (target) {
                             let updates = {};
-                            if (dbMember.name !== target.name) updates.name = target.name;
+                            if (dbMember.name !== target.name && target.isAdmin && !dbMember.isAdmin) updates.name = target.name;
                             if (dbMember.password === undefined) updates.password = target.password;
                             if (dbMember.isAdmin !== target.isAdmin) updates.isAdmin = target.isAdmin;
                             if (dbMember.defenseShields === undefined) updates.defenseShields = 0;
                             if (dbMember.voteStreak === undefined) updates.voteStreak = 0;
-                            if (dbMember.lastVoteDate === undefined) updates.lastVoteDate = '';
-                            if (dbMember.achievements === undefined) updates.achievements = { trusted: false, weaponsMaster: false, diplomat: false, merciful: false };
+                            if (dbMember.lastShieldPurchaseTime === undefined) updates.lastShieldPurchaseTime = 0;
                             
-                            // Cleanup token logic entirely
-                            if (dbMember.andiMandiTokens !== undefined) updates.andiMandiTokens = deleteField();
-
                             if (Object.keys(updates).length > 0) { 
                                 batch.update(doc(db, basePath, 'members', dbMember.id), updates); 
                                 needsUpdate = true; 
@@ -876,6 +887,7 @@
 
                 if (!isMembersLoaded) {
                     isMembersLoaded = true;
+                    await checkWeeklyReset(); // Check Monday reset first
                     await checkSavedLogin();
                 } else if (!currentUserId) {
                     renderLoginScreen();
@@ -907,10 +919,37 @@
                 if (currentUserId) { renderFeed(); updateAdminUI(); }
             });
             
-            // Check for time-locked resolutions every minute
             if (!timeLockedCheckInterval) {
                 timeLockedCheckInterval = setInterval(checkTimeLockedResolutions, 60000);
             }
+        }
+
+        async function checkWeeklyReset() {
+            try {
+                const today = new Date();
+                const currentWeek = getWeekIdentifier(today);
+                const globalsRef = doc(db, basePath, 'system', 'globals');
+                const snap = await getDoc(globalsRef);
+                
+                let lastResetWeek = '';
+                if(snap.exists()) lastResetWeek = snap.data().lastResetWeek;
+
+                // Trigger if it's Monday AND we haven't reset this week yet
+                if (today.getDay() === 1 && currentWeek !== lastResetWeek) {
+                    await setDoc(globalsRef, { lastResetWeek: currentWeek }, { merge: true });
+                    
+                    const batch = writeBatch(db);
+                    localMembers.forEach(m => {
+                        batch.update(doc(db, basePath, 'members', m.id), { satvikCount: 2 });
+                    });
+                    await batch.commit();
+                    
+                    await addDoc(collection(db, basePath, 'squad_feed'), { 
+                        text: `🔄 MONDAY PROTOCOL INITIATED: A new week begins. All operatives have been restocked to exactly 2 Satvik Cards.`, 
+                        authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true 
+                    });
+                }
+            } catch (err) { console.warn("Weekly reset check failed:", err); }
         }
 
         function startDailyCountdown() {
@@ -928,7 +967,6 @@
         }
 
         function startPresenceTracker() {
-            // Update presence every 2 mins if active
             setInterval(async () => {
                 if(currentUserId) {
                     try {
@@ -949,7 +987,6 @@
             for(const ev of pending) {
                 const evTime = getMillis(ev.timestamp) || now;
                 if (now - evTime > FORTY_EIGHT_HOURS) {
-                    // Time limit exceeded. Process if we are the reporter (avoids multiple writes)
                     const isReporter = (ev.category === 'card' && ev.reportedBy === currentUserId) || (ev.category === 'gaddari' && ev.voterId === currentUserId);
                     const me = localMembers.find(m => m.id === currentUserId);
                     
@@ -968,7 +1005,6 @@
                         try {
                             const collectionName = ev.category === 'card' ? 'am_events' : 'gaddari_votes';
                             
-                            // Apply penalty / deduction if confirmed
                             if (newStatus === 'confirmed') {
                                 if (ev.category === 'card') {
                                     const targetMember = localMembers.find(m => m.id === ev.userId);
@@ -981,7 +1017,7 @@
                                     if (targetMember) {
                                         if (targetMember.defenseShields > 0) {
                                             await updateDoc(doc(db, basePath, 'members', targetMember.id), { defenseShields: targetMember.defenseShields - 1 });
-                                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `🛡️ SYSTEM: ${targetMember.name} automatically deployed a Defense Shield blocking a time-locked Gaddari penalty!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+                                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `🛡️ SYSTEM: ${targetMember.name} automatically deployed a Defense Shield blocking an auto-resolved penalty!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
                                         } else {
                                             const newGaddari = Math.min(100, (targetMember.gaddariIndex || 0) + 10);
                                             await updateDoc(doc(db, basePath, 'members', targetMember.id), { gaddariIndex: newGaddari });
@@ -991,7 +1027,7 @@
                             }
                             
                             await updateDoc(doc(db, basePath, collectionName, ev.uid), { status: newStatus, isAutoResolved: true });
-                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `⏱️ SYSTEM: A pending case was auto-resolved to [${newStatus.toUpperCase()}] after 48 hours of inactivity.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+                            await addDoc(collection(db, basePath, 'squad_feed'), { text: `⏱️ SYSTEM: A pending case was auto-resolved to [${newStatus.toUpperCase()}] after 48 hours.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
                             
                         } catch(e) { console.error("Auto-resolve failed", e); }
                     }
@@ -1015,7 +1051,22 @@
                 try {
                     const me = localMembers.find(m => m.id === uid);
                     if(me) {
-                        await updateDoc(doc(db, basePath, 'members', uid), { appOpens: (me.appOpens || 0) + 1, lastActiveTime: Date.now() });
+                        // 3-Day Inactivity Penalty check
+                        const lastActive = me.lastActiveTime || Date.now();
+                        const daysInactive = (Date.now() - lastActive) / (1000 * 60 * 60 * 24);
+                        
+                        let updates = { appOpens: (me.appOpens || 0) + 1, lastActiveTime: Date.now() };
+                        
+                        if (daysInactive >= 3 && me.satvikCount > 0) {
+                            updates.satvikCount = 0;
+                            showToast("You lost all Satvik cards due to 3+ days of inactivity.", "error");
+                            await addDoc(collection(db, basePath, 'squad_feed'), { 
+                                text: `⚠️ AWOL PENALTY: ${me.name} was missing for 3+ days. Satvik cards have been zeroed out.`, 
+                                authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true 
+                            });
+                        }
+                        
+                        await updateDoc(doc(db, basePath, 'members', uid), updates);
                         sessionStorage.setItem(`appOpened_${uid}`, 'true');
                     }
                 } catch(e) {}
@@ -1131,7 +1182,7 @@
                 batch.update(doc(db, basePath, 'members', targetId), { allianceWith: me.id, allianceEndTime: expire, 'achievements.diplomat': true });
                 await batch.commit();
                 
-                await addDoc(collection(db, basePath, 'squad_feed'), { text: `🤝 ${me.name} and ${target.name} formed a Neta Alliance!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), likes: [], dislikes: [], isSystem: true });
+                await addDoc(collection(db, basePath, 'squad_feed'), { text: `🤝 TRANSPARENCY: ${me.name} and ${target.name} formed a Neta Alliance!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), likes: [], dislikes: [], isSystem: true });
                 
                 showToast("Alliance Formed! Valid for 48 hours.", "success");
                 closeProfileModal();
@@ -1152,7 +1203,7 @@
                 batch.update(doc(db, basePath, 'members', partnerId), { allianceWith: null, allianceEndTime: 0 });
                 await batch.commit();
                 
-                await addDoc(collection(db, basePath, 'squad_feed'), { text: `💔 ${me.name} brutally broke their alliance with ${getName(partnerId)}!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), likes: [], dislikes: [], isSystem: true });
+                await addDoc(collection(db, basePath, 'squad_feed'), { text: `💔 TRANSPARENCY: ${me.name} brutally broke their alliance with ${getName(partnerId)} using a Non-Veg!`, authorId: 'SYSTEM', timestamp: serverTimestamp(), likes: [], dislikes: [], isSystem: true });
                 
                 showToast("Alliance broken.", "success");
                 closeProfileModal();
@@ -1173,6 +1224,9 @@
                 batch.update(doc(db, basePath, 'members', me.id), { [countKey]: me[countKey] - 1 });
                 batch.update(doc(db, basePath, 'members', target.id), { [countKey]: (target[countKey] || 0) + 1 });
                 await batch.commit();
+
+                await addDoc(collection(db, basePath, 'squad_feed'), { text: `📦 TRANSPARENCY: ${me.name} transferred 1 ${type.toUpperCase()} card to ${target.name}.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+
                 showToast(`Transferred 1 ${type} to ${target.name}!`, "success");
                 updateProfileModalData();
             } catch(e) { showToast("Failed transfer.", "error"); }
@@ -1180,17 +1234,27 @@
 
         // --- BLACK MARKET ---
         window.buyDefenseShield = async () => {
+            const day = new Date().getDay();
+            if (![1, 2, 3].includes(day)) {
+                showToast("Shields can ONLY be bought on Mon, Tue, or Wed.", "error");
+                return;
+            }
+
             const me = localMembers.find(m => m.id === currentUserId);
             if(!me) return;
             if((me.satvikCount || 0) < 1) { showToast("Insufficient Satvik Cards.", "error"); return; }
-            if(!confirm("Spend 1 Satvik Card for a Defense Shield? (Blocks 1 Gaddari penalty automatically)")) return;
+            if(!confirm("Spend 1 Satvik Card for a Defense Shield?")) return;
 
             try {
                 await updateDoc(doc(db, basePath, 'members', me.id), { 
                     satvikCount: me.satvikCount - 1, 
                     defenseShields: (me.defenseShields || 0) + 1,
+                    lastShieldPurchaseTime: Date.now(),
                     'achievements.weaponsMaster': true 
                 });
+                
+                await addDoc(collection(db, basePath, 'squad_feed'), { text: `🛒 TRANSPARENCY: ${me.name} purchased a Defense Shield.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+
                 showToast("Defense Shield Acquired!", "success");
                 updateDashboardUI();
             } catch(e) { showToast("Transaction failed.", "error"); }
@@ -1200,15 +1264,46 @@
             const me = localMembers.find(m => m.id === currentUserId);
             if(!me) return;
             if((me.defenseShields || 0) < 1) { showToast("You have no shields to return.", "error"); return; }
+            
+            const timeSince = Date.now() - (me.lastShieldPurchaseTime || 0);
+            if (timeSince > 30000) {
+                showToast("Undo window expired. You only have 30 seconds after purchase.", "error");
+                return;
+            }
 
             try {
                 await updateDoc(doc(db, basePath, 'members', me.id), { 
                     satvikCount: (me.satvikCount || 0) + 1, 
-                    defenseShields: me.defenseShields - 1 
+                    defenseShields: me.defenseShields - 1,
+                    lastShieldPurchaseTime: 0
                 });
+                
+                await addDoc(collection(db, basePath, 'squad_feed'), { text: `🔄 TRANSPARENCY: ${me.name} used the 30-second Undo window to sell back a Defense Shield.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+
                 showToast("Shield returned. Satvik refunded.", "success");
                 updateDashboardUI();
             } catch(e) { showToast("Transaction failed.", "error"); }
+        }
+
+        function updateShieldUndoUI() {
+            if(!currentUserId) return;
+            const me = localMembers.find(m => m.id === currentUserId);
+            if(!me) return;
+            
+            const btn = document.getElementById('btnSellShield');
+            if(!btn) return;
+            
+            const timeSince = Date.now() - (me.lastShieldPurchaseTime || 0);
+            if (me.defenseShields > 0 && timeSince <= 30000) {
+                const left = Math.ceil((30000 - timeSince)/1000);
+                btn.innerHTML = `<i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Undo (${left}s)`;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                lucide.createIcons();
+            } else {
+                btn.innerHTML = `<i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Undo Expired`;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+                lucide.createIcons();
+            }
         }
 
         // --- UI UPDATES ---
@@ -1243,7 +1338,7 @@
                 btn.className = "w-full bg-slate-800 hover:bg-slate-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-sm";
             } else {
                 div.classList.remove('hidden');
-                btn.innerText = "Accuse (Req: 4 Approvals)";
+                btn.innerText = "Accuse (Req: 3 Approvals)";
                 btn.className = "w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 text-white font-black py-3 rounded-lg transition-all shadow-md transform active:scale-95 text-xs uppercase tracking-widest mt-1";
             }
         });
@@ -1272,10 +1367,10 @@
 
                 if(post.isSystem) {
                     const div = document.createElement('div');
-                    div.className = 'bg-amber-50 dark:bg-amber-950/20 p-3 rounded-lg border border-amber-200 dark:border-amber-900/30 flex items-center gap-2 mb-3';
+                    div.className = 'bg-amber-50 dark:bg-amber-950/20 p-3 rounded-lg border border-amber-200 dark:border-amber-900/30 flex items-start gap-2 mb-3 shadow-sm';
                     div.innerHTML = `
-                        <i data-lucide="bot" class="w-4 h-4 text-amber-500 shrink-0"></i>
-                        <p class="text-[10px] text-amber-800 dark:text-amber-400 font-medium">System: ${post.text}</p>
+                        <i data-lucide="bell-ring" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i>
+                        <p class="text-[11px] text-amber-800 dark:text-amber-400 font-bold leading-snug">${post.text}</p>
                     `;
                     feed.appendChild(div);
                 } else {
@@ -1396,7 +1491,6 @@
             if (me.gaddariIndex > 70) headerGaddar.classList.add('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow'); 
             else headerGaddar.classList.remove('text-rose-600', 'dark:text-rose-400', 'animate-pulse-slow');
 
-            // Shields display
             document.getElementById('headerShields').innerText = me.defenseShields || 0;
             document.getElementById('mobileShields').innerText = me.defenseShields || 0;
             document.getElementById('currentStreak').innerText = me.voteStreak || 0;
@@ -1428,7 +1522,7 @@
                 const isDanger = m.gaddariIndex > 70;
                 const isAdmin = m.isAdmin;
                 const inTribunal = usersWithPendingEvents.has(m.id);
-                const isOnline = m.lastActiveTime && (now - m.lastActiveTime < 300000); // 5 minutes
+                const isOnline = m.lastActiveTime && (now - m.lastActiveTime < 300000); 
                 
                 let rowBgHover = 'hover:bg-slate-50 dark:hover:bg-slate-800/40';
                 let avatarBorder = 'bg-slate-50 dark:bg-darkbg border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400';
@@ -1549,13 +1643,32 @@
             if(!targetId) return;
             const target = localMembers.find(m => m.id === targetId);
             if(target) {
+                document.getElementById('adminValName').value = target.name || '';
                 document.getElementById('adminValSatvik').value = target.satvikCount || 0;
                 document.getElementById('adminValLahsun').value = target.lahsunCount || 0;
                 document.getElementById('adminValNonveg').value = target.nonvegCount || 0;
                 document.getElementById('adminValGaddari').value = target.gaddariIndex || 0;
                 document.getElementById('adminValShields').value = target.defenseShields || 0;
+                document.getElementById('adminValIsAdmin').checked = target.isAdmin || false;
                 document.getElementById('adminValPassword').value = '';
             }
+        }
+
+        window.adminForceWeeklyReset = async () => {
+            if(!confirm("OVERLORD WARNING: This will force ALL users to immediately reset to 2 Satvik Cards regardless of the day. Continue?")) return;
+            try {
+                const batch = writeBatch(db);
+                localMembers.forEach(m => {
+                    batch.update(doc(db, basePath, 'members', m.id), { satvikCount: 2 });
+                });
+                await batch.commit();
+                
+                await addDoc(collection(db, basePath, 'squad_feed'), { 
+                    text: `⚠️ OVERLORD DECREE: The Admin has forced a manual Weekly Restock. All operatives now have exactly 2 Satvik Cards.`, 
+                    authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true 
+                });
+                showToast("Forced Reset Complete.", "success");
+            } catch(e) { showToast("Reset Failed.", "error"); }
         }
 
         window.adminSaveTargetStats = async () => {
@@ -1566,6 +1679,8 @@
 
             try {
                 const updates = {
+                    name: document.getElementById('adminValName').value.trim() || target.name,
+                    isAdmin: document.getElementById('adminValIsAdmin').checked,
                     satvikCount: parseInt(document.getElementById('adminValSatvik').value) || 0,
                     lahsunCount: parseInt(document.getElementById('adminValLahsun').value) || 0,
                     nonvegCount: parseInt(document.getElementById('adminValNonveg').value) || 0,
@@ -1577,7 +1692,7 @@
                 if(newPass.length > 0) updates.password = newPass;
                 
                 await updateDoc(doc(db, basePath, 'members', targetId), updates);
-                showToast(`${target.name}'s Intel Successfully Overridden.`, "success");
+                showToast(`Operative Intelligence Overridden.`, "success");
             } catch(err) {
                 showToast("Failed to override stats.", "error");
             }
@@ -1608,10 +1723,7 @@
 
             try {
                 await updateDoc(doc(db, basePath, 'members', targetId), {
-                    satvikCount: 0,
-                    lahsunCount: 0,
-                    nonvegCount: 0,
-                    defenseShields: 0
+                    satvikCount: 0, lahsunCount: 0, nonvegCount: 0, defenseShields: 0
                 });
                 showToast(`${target.name}'s inventory has been wiped to 0.`, "success");
                 loadAdminTargetStats();
@@ -2036,12 +2148,15 @@
         window.submitAccusation = async (targetId) => {
             const type = document.getElementById('reportCardType').value;
             const reason = document.getElementById('reportReason').value.trim();
-            if (!type || !reason) { showToast("Evidence required.", 'error'); return; }
+            if (!type || !reason) { showToast("Evidence is mandatory.", 'error'); return; }
             try {
                 await addDoc(collection(db, basePath, 'am_events'), {
                     userId: targetId, reportedBy: currentUserId, type: type, reason: reason,
                     status: 'pending', timestamp: serverTimestamp(), votes: { [currentUserId]: { decision: true, reason: 'Initial Request' } }
                 });
+                
+                await addDoc(collection(db, basePath, 'squad_feed'), { text: `⚖️ TRIBUNAL: ${getName(currentUserId)} has accused ${getName(targetId)} of unauthorized ${type.toUpperCase()} usage. Awaiting 3 votes.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+
                 closeProfileModal();
                 showToast("Accusation filed to Tribunal.", 'success');
             } catch (err) { showToast("Failed to file.", 'error'); }
@@ -2073,7 +2188,7 @@
 
         document.getElementById('amSubmitBtn').addEventListener('click', async () => {
             const reason = document.getElementById('amReasonInput').value.trim();
-            if (!reason) { showToast("Justification required.", 'error'); return; }
+            if (!reason) { showToast("MANDATORY: State your justification clearly.", 'error'); return; }
             try {
                 const me = localMembers.find(m => m.id === currentUserId);
                 let initialStatus = 'pending';
@@ -2088,6 +2203,11 @@
                     userId: currentUserId, reportedBy: currentUserId, type: currentAmType,
                     reason: reason, status: initialStatus, timestamp: serverTimestamp(), votes: { [currentUserId]: { decision: true, reason: 'Initial Request' } }
                 });
+
+                if(!me.isAdmin) {
+                    await addDoc(collection(db, basePath, 'squad_feed'), { text: `⚖️ TRIBUNAL: ${me.name} is requesting permission to deploy a ${currentAmType.toUpperCase()} card. Awaiting 3 votes.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+                }
+
                 closeAmModal();
             } catch (err) { showToast("Failed.", 'error'); }
         });
@@ -2120,7 +2240,7 @@
                 const isAccusation = reporterId && reporterId !== targetId;
                 const reporterName = isAccusation ? getName(reporterId) : targetUser.name;
                 
-                let conf = { name: 'Gaddari Accusation', color: 'rose', icon: 'crosshair', reqApprovals: 4 };
+                let conf = { name: 'Gaddari Accusation', color: 'rose', icon: 'crosshair', reqApprovals: REQ_GADDARI_APPROVALS };
                 if (!isGaddari) {
                     const configs = { satvik: { name: 'Satvik Request', color: 'emerald', icon: 'leaf' }, lahsun: { name: 'Lahsun Pyaaj', color: 'amber', icon: 'flame' }, nonveg: { name: 'Non-Veg Strike', color: 'rose', icon: 'skull' } };
                     conf = { ...configs[event.type], reqApprovals: 3 };
@@ -2156,7 +2276,7 @@
                 } else {
                     actionsHtml = `
                         <div class="mt-2">
-                            <input type="text" id="voteReason_${event.uid}" placeholder="Explain your vote (optional)" class="w-full text-[10px] bg-slate-50 dark:bg-[#0f1423] border border-slate-200 dark:border-slate-700 p-2 rounded mb-2 outline-none focus:border-indigo-500 transition-colors">
+                            <input type="text" id="voteReason_${event.uid}" placeholder="MANDATORY: Provide clear proof/reason for your vote" class="w-full text-[10px] bg-slate-50 dark:bg-[#0f1423] border border-slate-200 dark:border-slate-700 p-2 rounded mb-2 outline-none focus:border-indigo-500 transition-colors">
                             <div class="flex gap-2">
                                 <button onclick="castTribunalVote('${event.category}', '${event.uid}', true)" class="flex-1 bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-up" class="w-3 h-3"></i> Approve</button>
                                 <button onclick="castTribunalVote('${event.category}', '${event.uid}', false)" class="flex-1 bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-500/30 py-2 rounded-lg text-[9px] font-bold uppercase flex justify-center items-center gap-1.5 transition-colors"><i data-lucide="thumbs-down" class="w-3 h-3"></i> Reject</button>
@@ -2212,6 +2332,11 @@
                 const inputEl = document.getElementById(`voteReason_${eventId}`);
                 const voteReason = inputEl ? inputEl.value.trim() : '';
 
+                if (!voteReason) {
+                    showToast("MANDATORY: Proof or reason required to cast a vote.", 'error');
+                    return;
+                }
+
                 let newStatus = 'pending';
                 let updatedVotes = { ...(event.votes || {}), [currentUserId]: { decision: isApprove, reason: voteReason } };
 
@@ -2221,7 +2346,7 @@
                     if(decision) approves++; else rejects++; 
                 });
                 
-                const reqApprovals = category === 'card' ? 3 : 4;
+                const reqApprovals = category === 'card' ? 3 : REQ_GADDARI_APPROVALS;
                 if (approves >= reqApprovals) newStatus = 'confirmed';
                 else if (rejects >= reqApprovals) newStatus = 'rejected';
 
@@ -2271,6 +2396,13 @@
                 }
 
                 await updateDoc(eventRef, { votes: updatedVotes, status: newStatus });
+
+                const voteText = isApprove ? 'APPROVED' : 'REJECTED';
+                const me = localMembers.find(m => m.id === currentUserId);
+                const targetName = category === 'gaddari' ? getName(event.targetId) : getName(event.userId);
+                const actText = category === 'gaddari' ? `the Gaddari charge vs ${targetName}` : `the ${event.type.toUpperCase()} request from ${targetName}`;
+                await addDoc(collection(db, basePath, 'squad_feed'), { text: `📜 TRANSPARENCY: ${me.name} voted to ${voteText} ${actText}. Reason: "${voteReason}"`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
+
                 showToast("Verdict recorded in Tribunal.", 'success');
             } catch (err) { console.error(err); showToast("Failed to vote.", 'error'); }
         };
@@ -2280,7 +2412,7 @@
             const reason = document.getElementById('gaddarReason').value.trim();
             const todayStr = getLocalDateStr();
 
-            if (targetId !== 'none' && !reason) { showToast("Evidence mandatory for accusation.", 'warning'); return; }
+            if (targetId !== 'none' && !reason) { showToast("Evidence is MANDATORY for accusation.", 'warning'); return; }
 
             try {
                 // Streak Logic
@@ -2300,19 +2432,18 @@
                 }
 
                 if (targetId === 'none') {
-                    // Just maintain peace silently
                     await addDoc(collection(db, basePath, 'gaddari_votes'), {
                         date: todayStr, voterId: currentUserId, targetId: 'none',
                         reason: 'Maintained Peace', timestamp: serverTimestamp(), status: 'peace'
                     });
                     showToast("Peace Maintained for the day.", 'success');
                 } else {
-                    // Send to tribunal
                     await addDoc(collection(db, basePath, 'gaddari_votes'), {
                         date: todayStr, voterId: currentUserId, targetId: targetId,
                         reason: reason, timestamp: serverTimestamp(), status: 'pending',
                         votes: { [currentUserId]: { decision: true, reason: 'Initial Accusation' } }
                     });
+                    await addDoc(collection(db, basePath, 'squad_feed'), { text: `⚖️ TRIBUNAL: ${me.name} officially accuses ${getName(targetId)} of Gaddari. Proof: "${reason}". Requires 3 approvals.`, authorId: 'SYSTEM', timestamp: serverTimestamp(), isSystem: true });
                     showToast("Accusation filed to Tribunal.", 'success');
                 }
                 
