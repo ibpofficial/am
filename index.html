@@ -527,6 +527,7 @@
 
                     <div class="bg-rose-50 dark:bg-rose-950/20 p-4 rounded-xl border border-rose-200 dark:border-rose-900/50">
                         <h3 class="text-xs font-bold text-rose-600 dark:text-rose-500 uppercase tracking-widest mb-3 flex items-center gap-2"><i data-lucide="skull" class="w-3.5 h-3.5"></i> Danger Zone</h3>
+                        <button onclick="adminSanitizeDatabase()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md mb-2 flex items-center justify-center gap-1.5"><i data-lucide="wrench" class="w-3.5 h-3.5"></i> Fix Corrupted Data</button>
                         <button onclick="adminGlobalWipe()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-black py-3 rounded-lg transition-all text-xs uppercase tracking-widest shadow-md">Execute System Wipe</button>
                     </div>
                 </div>
@@ -1310,9 +1311,13 @@
         function updateScorecards() {
             if(localMembers.length === 0) return;
             
-            const sortRender = (arr, elId, formatFunc) => {
+            const sortRender = (arr, elId, formatFunc, emptyMsg = "None") => {
                 const el = document.getElementById(elId);
                 el.innerHTML = '';
+                if (arr.length === 0) {
+                    el.innerHTML = `<div class="text-center text-[10px] text-slate-400 italic py-2">${emptyMsg}</div>`;
+                    return;
+                }
                 arr.slice(0,3).forEach((m, idx) => {
                     const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉';
                     el.innerHTML += `
@@ -1324,9 +1329,14 @@
                 });
             };
             
-            sortRender([...localMembers].sort((a,b) => b.gaddariIndex - a.gaddariIndex), 'leaderboardGaddar', m => `${m.gaddariIndex}%`);
-            sortRender([...localMembers].sort((a,b) => a.gaddariIndex - b.gaddariIndex), 'leaderboardPeace', m => `${m.gaddariIndex}%`);
-            sortRender([...localMembers].sort((a,b) => (b.satvikCount+b.lahsunCount+b.nonvegCount) - (a.satvikCount+a.lahsunCount+a.nonvegCount)), 'leaderboardArmed', m => m.satvikCount+m.lahsunCount+m.nonvegCount);
+            const gaddars = [...localMembers].filter(m => m.gaddariIndex > 0).sort((a,b) => b.gaddariIndex - a.gaddariIndex);
+            sortRender(gaddars, 'leaderboardGaddar', m => `${m.gaddariIndex}%`, "No Gaddars Found.");
+            
+            const peacekeepers = [...localMembers].filter(m => m.gaddariIndex === 0).sort((a,b) => a.gaddariIndex - b.gaddariIndex);
+            sortRender(peacekeepers, 'leaderboardPeace', m => `${m.gaddariIndex}%`, "No Peacekeepers.");
+            
+            const armed = [...localMembers].filter(m => (m.satvikCount+m.lahsunCount+m.nonvegCount) > 0).sort((a,b) => (b.satvikCount+b.lahsunCount+b.nonvegCount) - (a.satvikCount+a.lahsunCount+a.nonvegCount));
+            sortRender(armed, 'leaderboardArmed', m => m.satvikCount+m.lahsunCount+m.nonvegCount, "Squad Disarmed.");
         }
 
         document.getElementById('gaddarTarget').addEventListener('change', (e) => {
@@ -1356,63 +1366,69 @@
             const me = localMembers.find(m => m.id === currentUserId);
 
             localFeed.forEach(post => {
-                let timeAgo = '';
-                if(post.timestamp) {
-                    const diffMs = Date.now() - getMillis(post.timestamp);
-                    const mins = Math.floor(diffMs / 60000);
-                    if (mins < 60) timeAgo = `${mins}m`;
-                    else if (mins < 1440) timeAgo = `${Math.floor(mins/60)}h`;
-                    else timeAgo = `${Math.floor(mins/1440)}d`;
-                }
-
-                if(post.isSystem) {
-                    const div = document.createElement('div');
-                    div.className = 'bg-amber-50 dark:bg-amber-950/20 p-3 rounded-lg border border-amber-200 dark:border-amber-900/30 flex items-start gap-2 mb-3 shadow-sm';
-                    div.innerHTML = `
-                        <i data-lucide="bell-ring" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i>
-                        <p class="text-[11px] text-amber-800 dark:text-amber-400 font-bold leading-snug">${post.text}</p>
-                    `;
-                    feed.appendChild(div);
-                } else {
-                    const author = localMembers.find(m => m.id === post.authorId) || { name: 'Unknown', location: '', avatarBase64: '' };
-                    const likes = post.likes || [];
-                    const dislikes = post.dislikes || [];
-                    const hasLiked = likes.includes(currentUserId);
-                    const hasDisliked = dislikes.includes(currentUserId);
-                    
-                    let avatarHtml = author.avatarBase64 ? 
-                        `<img src="${author.avatarBase64}" class="w-full h-full object-cover">` : 
-                        `<i data-lucide="user" class="w-4 h-4 text-slate-500"></i>`;
-
-                    let deleteBtn = '';
-                    if (me && me.isAdmin) {
-                        deleteBtn = `<button onclick="deletePost('${post.uid}')" class="p-1 hover:bg-rose-100 dark:hover:bg-rose-900/30 rounded text-slate-400 hover:text-rose-500 transition-colors ml-auto"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>`;
+                try {
+                    let timeAgo = '';
+                    if(post.timestamp) {
+                        const diffMs = Date.now() - getMillis(post.timestamp);
+                        const mins = Math.floor(diffMs / 60000);
+                        if (mins < 60) timeAgo = `${mins}m`;
+                        else if (mins < 1440) timeAgo = `${Math.floor(mins/60)}h`;
+                        else timeAgo = `${Math.floor(mins/1440)}d`;
                     }
 
-                    const div = document.createElement('div');
-                    div.className = 'feed-item bg-white/80 dark:bg-[#030712]/80 p-3.5 rounded-xl border border-blue-200 dark:border-blue-500/20 shadow-sm mb-3';
-                    div.innerHTML = `
-                        <div class="flex items-center gap-2.5 mb-2">
-                            <div class="w-8 h-8 shrink-0 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden border border-slate-300 dark:border-slate-700 flex items-center justify-center">${avatarHtml}</div>
-                            <div>
-                                <p class="text-xs font-bold text-slate-900 dark:text-white leading-none">${author.name}</p>
-                                <p class="text-[9px] text-slate-500 dark:text-slate-400 font-medium mt-0.5"><i data-lucide="map-pin" class="w-2.5 h-2.5 inline"></i> ${author.location || 'Base'}</p>
-                            </div>
-                            <span class="text-[9px] text-slate-400 font-bold ml-auto">${timeAgo}</span>
-                            ${deleteBtn}
-                        </div>
-                        <p class="text-xs text-slate-700 dark:text-slate-300 font-medium leading-relaxed pl-1">"${post.text}"</p>
+                    if(post.isSystem) {
+                        const div = document.createElement('div');
+                        div.className = 'bg-amber-50 dark:bg-amber-950/20 p-3 rounded-lg border border-amber-200 dark:border-amber-900/30 flex items-start gap-2 mb-3 shadow-sm';
+                        div.innerHTML = `
+                            <i data-lucide="bell-ring" class="w-4 h-4 text-amber-500 shrink-0 mt-0.5"></i>
+                            <p class="text-[11px] text-amber-800 dark:text-amber-400 font-bold leading-snug">${post.text}</p>
+                        `;
+                        feed.appendChild(div);
+                    } else {
+                        const author = localMembers.find(m => m.id === post.authorId) || { name: 'Unknown', location: '', avatarBase64: '' };
                         
-                        <div class="flex items-center gap-3 mt-3 pt-2 border-t border-slate-100 dark:border-slate-800/60 pl-1">
-                            <button onclick="interactPost('${post.uid}', 'like')" class="flex items-center gap-1.5 text-[10px] font-bold ${hasLiked ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-blue-500'} transition-colors">
-                                <i data-lucide="thumbs-up" class="w-3.5 h-3.5 ${hasLiked ? 'fill-current' : ''}"></i> ${likes.length}
-                            </button>
-                            <button onclick="interactPost('${post.uid}', 'dislike')" class="flex items-center gap-1.5 text-[10px] font-bold ${hasDisliked ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 hover:text-rose-500'} transition-colors">
-                                <i data-lucide="thumbs-down" class="w-3.5 h-3.5 ${hasDisliked ? 'fill-current' : ''}"></i> ${dislikes.length}
-                            </button>
-                        </div>
-                    `;
-                    feed.appendChild(div);
+                        // SAFE DATA PARSING: Prevents crashes if Firestore is edited manually and corrupted
+                        const likes = Array.isArray(post.likes) ? post.likes : [];
+                        const dislikes = Array.isArray(post.dislikes) ? post.dislikes : [];
+                        const hasLiked = likes.includes(currentUserId);
+                        const hasDisliked = dislikes.includes(currentUserId);
+                        
+                        let avatarHtml = author.avatarBase64 ? 
+                            `<img src="${author.avatarBase64}" class="w-full h-full object-cover">` : 
+                            `<i data-lucide="user" class="w-4 h-4 text-slate-500"></i>`;
+
+                        let deleteBtn = '';
+                        if (me && me.isAdmin) {
+                            deleteBtn = `<button onclick="deletePost('${post.uid}')" class="p-1 hover:bg-rose-100 dark:hover:bg-rose-900/30 rounded text-slate-400 hover:text-rose-500 transition-colors ml-auto"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>`;
+                        }
+
+                        const div = document.createElement('div');
+                        div.className = 'feed-item bg-white/80 dark:bg-[#030712]/80 p-3.5 rounded-xl border border-blue-200 dark:border-blue-500/20 shadow-sm mb-3';
+                        div.innerHTML = `
+                            <div class="flex items-center gap-2.5 mb-2">
+                                <div class="w-8 h-8 shrink-0 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden border border-slate-300 dark:border-slate-700 flex items-center justify-center">${avatarHtml}</div>
+                                <div>
+                                    <p class="text-xs font-bold text-slate-900 dark:text-white leading-none">${author.name}</p>
+                                    <p class="text-[9px] text-slate-500 dark:text-slate-400 font-medium mt-0.5"><i data-lucide="map-pin" class="w-2.5 h-2.5 inline"></i> ${author.location || 'Base'}</p>
+                                </div>
+                                <span class="text-[9px] text-slate-400 font-bold ml-auto">${timeAgo}</span>
+                                ${deleteBtn}
+                            </div>
+                            <p class="text-xs text-slate-700 dark:text-slate-300 font-medium leading-relaxed pl-1">"${post.text}"</p>
+                            
+                            <div class="flex items-center gap-3 mt-3 pt-2 border-t border-slate-100 dark:border-slate-800/60 pl-1">
+                                <button onclick="interactPost('${post.uid}', 'like')" class="flex items-center gap-1.5 text-[10px] font-bold ${hasLiked ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500 hover:text-blue-500'} transition-colors">
+                                    <i data-lucide="thumbs-up" class="w-3.5 h-3.5 ${hasLiked ? 'fill-current' : ''}"></i> ${likes.length}
+                                </button>
+                                <button onclick="interactPost('${post.uid}', 'dislike')" class="flex items-center gap-1.5 text-[10px] font-bold ${hasDisliked ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 hover:text-rose-500'} transition-colors">
+                                    <i data-lucide="thumbs-down" class="w-3.5 h-3.5 ${hasDisliked ? 'fill-current' : ''}"></i> ${dislikes.length}
+                                </button>
+                            </div>
+                        `;
+                        feed.appendChild(div);
+                    }
+                } catch(e) {
+                    console.error("Corrupted Post Handled Safely:", post, e);
                 }
             });
             lucide.createIcons();
@@ -1441,8 +1457,9 @@
             const post = localFeed.find(p => p.uid === postId);
             if(!post) return;
 
-            let likes = [...(post.likes || [])];
-            let dislikes = [...(post.dislikes || [])];
+            // Safe parsing again in case it is still corrupted in DB
+            let likes = Array.isArray(post.likes) ? [...post.likes] : [];
+            let dislikes = Array.isArray(post.dislikes) ? [...post.dislikes] : [];
 
             if (action === 'like') {
                 if (likes.includes(currentUserId)) likes = likes.filter(id => id !== currentUserId);
@@ -1839,6 +1856,37 @@
                 showToast("SYSTEM WIPE SUCCESSFUL.", "success");
                 closeAdminPanel();
             } catch (err) { showToast(`Wipe failed`, "error"); }
+        }
+
+        window.adminSanitizeDatabase = async () => {
+            if(!confirm("Scan and automatically fix corrupted data (e.g., malformed likes, broken arrays caused by manual Firebase edits)?")) return;
+            try {
+                const batch = writeBatch(db);
+                let changes = 0;
+
+                // Fix corrupted Feed Posts
+                localFeed.forEach(p => {
+                    let needsFix = false;
+                    let updates = {};
+                    if (!Array.isArray(p.likes)) { updates.likes = []; needsFix = true; }
+                    if (!Array.isArray(p.dislikes)) { updates.dislikes = []; needsFix = true; }
+                    
+                    if (needsFix) {
+                        batch.update(doc(db, basePath, 'squad_feed', p.uid), updates);
+                        changes++;
+                    }
+                });
+
+                if (changes > 0) {
+                    await batch.commit();
+                    showToast(`Fixed ${changes} corrupted records. Refreshing...`, "success");
+                } else {
+                    showToast("No corrupted data found. Systems nominal.", "info");
+                }
+            } catch (err) { 
+                console.error(err);
+                showToast(`Sanitize failed`, "error"); 
+            }
         }
 
         // --- PUBLIC PROFILE LOGIC & CUSTOMIZATION ---
